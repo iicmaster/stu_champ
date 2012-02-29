@@ -187,12 +187,6 @@ form input[type=text] { min-width: 80px; }
 <div id="container">
 	<?php include("inc.header.php"); ?>
 	<div id="content"> <a href="material_order_print.php?id=<?php echo $_GET['id'] ?>" class="float_r">พิมพ์ใบสั่งซื้อวัตถุดิบ</a>
-		<h1>ใบสั่งซื้อวัตถุดิบ</h1>
-		<hr>
-		<p class="float_r">วันที่: <?php echo change_date_format($data['date_create']); ?></p>
-		<form method="post" action="material_order_recive.php">
-			<label for="description">คำอธิบาย</label>
-			<textarea id="description" name="description" rows="3"><?php echo $data['description'] ?></textarea>
 		<h1>ตรวจรับใบสั่งซื้อวัตถุดิบ</h1>
 		<hr>
 		<p class="float_r">วันที่: <?php echo change_date_format($data['date_create']); ?></p>
@@ -253,7 +247,6 @@ form input[type=text] { min-width: 80px; }
 								</td>
 								<td>'.$data['unit'].'</td>
 								<td class="right">
-									<input type="text" name="quantity_receive[]" id="quantity_receive_'.$loop.'" value="0" class="right" />
 									<input type="text" name="quantity_receive[]" id="quantity_receive_'.$loop.'" value="'.$data['quantity'].'" class="right" />
 								</td>
 								<td>'.$data['unit'].'</td>

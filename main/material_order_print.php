@@ -2,17 +2,13 @@
 require("../include/session.php");
 require('../include/connect.php');
 
-<<<<<<< HEAD
-$sql = 'SELECT	
-			material_order.*
+$sql 	= 'SELECT	
+				material_order.*
 				
-		FROM material_order 
+				FROM material_order 
 		
-		WHERE material_order.id = "'.$_GET['id'].'"';
-
-=======
-$sql 	= 'SELECT * FROM material_order  WHERE id = "'.$_GET['id'].'"';
->>>>>>> 736daa5b8a0bdca7c8d1c03000a54c5f6e3d5959
+				WHERE material_order.id = "'.$_GET['id'].'"';
+				
 $query	= mysql_query($sql) or die(mysql_error());
 $data	= mysql_fetch_array($query);
 ?>
@@ -31,13 +27,8 @@ $data	= mysql_fetch_array($query);
 	min-height: 25cm;
 	padding: 50px 20px;
 	position: relative;
-<<<<<<< HEAD
+
 	/* CSS3 */
-=======
-	
-	/* CSS3 */
-	
->>>>>>> 736daa5b8a0bdca7c8d1c03000a54c5f6e3d5959
 	box-shadow: 0px 0px 5px #000;
 	-moz-box-shadow: 0px 0px 5px #000;
 	-webkit-box-shadow: 0px 0px 5px #000;
@@ -73,11 +64,9 @@ $data	= mysql_fetch_array($query);
 <div id="paper">
 	<h1 class="center">ใบสั่งซื้อวัตถุดิบ</h1>
 	<p class="float_r">วันที่: <?php echo change_date_format($data['date_create']); ?></p>
-<<<<<<< HEAD
 	<p id="address"> กลุ่มแม่บ้านบางกะจะ<br />
 		หมู่ 4 ตำบลบางกะจะ อำเภอเมือง<br />
 		จังหวัดจันทบุรี  22000</p>
-=======
 	<p id="address"> 
 		กลุ่มแม่บ้านบางกะจะ
 		<br />
@@ -85,7 +74,6 @@ $data	= mysql_fetch_array($query);
 		<br />
 		จังหวัดจันทบุรี  22000
 	</p>
->>>>>>> 736daa5b8a0bdca7c8d1c03000a54c5f6e3d5959
 	<h5>
 		<label for="description">คำอธิบาย</label>
 	</h5>

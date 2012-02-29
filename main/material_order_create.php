@@ -21,7 +21,6 @@ if(isset($_POST['submit']))
 	
 		$sql = 	'INSERT INTO material_order
 				 SET 	
-					description	= "'.$_POST['description'].'",
 					date_create	= "'.date('Y-m-d').'"';
 		
 		// RollBack transaction and show error message when query error						
@@ -92,7 +91,14 @@ if(isset($_POST['submit']))
 	// --------------------------------------------------------------------------------
 	
 		mysql_query("COMMIT");
-		
+	
+	// ------------------------------------------------------------------------
+	// Open print
+	// ------------------------------------------------------------------------
+
+		$message .= '<script type="text/javascript">
+						 window.open("material_order_print.php?id='.$id_material_order.'", "_blank");
+					 </script>'; 
 	// --------------------------------------------------------------------------------
 	// Report
 	// --------------------------------------------------------------------------------
@@ -101,8 +107,6 @@ if(isset($_POST['submit']))
 		$url_target	= 'material_order.php';
 		$title		= 'สถานะการทำงาน';
 		$message 	.= '<li class="green">บันทึกข้อมูลเสร็จสมบูรณ์</li>';
-		$message 	.= '<p class="center" style="margin-top:25px;"><a href="material_order_print.php?id='.$id_material_order.'" target="_blank" class="iic_button">พิมพ์ใบสั่งซื้อวัตถุดิบ</a></p>';
-		
 		require_once("../iic_tools/views/iic_report.php");
 		exit();
 		
@@ -182,8 +186,6 @@ $(function()
 		<hr>
 		<form method="post">
 			<p class="float_r">วันที่: <?php echo date('d / m / Y '); ?></p>
-			<label for="description">คำอธิบาย</label>
-			<textarea id="description" name="description" rows="3" ></textarea>
 			<label>รายการ</label>
 			<hr />
 
