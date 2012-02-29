@@ -23,13 +23,13 @@ if($data_file['image'] != '')
 
 // Delete data
 $sql	= 'DELETE FROM member WHERE id = '.$_GET['id'];
-$query	= mysql_query($sql) or die(mysql_error());
+$query	= mysql_query($sql);
 
 if($query)
 {
-	$message .= '<li class="green">ลบข้อมูลเสร็จสมบูรณ์</li>';
+	$message = '<li class="green">ลบข้อมูลเสร็จสมบูรณ์</li>';
 }
-else if(mysql_errno() == 1415);
+else if(mysql_errno() == 1415)
 {
 	$message .= '<li class="red">ข้อสมาชิกคนนี้ยังถูกอ้างอิงใช้ในระบบอยู่ ไม่สามารถลบได้</li>';
 	$message .= '<li class="red">การสั่งลบถูกยกเลิก</li>';
@@ -39,7 +39,6 @@ else if(mysql_errno() == 1415);
 $css 		= '../css/style.css';
 $url_target	= 'member.php';
 $title		= 'สถานะการทำงาน';
-$message	.= '<li class="green">ลบข้อมูลเสร็จสมบูรณ์</li>';
 
 require_once("../iic_tools/views/iic_report.php");
 exit();
