@@ -21,7 +21,6 @@ if(isset($_POST['submit']))
 				
 		$sql = 'UPDATE material_order 
 				SET		
-					description	= "'.$_POST['description'].'",
 					is_approve	= "1"
 					
 				WHERE	
@@ -77,7 +76,6 @@ if(isset($_POST['submit']))
 						id_supplier		= "'.$_POST['id_supplier'][$key].'",
 						amount			= "'.$_POST['total_price'][$key].'",
 						quantity		= "'.$value.'",
-						description		= "'.$_POST['description'].'",
 						date_create		= "'.date('Y-m-d H:i:s').'"';
 						
 			// RollBack transaction and show error message when query error						
@@ -95,15 +93,11 @@ if(isset($_POST['submit']))
 			$message .= '<li class="green">เพิ่มข้อมูลเสร็จสมบูรณ์</li>';
 				
 			// Calculate average_cost_per_unit
-			$sql =	'SELECT 
-						ROUND(SUM(amount) / SUM(quantity), 2) AS average_cost_per_unit
-						
+			$sql =	'SELECT ROUND(SUM(amount) / SUM(quantity), 2) AS average_cost_per_unit
 					 FROM material_transaction
-					 
 					 WHERE	
 					 	id_material = '.$_POST['id_material'][$key].'
-						AND 
-						quantity > 0';
+						AND quantity > 0';
 						
 			// RollBack transaction and show error message when query error						
 			if( ! $query = mysql_query($sql))
@@ -118,9 +112,6 @@ if(isset($_POST['submit']))
 			}
 			
 			$data = mysql_fetch_array($query);
-			
-			//echo $data['average_cost_per_unit'];
-			//exit();
 		
 			// Update amount, average_cost_per_unit, date_last_update_transaction
 			$sql =	'UPDATE material
@@ -128,7 +119,6 @@ if(isset($_POST['submit']))
 					 	total					= total + '.$value.',
 						average_cost_per_unit	= '.$data['average_cost_per_unit'].',
 						date_update_transaction	= "'.date('Y-m-d H:i:s').'"		
-								 
 					 WHERE	
 					 	id = '.$_POST['id_material'][$key];
 						
