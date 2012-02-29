@@ -14,7 +14,7 @@ require_once("../include/connect.php");
 $_GET['page'] = (isset($_GET['page'])) ? $_GET['page'] : 1;
 
 // Get total rows
-$sql		= 'SELECT * FROM material';
+$sql		= 'SELECT * FROM material_order';
 $query		= mysql_query($sql) or die(mysql_error()); 
 $total_rows = mysql_num_rows($query);
 
