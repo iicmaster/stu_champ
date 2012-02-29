@@ -3,15 +3,17 @@ require("../include/session.php");
 require('../include/connect.php');
 
 if(isset($_POST['submit']))
-{	
+{
+	$message = '';
+		
 	// Check is upload file
 	if($_FILES['img']['name'] != "" ) 
 	{
 		// Get lasted id
-		$sql_id = 'SHOW TABLE STATUS LIKE "product"';
-		$query_id = mysql_query($sql_id);
-		$data_id = mysql_fetch_array($query_id);
-		$id_lasted = $data_id['Auto_increment'];
+		$sql_id		= 'SHOW TABLE STATUS LIKE "product"';
+		$query_id	= mysql_query($sql_id);
+		$data_id	= mysql_fetch_array($query_id);
+		$id_lasted	= $data_id['Auto_increment'];
 		
 		// Get file name andm file type
 		list($file_name, $file_type) = explode('.', $_FILES['img']['name']);
@@ -33,9 +35,9 @@ if(isset($_POST['submit']))
 			}
 		}
 	}
-	else if($_POST['delete_image'] == 1) 
+	else if(isset($_POST['delete_image']) && $_POST['delete_image'] == 1) 
 	{
-		unlink($_POST['old_uri_image']);
+		@unlink($_POST['old_uri_image']);
 		$file_uri = '';
 		$message .= '<li class="green">ลบไฟล์สำเร็จ</li>';
 	} 
@@ -44,23 +46,31 @@ if(isset($_POST['submit']))
 		$file_uri = $_POST['old_uri_image'];
 	}
 	
+	/*--------------------------------------------------------------------------------*/
 	/* Start transaction */
+	/*--------------------------------------------------------------------------------*/
+	
 	mysql_query('BEGIN');
 	
+	/*--------------------------------------------------------------------------------*/
+	
 	$sql = 'UPDATE product
-			SET		name 			= "'.$_POST['name'].'",
-					description		= "'.$_POST['description'].'",
-					unit			= "'.$_POST['unit'].'",
-					image			= "'.$file_uri.'",
-					stock_max 		= "'.$_POST['stock_max'].'",
-					manufacture_min	= "'.$_POST['manufacture_min'].'",
-					manufacture_max	= "'.$_POST['manufacture_max'].'",
-					labour_min		= "'.$_POST['labour_min'].'",
-					unit_per_labour	= "'.$_POST['unit_per_labour'].'",
-					price_retail 	= "'.$_POST['price_retail'].'",
-					price_wholesale	= "'.$_POST['price_wholesale'].'",
-					date_create		= NOW()
-			WHERE id_product = '.$_POST['id'];
+			SET		
+				name 			= "'.$_POST['name'].'",
+				description		= "'.$_POST['description'].'",
+				unit			= "'.$_POST['unit'].'",
+				image			= "'.$file_uri.'",
+				stock_max 		= "'.$_POST['stock_max'].'",
+				manufacture_min	= "'.$_POST['manufacture_min'].'",
+				manufacture_max	= "'.$_POST['manufacture_max'].'",
+				labour_min		= "'.$_POST['labour_min'].'",
+				unit_per_labour	= "'.$_POST['unit_per_labour'].'",
+				price_retail 	= "'.$_POST['price_retail'].'",
+				price_wholesale	= "'.$_POST['price_wholesale'].'",
+				date_create		= NOW()
+				
+			WHERE id = '.$_POST['id'];
+			
 	$query = mysql_query($sql);
 	
 	// Set report message
@@ -73,9 +83,10 @@ if(isset($_POST['submit']))
 		foreach($_POST['id_material'] as $id_material)
 		{
 			$sql = 'INSERT INTO product_material
-					SET		id_product		= '.$_POST['id'].',
-							id_material		= '.$id_material.',
-							quantity		= '.$_POST['quantity_'.$id_material];
+					SET		
+						id_product		= '.$_POST['id'].',
+						id_material		= '.$id_material.',
+						quantity		= '.$_POST['quantity_'.$id_material];
 			$query = mysql_query($sql);
 			
 			if(!$query)
@@ -83,7 +94,8 @@ if(isset($_POST['submit']))
 				/* Rollback transaction */
 				mysql_query('ROLLBACK');
 				
-				$message .= '<li class="red">เกิดข้อผิดพลาด: เปรับปรุงยอดวัตถุดิบล้มเหลว</li>';
+				$message .= '<li class="red">เกิดข้อผิดพลาด: ปรับปรุงยอดวัตถุดิบล้มเหลว</li>'.
+							'<li>'.mysql_error().'</li>';
 			}
 		}
 		
@@ -94,20 +106,24 @@ if(isset($_POST['submit']))
 	}
 	else
 	{
-		$message .= '<li class="red">เกิดข้อผิดพลาด: บันทึกข้อมูลล้มเหลว</li>';
+		mysql_query('ROLLBACK');
+		
+		$message .= '<li class="red">เกิดข้อผิดพลาด: บันทึกข้อมูลล้มเหลว</li>'.
+					'<li>'.mysql_error().'</li>';
 	}
 
 	// Report
+	$css 		= '../css/style.css';
 	$url_target = 'product.php';
-	$title = 'สถานะการทำงาน';
+	$title		= 'สถานะการทำงาน';
 	
 	require_once("../iic_tools/views/iic_report.php");
 	exit();
 }
 
-$sql = 'SELECT * FROM product WHERE id_product = '.$_GET['id'];
-$query = mysql_query($sql);
-$data = mysql_fetch_array($query);
+$sql	= 'SELECT * FROM product WHERE id = '.$_GET['id'];
+$query	= mysql_query($sql) or die(mysql_error());
+$data	= mysql_fetch_array($query);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -120,7 +136,7 @@ $data = mysql_fetch_array($query);
 #tabs-2 label { margin: 0px; }
 </style>
 <script type="text/javascript" src="../js/jquery-1.5.1.min.js"></script>
-<script  type="text/javascript"src="../js/jquery-ui-1.8.11.min.js"></script>
+<script type="text/javascript"src="../js/jquery-ui-1.8.11.min.js"></script>
 <script type="text/javascript">
 $(function(){
 	
@@ -187,32 +203,36 @@ $(function(){
 						<?php 
 						
 						$sql = 'SELECT * FROM material';  
-						$query = mysql_query($sql);
+						$query = mysql_query($sql) or die(mysql_error());
 						
 						while($data = mysql_fetch_array($query))
 						{
 							$sql_product_material = 'SELECT * 
 													 FROM product_material 
-													 WHERE	id_product = '.$_GET['id'].'
-													 AND	id_material = '.$data['id_material'].'';
+													 WHERE	
+													 	id_product = '.$_GET['id'].'
+														AND	id_material = '.$data['id'].'';
 							$query_product_material = mysql_query($sql_product_material);
 							$query_product_material_rows = mysql_num_rows($query_product_material);
 							
 							if($query_product_material_rows > 0)
 							{
 								$data_product_material = mysql_fetch_array($query_product_material);
+								$quantity = $data_product_material['quantity'];
 								$checked = 'checked="checked" ';
+								
 							}
 							else
 							{
 								$checked = '';
 								$data_product_material = '';
+								$quantity = '';
 							}
 							
 							echo '<tr>
-									  <td><input id="material_'.$data['id_material'].'" name="id_material[]" type="checkbox" value="'.$data['id_material'].'" '.$checked.'/></td>
-									  <td><label for="material_'.$data['id_material'].'" class="normal">'.$data['name'].'</label></td>
-									  <td><input id="quantity_'.$data['id_material'].'" name="quantity_'.$data['id_material'].'" type="text" size="4" value="'.$data_product_material['quantity'].'" class="right" /></td>
+									  <td><input id="material_'.$data['id'].'" name="id_material[]" type="checkbox" value="'.$data['id'].'" '.$checked.'/></td>
+									  <td><label for="material_'.$data['id'].'" class="normal">'.$data['name'].'</label></td>
+									  <td><input id="quantity_'.$data['id'].'" name="quantity_'.$data['id'].'" type="text" size="4" value="'.$quantity.'" class="right" /></td>
 									  <td>'.$data['unit'].'</td>
 								  </tr>';
 						}
