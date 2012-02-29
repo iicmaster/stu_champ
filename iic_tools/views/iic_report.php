@@ -6,6 +6,7 @@ $button_text	= (isset($button_text )) ? $button_text : '';
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="../favicon.ico" rel="shortcut icon" type="image/x-icon" />
 <title><?php echo $title ?></title>
 <link rel="stylesheet" type="text/css" href="../iic_tools/css/iic_layout.css" />
 <link rel="stylesheet" type="text/css" href="../iic_tools/css/iic_style.css" />

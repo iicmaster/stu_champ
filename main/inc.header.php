@@ -1,3 +1,4 @@
+<link href="../favicon.ico" rel="shortcut icon" type="image/x-icon" />
 <div id="header">
 	<h1>บ้านบางกะจะ</h1>
 	<h2>ระบบจัดการผลิตและจำหน่ายสละลอยแก้ว</h2>

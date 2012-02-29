@@ -37,6 +37,7 @@ if(isset($_POST["username"]))
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="../favicon.ico" rel="shortcut icon" type="image/x-icon" />
 <title>Login</title>
 <?php include('inc.css.php'); ?>
 <style type="text/css">
