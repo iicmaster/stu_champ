@@ -33,11 +33,8 @@ input[type=text], textarea
 		<h1>ใบสั่งซื้อวัตถุดิบ</h1>
 		<hr>
 		<p class="float_r">วันที่: <?php echo change_date_format($data['date_create']); ?></p>
-<<<<<<< HEAD
 		<label for="description">คำอธิบาย</label>
 		<textarea id="description" name="description" rows="3" readonly="readonly"><?php echo $data['description'] ?></textarea>
-=======
->>>>>>> 736daa5b8a0bdca7c8d1c03000a54c5f6e3d5959
 		<label>รายการ</label>
 		<hr />
 		<table width="100%">

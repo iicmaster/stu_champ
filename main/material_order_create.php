@@ -21,10 +21,7 @@ if(isset($_POST['submit']))
 	
 		$sql = 	'INSERT INTO material_order
 				 SET 	
-<<<<<<< HEAD
 					description	= "'.$_POST['description'].'",
-=======
->>>>>>> 736daa5b8a0bdca7c8d1c03000a54c5f6e3d5959
 					date_create	= "'.date('Y-m-d').'"';
 		
 		// RollBack transaction and show error message when query error						
@@ -185,11 +182,8 @@ $(function()
 		<hr>
 		<form method="post">
 			<p class="float_r">วันที่: <?php echo date('d / m / Y '); ?></p>
-<<<<<<< HEAD
 			<label for="description">คำอธิบาย</label>
 			<textarea id="description" name="description" rows="3" ></textarea>
-=======
->>>>>>> 736daa5b8a0bdca7c8d1c03000a54c5f6e3d5959
 			<label>รายการ</label>
 			<hr />
 
