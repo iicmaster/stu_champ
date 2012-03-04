@@ -64,9 +64,6 @@ $data	= mysql_fetch_array($query);
 <div id="paper">
 	<h1 class="center">ใบสั่งซื้อวัตถุดิบ</h1>
 	<p class="float_r">วันที่: <?php echo change_date_format($data['date_create']); ?></p>
-	<p id="address"> กลุ่มแม่บ้านบางกะจะ<br />
-		หมู่ 4 ตำบลบางกะจะ อำเภอเมือง<br />
-		จังหวัดจันทบุรี  22000</p>
 	<p id="address"> 
 		กลุ่มแม่บ้านบางกะจะ
 		<br />
