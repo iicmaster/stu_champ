@@ -2,12 +2,11 @@
 require("../include/session.php");
 require('../include/connect.php');
 
-$sql 	= 'SELECT	
-				material_order.*
-				
-				FROM material_order 
-		
-				WHERE material_order.id = "'.$_GET['id'].'"';
+$sql 	= 'SELECT material_order.*
+
+		   FROM material_order 
+		   
+		   WHERE material_order.id = "'.$_GET['id'].'"';
 				
 $query	= mysql_query($sql) or die(mysql_error());
 $data	= mysql_fetch_array($query);
@@ -105,8 +104,7 @@ $data	= mysql_fetch_array($query);
 							LEFT JOIN supplier
 							ON material_order_item.id_supplier = supplier.id
 							
-							WHERE 
-								material_order_item.id_material_order = "'.$data['id'].'"';
+							WHERE material_order_item.id_material_order = "'.$data['id'].'"';
 							
 					$query = mysql_query($sql) or die(mysql_error());
 					$loop = 1;
@@ -124,8 +122,11 @@ $data	= mysql_fetch_array($query);
 					?>
 		</tbody>
 	</table>
-	<div id="signature">..............................<br />
-		(ผู้ดำเนินการ)</div>
+	<div id="signature">
+		..............................
+		<br />
+		(ผู้ดำเนินการ)
+	</div>
 </div>
 </body>
 </html>
