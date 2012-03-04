@@ -19,7 +19,7 @@
 		</li>
 		<li><a href="product.php">สินค้า</a></li>
 		<li><a href="production.php">ผลิตสินค้า</a></li>
-		<li><a href="product_order.php">การสั่งซื้อ</a></li>
+		<li><a href="product_order.php">การสั่งซื้อจากลูกค้า</a></li>
 		
 		<li><a href="logout.php">ออกจากระบบ</a></li>
 	</ul>
