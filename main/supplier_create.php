@@ -39,7 +39,7 @@ if(isset($_POST['submit']))
 		<h1>เพิ่มผู้จัดจำหน่าย</h1>
 		<hr>
 		<form method="post" enctype="multipart/form-data">
-			<label for="name">ชื่อ</label>
+			<label for="name">ชื่อร้าน</label>
 			<input id="name" name="name" type="text" />
 			<label for="address">ที่อยู่</label>
 			<textarea name="address" rows="5" id="address"></textarea>

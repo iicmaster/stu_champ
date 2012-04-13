@@ -21,7 +21,7 @@ $data	= mysql_fetch_array($query);
 		<h1>ข้อมูลผู้จัดจำหน่าย</h1>
 		<hr>
 		<form method="post" enctype="multipart/form-data">
-			<label for="name">ชื่อ</label>
+			<label for="name">ชื่อร้าน</label>
 			<input name="name" type="text" id="name" value="<?php echo $data['name'] ?>" readonly="readonly" />
 			<label for="address">ที่อยู่</label>
 			<textarea name="address" rows="5" readonly="readonly" id="address"><?php echo $data['address'] ?></textarea>

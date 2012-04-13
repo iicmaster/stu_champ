@@ -64,7 +64,7 @@ $target = 'supplier.php?page=';
 			<thead>
 				<tr>
 					<th width="30">รหัส</th>
-					<th>ชื่อ - นามสกุล</th>
+					<th>ชื่อร้าน</th>
 					<th>เบอร์โทรศัพท์</th>
 					<th>แฟกซ์</th>
 					<th>ผู้ประสานงาน</th>

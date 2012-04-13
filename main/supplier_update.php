@@ -46,7 +46,7 @@ $data = mysql_fetch_array($query);
 		<h1>แก้ไขข้อมูลผู้จัดจำหน่าย</h1>
 		<hr>
 		<form method="post" enctype="multipart/form-data">
-			<label for="name">ชื่อ</label>
+			<label for="name">ชื่อร้าน</label>
 			<input id="name" name="name" type="text" value="<?php echo $data['name'] ?>" />
 			<label for="address">ที่อยู่</label>
 			<textarea name="address" rows="5" id="address"><?php echo $data['address'] ?></textarea>
