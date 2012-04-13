@@ -70,10 +70,6 @@ $data	= mysql_fetch_array($query);
 		<br />
 		จังหวัดจันทบุรี  22000
 	</p>
-	<h5>
-		<label for="description">คำอธิบาย</label>
-	</h5>
-	<textarea id="description" name="description" rows="3" readonly="readonly"><?php echo $data['description'] ?></textarea>
 	<h5>รายการ</h5>
 	<hr />
 	<table width="100%">
