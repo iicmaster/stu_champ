@@ -49,6 +49,7 @@ if(isset($_POST['submit']))
 				manufacture_min	= "'.$_POST['manufacture_min'].'",
 				manufacture_max	= "'.$_POST['manufacture_max'].'",
 				labour_min		= "'.$_POST['labour_min'].'",
+				order_min		= "'.$_POST['order_min'].'",
 				unit_per_labour	= "'.$_POST['unit_per_labour'].'",
 				price_retail 	= "'.$_POST['price_retail'].'",
 				price_wholesale	= "'.$_POST['price_wholesale'].'",
@@ -142,6 +143,8 @@ $(function(){
 					<input id="manufacture_min" name="manufacture_min" type="text" />
 					<label for="manufacture_max">จำนวนสูงสุดในการผลิต</label>
 					<input id="manufacture_max" name="manufacture_max" type="text" />
+					<label for="order_min">จำนวนขึ้นต่ำในการสั่งซื้อ</label>
+					<input id="order_min" name="order_min" type="text" />
 					<label for="labour_min">จำนวนแรงงานขั้นต่ำในการผลิต</label>
 					<input id="labour_min" name="labour_min" type="text" />
 					<label for="unit_per_labour">จำนวนสินค้าต่อการเพิ่มแรงงาน 1 คน</label>
