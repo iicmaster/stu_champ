@@ -1,23 +1,22 @@
-# --------------------------------------------------------
-# Host:                         127.0.0.1
-# Server version:               5.1.57-community - MySQL Community Server (GPL)
-# Server OS:                    Win64
-# HeidiSQL version:             6.0.0.3940
-# Date/time:                    2011-09-12 04:03:57
-# --------------------------------------------------------
+-- --------------------------------------------------------
+-- Host:                         127.0.0.1
+-- Server version:               5.5.16 - MySQL Community Server (GPL)
+-- Server OS:                    Win32
+-- HeidiSQL version:             7.0.0.4053
+-- Date/time:                    2012-04-14 03:17:46
+-- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40014 SET FOREIGN_KEY_CHECKS=0 */;
 
-# Dumping database structure for champ
+-- Dumping database structure for champ
 DROP DATABASE IF EXISTS `champ`;
 CREATE DATABASE IF NOT EXISTS `champ` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
 USE `champ`;
 
 
-# Dumping structure for table champ.account
+-- Dumping structure for table champ.account
 DROP TABLE IF EXISTS `account`;
 CREATE TABLE IF NOT EXISTS `account` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -30,12 +29,13 @@ CREATE TABLE IF NOT EXISTS `account` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dumping data for table champ.account: ~0 rows (approximately)
+-- Dumping data for table champ.account: ~0 rows (approximately)
+DELETE FROM `account`;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 
 
-# Dumping structure for table champ.account_transaction
+-- Dumping structure for table champ.account_transaction
 DROP TABLE IF EXISTS `account_transaction`;
 CREATE TABLE IF NOT EXISTS `account_transaction` (
   `id_account` int(10) unsigned NOT NULL,
@@ -48,12 +48,13 @@ CREATE TABLE IF NOT EXISTS `account_transaction` (
   CONSTRAINT `FK_account_transaction_account` FOREIGN KEY (`id_account`) REFERENCES `account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dumping data for table champ.account_transaction: ~0 rows (approximately)
+-- Dumping data for table champ.account_transaction: ~0 rows (approximately)
+DELETE FROM `account_transaction`;
 /*!40000 ALTER TABLE `account_transaction` DISABLE KEYS */;
 /*!40000 ALTER TABLE `account_transaction` ENABLE KEYS */;
 
 
-# Dumping structure for table champ.material
+-- Dumping structure for table champ.material
 DROP TABLE IF EXISTS `material`;
 CREATE TABLE IF NOT EXISTS `material` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -70,20 +71,21 @@ CREATE TABLE IF NOT EXISTS `material` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dumping data for table champ.material: ~7 rows (approximately)
+-- Dumping data for table champ.material: ~7 rows (approximately)
+DELETE FROM `material`;
 /*!40000 ALTER TABLE `material` DISABLE KEYS */;
 INSERT INTO `material` (`id`, `name`, `description`, `total`, `stock_min`, `stock_max`, `unit`, `average_cost_per_unit`, `date_create`, `date_update`, `date_update_transaction`) VALUES
-	(30, 'สละ', 'สละพันธุ์ดี', 40, 100, 0, 'กิโลกรัม', 141.00, '2011-04-10 00:43:09', '2011-04-10 00:43:09', '2011-04-10 08:22:47'),
-	(31, 'น้ำตาลทรายขาว', 'อย่างดี', 90, 100, 0, 'กิโลกรัม', 3.11, '2011-04-10 01:09:29', '2011-04-10 01:09:29', '2011-09-12 02:48:34'),
+	(30, 'สละ', 'สละพันธุ์ดีมาก', 160, 100, 0, 'กิโลกรัม', 85.00, '2011-04-10 00:43:09', '2011-04-10 00:43:09', '2012-03-01 01:48:38'),
+	(31, 'น้ำตาลทรายขาว', 'อย่างดี', 110, 100, 0, 'กิโลกรัม', 11.64, '2011-04-10 01:09:29', '2011-04-10 01:09:29', '2012-03-01 01:48:38'),
 	(32, 'เกลือ', 'คุณภาพสูง', 20000, 20000, 0, 'กรัม', 0.01, '2011-04-10 01:14:18', '2011-04-10 01:14:18', '2011-09-12 02:48:34'),
 	(33, 'ถ้วยพลาสติก เล็ก', '', 500, 500, 0, 'ถ้วย', 0.50, '2011-04-10 05:43:03', '2011-04-10 05:43:03', '2011-09-12 02:48:34'),
-	(34, 'ถ้วยพลาสติก กลาง', '', 400, 500, 0, 'ถ้วย', 2.25, '2011-04-10 05:43:20', '2011-04-10 05:43:20', '2011-09-12 02:47:51'),
+	(34, 'ถ้วยพลาสติก กลาง', '', 600, 500, 0, 'ถ้วย', 1.83, '2011-04-10 05:43:20', '2011-04-10 05:43:20', '2012-03-01 01:48:38'),
 	(35, 'ถ้วยพลาสติก ใหญ่', '', 610, 500, 0, 'ถ้วย', 2.03, '2011-04-10 05:43:44', '2011-04-10 05:43:44', '2011-09-12 02:47:51'),
 	(36, 'หนังยาง', 'หนังยางรัดของ', 2700, 2000, 0, 'เส้น', 0.12, '2011-04-11 03:45:44', '2011-04-11 03:45:44', '2011-09-12 02:47:51');
 /*!40000 ALTER TABLE `material` ENABLE KEYS */;
 
 
-# Dumping structure for table champ.material_order
+-- Dumping structure for table champ.material_order
 DROP TABLE IF EXISTS `material_order`;
 CREATE TABLE IF NOT EXISTS `material_order` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -91,9 +93,10 @@ CREATE TABLE IF NOT EXISTS `material_order` (
   `date_create` date NOT NULL,
   `is_approve` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 = ยังไม่ได้ตรวจรับ, 1 = ตรวจรับแล้ว',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dumping data for table champ.material_order: ~13 rows (approximately)
+-- Dumping data for table champ.material_order: ~12 rows (approximately)
+DELETE FROM `material_order`;
 /*!40000 ALTER TABLE `material_order` DISABLE KEYS */;
 INSERT INTO `material_order` (`id`, `description`, `date_create`, `is_approve`) VALUES
 	(53, '', '2011-09-12', 1),
@@ -102,19 +105,16 @@ INSERT INTO `material_order` (`id`, `description`, `date_create`, `is_approve`) 
 	(57, '', '2011-09-12', 1),
 	(58, '', '2011-09-12', 1),
 	(59, '', '2011-09-12', 1),
-	(63, '', '2011-09-12', 0),
-	(64, '', '2011-09-12', 0),
-	(65, '', '2011-09-12', 0),
-	(66, '', '2011-09-12', 0),
-	(67, '', '2011-09-12', 0),
 	(68, '', '2011-09-12', 0),
 	(69, '', '2011-09-12', 0),
 	(70, '', '2011-09-12', 0),
-	(71, '', '2011-09-12', 0);
+	(71, '', '2011-09-12', 0),
+	(72, '', '2012-02-29', 0),
+	(73, '', '2012-02-29', 1);
 /*!40000 ALTER TABLE `material_order` ENABLE KEYS */;
 
 
-# Dumping structure for table champ.material_order_item
+-- Dumping structure for table champ.material_order_item
 DROP TABLE IF EXISTS `material_order_item`;
 CREATE TABLE IF NOT EXISTS `material_order_item` (
   `id_material_order` int(10) unsigned NOT NULL,
@@ -131,7 +131,8 @@ CREATE TABLE IF NOT EXISTS `material_order_item` (
   CONSTRAINT `FK_material_order_item_supplier` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dumping data for table champ.material_order_item: ~31 rows (approximately)
+-- Dumping data for table champ.material_order_item: ~28 rows (approximately)
+DELETE FROM `material_order_item`;
 /*!40000 ALTER TABLE `material_order_item` DISABLE KEYS */;
 INSERT INTO `material_order_item` (`id_material_order`, `id_material`, `id_supplier`, `quantity_order`, `quantity_receive`, `total_price`) VALUES
 	(53, 33, 4, 500, 100, NULL),
@@ -144,21 +145,6 @@ INSERT INTO `material_order_item` (`id_material_order`, `id_material`, `id_suppl
 	(59, 31, 2, 90, 80, NULL),
 	(59, 32, 4, 8000, 8000, NULL),
 	(59, 33, 2, 500, 400, NULL),
-	(63, 30, 1, 60, NULL, NULL),
-	(63, 31, 2, 10, NULL, NULL),
-	(63, 34, 2, 100, NULL, NULL),
-	(64, 30, 1, 60, NULL, NULL),
-	(64, 31, 2, 10, NULL, NULL),
-	(64, 34, 2, 100, NULL, NULL),
-	(65, 30, 1, 60, NULL, NULL),
-	(65, 31, 2, 10, NULL, NULL),
-	(65, 34, 2, 100, NULL, NULL),
-	(66, 30, 1, 60, NULL, NULL),
-	(66, 31, 2, 10, NULL, NULL),
-	(66, 34, 2, 100, NULL, NULL),
-	(67, 30, 1, 60, NULL, NULL),
-	(67, 31, 2, 10, NULL, NULL),
-	(67, 34, 2, 100, NULL, NULL),
 	(68, 30, 1, 60, NULL, NULL),
 	(68, 31, 2, 10, NULL, NULL),
 	(68, 34, 2, 100, NULL, NULL),
@@ -170,11 +156,17 @@ INSERT INTO `material_order_item` (`id_material_order`, `id_material`, `id_suppl
 	(70, 34, 2, 100, NULL, NULL),
 	(71, 30, 1, 60, NULL, NULL),
 	(71, 31, 2, 10, NULL, NULL),
-	(71, 34, 2, 100, NULL, NULL);
+	(71, 34, 2, 100, NULL, NULL),
+	(72, 30, 1, 60, NULL, NULL),
+	(72, 31, 2, 10, NULL, NULL),
+	(72, 34, 4, 100, NULL, NULL),
+	(73, 30, 2, 60, 60, NULL),
+	(73, 31, 1, 10, 10, NULL),
+	(73, 34, 4, 100, 100, NULL);
 /*!40000 ALTER TABLE `material_order_item` ENABLE KEYS */;
 
 
-# Dumping structure for table champ.material_transaction
+-- Dumping structure for table champ.material_transaction
 DROP TABLE IF EXISTS `material_transaction`;
 CREATE TABLE IF NOT EXISTS `material_transaction` (
   `id_material` int(10) unsigned NOT NULL,
@@ -189,7 +181,8 @@ CREATE TABLE IF NOT EXISTS `material_transaction` (
   CONSTRAINT `FK_material_transaction_supplier` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dumping data for table champ.material_transaction: ~25 rows (approximately)
+-- Dumping data for table champ.material_transaction: ~31 rows (approximately)
+DELETE FROM `material_transaction`;
 /*!40000 ALTER TABLE `material_transaction` DISABLE KEYS */;
 INSERT INTO `material_transaction` (`id_material`, `id_supplier`, `description`, `amount`, `quantity`, `date_create`) VALUES
 	(30, 1, '', 1000, 10, '2011-04-10 06:48:15'),
@@ -216,11 +209,17 @@ INSERT INTO `material_transaction` (`id_material`, `id_supplier`, `description`,
 	(36, 2, '', 10, 200, '2011-09-12 02:47:51'),
 	(31, 2, '', 100, 80, '2011-09-12 02:48:34'),
 	(32, 4, '', 150, 8000, '2011-09-12 02:48:34'),
-	(33, 2, '', 150, 400, '2011-09-12 02:48:34');
+	(33, 2, '', 150, 400, '2011-09-12 02:48:34'),
+	(30, 2, '', 600, 60, '2012-03-01 01:46:34'),
+	(31, 1, '', 500, 10, '2012-03-01 01:46:34'),
+	(34, 4, '', 100, 100, '2012-03-01 01:46:34'),
+	(30, 2, NULL, 600, 60, '2012-03-01 01:48:38'),
+	(31, 1, NULL, 500, 10, '2012-03-01 01:48:38'),
+	(34, 4, NULL, 100, 100, '2012-03-01 01:48:38');
 /*!40000 ALTER TABLE `material_transaction` ENABLE KEYS */;
 
 
-# Dumping structure for table champ.member
+-- Dumping structure for table champ.member
 DROP TABLE IF EXISTS `member`;
 CREATE TABLE IF NOT EXISTS `member` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -232,9 +231,10 @@ CREATE TABLE IF NOT EXISTS `member` (
   `date_create` datetime DEFAULT NULL,
   `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dumping data for table champ.member: ~26 rows (approximately)
+-- Dumping data for table champ.member: ~18 rows (approximately)
+DELETE FROM `member`;
 /*!40000 ALTER TABLE `member` DISABLE KEYS */;
 INSERT INTO `member` (`id`, `name`, `nickname`, `address`, `tel`, `image`, `date_create`, `date_update`) VALUES
 	(1, 'นายแชมป์', 'hhh', '268  ซอยดอนกุศล  ถนนเจริญกรุง 57  เขตสาทร กรุงเทพมหานคร 10120', '0-2211-3800', '', NULL, '2011-09-06 16:28:32'),
@@ -254,39 +254,11 @@ INSERT INTO `member` (`id`, `name`, `nickname`, `address`, `tel`, `image`, `date
 	(17, 'นางสาวสุดารัตน์  เกื้อทวีกุล', '', '31  หมู่4  ตำบลคีรีราษฎร์ อำเภอพบพระ ตาก 63160', '0-1727-1385', NULL, NULL, '2011-04-16 19:20:24'),
 	(18, 'นางสาวสุกานดา  พลอยส่องแสง', '', '684   ถนนพระราม 3  แขวงบางโพงพาง เขตยานนาวา กรุงเทพมหานคร 10120', '0-2295-0586', NULL, NULL, '2011-04-16 19:20:24'),
 	(19, 'นางวารุณี  ลภิธนานุวัฒน์', '', '111/378  หมู่11  หมู่บ้านดิเอมเมอรัล  ซอยเรวดี 50  ถนนติวานนท์  ตำบลตลาดขวัญ อำเภอเมือง นนทบุรี 11000', '0-1643-6975', NULL, NULL, '2011-04-16 19:20:24'),
-	(20, 'นายวรพจน์  จงจิตต์', '', '303/1 หมู่2 หมู่บ้านการเคหะทุ่งสองห้อง  ถนนวิภาวดีรังสิต  แขวงทุ่งสองห้อง เขตหลักสี่ กรุงเทพมหานคร 10210', '0-2981-9150', NULL, NULL, '2011-04-16 19:20:24'),
-	(21, 'นางพัชรินทร์  จันทร์ชาญนนท์', '', '225-227   ถนนกรุงเทพ-นนท์  แขวงบางซื่อ เขตบางซื่อ กรุงเทพมหานคร 10800', '0-2911-2800', NULL, NULL, '2011-04-16 19:20:24'),
-	(22, 'นางสาวดรุณี  โตปัญญากุล', '', '83  หมู่ 10  ถนนพุทธมณฑลสาย 4   ตำบลอ้อมน้อย  อำเภอกระทุ่มแบน สมุทรสาคร 74130', '0-2420-2495 ต่อ 100, 0-1564-4971', NULL, NULL, '2011-04-16 19:20:24'),
-	(23, 'นางณัฐยา  โชติกอาภา', '', '99/152  หมู่ 4   ถนนเชียงใหม่-ดอยสะเก็ด   ตำบลสันนาเม็ง อำเภอสันทราย เชียงใหม่ 50210', '0-1883-6599,0-5339-9132', NULL, NULL, '2011-04-16 19:20:24'),
-	(24, 'นางสาวขวัญหทัย  ธนะหิรัญญา', '', '27/324   ซอยวัดไผ่เขียว  ถนนสรงประภา  แขวงสีกัน เขตดอนเมือง กรุงเทพมหานคร 10210', '0-2531-0398', NULL, NULL, '2011-04-16 19:20:24'),
-	(25, 'นายสมพร  สุขธรรมนิตย์', '', '52/7  ถนนประชาสงเคราะห์  แขวงดินแดง เขตดินแดง กรุงเทพมหานคร 10400', '0-1552-1903', NULL, NULL, '2011-04-16 19:20:24'),
-	(26, 'นางศศิธร  โกมลหทัย', '', '20/109 หมู่ 10 หมู่บ้านชัยกูล9/1  ซอย 42  ถนนพระราม 2  แขวงบางมด เขตจอมทอง กรุงเทพมหานคร 10150', '0-2898-4505', NULL, NULL, '2011-04-16 19:20:24'),
-	(27, 'นางนฤมล  วัชรากร', '', '1809/147(112)   ซอยเจริญนคร 49   ถนนเจริญนคร   แขวงบางลำพูล่าง เขตคลองสาน กรุงเทพมหานคร 10600', '0-2439-1965', NULL, NULL, '2011-04-16 19:20:24'),
-	(28, 'นางสาวสุภาวดี  เมธาวรากร', '', '100/209  หมู่บ้านธารารินทร์  ถนนชูชาติ  ตำบลคูคต อำเภอลำลูกกา ปทุมธานี 12130', '0-2533-1356,0-2470-3655,0-9690-2257', NULL, NULL, '2011-04-16 19:20:24');
+	(20, 'นายวรพจน์  จงจิตต์', '', '303/1 หมู่2 หมู่บ้านการเคหะทุ่งสองห้อง  ถนนวิภาวดีรังสิต  แขวงทุ่งสองห้อง เขตหลักสี่ กรุงเทพมหานคร 10210', '0-2981-9151', '', NULL, '2012-03-01 01:19:14');
 /*!40000 ALTER TABLE `member` ENABLE KEYS */;
 
 
-# Dumping structure for table champ.order
-DROP TABLE IF EXISTS `order`;
-CREATE TABLE IF NOT EXISTS `order` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `id_product` int(10) unsigned NOT NULL,
-  `orderer` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `description` text COLLATE utf8_unicode_ci,
-  `quantity` int(10) unsigned NOT NULL,
-  `date_create` datetime NOT NULL,
-  `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `FK_order_product` (`id_product`),
-  CONSTRAINT `FK_order_product` FOREIGN KEY (`id_product`) REFERENCES `product` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-# Dumping data for table champ.order: ~0 rows (approximately)
-/*!40000 ALTER TABLE `order` DISABLE KEYS */;
-/*!40000 ALTER TABLE `order` ENABLE KEYS */;
-
-
-# Dumping structure for table champ.product
+-- Dumping structure for table champ.product
 DROP TABLE IF EXISTS `product`;
 CREATE TABLE IF NOT EXISTS `product` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -298,6 +270,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   `manufacture_max` int(10) unsigned NOT NULL,
   `stock_max` int(10) unsigned NOT NULL,
   `labour_min` int(10) unsigned NOT NULL,
+  `order_min` int(10) unsigned NOT NULL,
   `unit_per_labour` int(10) unsigned NOT NULL,
   `total` int(10) unsigned NOT NULL DEFAULT '0',
   `price_retail` int(10) unsigned NOT NULL,
@@ -307,16 +280,17 @@ CREATE TABLE IF NOT EXISTS `product` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dumping data for table champ.product: ~3 rows (approximately)
+-- Dumping data for table champ.product: ~3 rows (approximately)
+DELETE FROM `product`;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` (`id`, `name`, `description`, `unit`, `image`, `manufacture_min`, `manufacture_max`, `stock_max`, `labour_min`, `unit_per_labour`, `total`, `price_retail`, `price_wholesale`, `date_create`, `date_update`) VALUES
-	(1, 'โค ลอยแก้ว', 'หวาน...กรอบ', 'ตัว', '../upload/product/product_5.jpg', 1, 10, 99, 0, 0, 0, 15000, 9500, '2011-04-11 06:43:33', '2011-04-17 16:38:45'),
-	(2, 'สละลอยแก้ว ขนาดเล็ก', 'อร่อยมาก', 'ถ้วย', '', 100, 800, 500, 3, 100, 0, 15, 12, '2011-04-17 20:14:12', '2011-04-17 20:14:12'),
-	(3, 'โค วัดโพ', 'หวาน...กรอบ', 'ตัว', '../upload/product/product_5.jpg', 10, 100, 99, 0, 0, 0, 5000, 2500, '2011-04-11 06:44:01', '2011-04-17 16:40:56');
+INSERT INTO `product` (`id`, `name`, `description`, `unit`, `image`, `manufacture_min`, `manufacture_max`, `stock_max`, `labour_min`, `order_min`, `unit_per_labour`, `total`, `price_retail`, `price_wholesale`, `date_create`, `date_update`) VALUES
+	(1, 'สละลอยแก้ว ขนาดเล็ก', 'หวาน...กรอบ', 'ถ้วย', '', 1, 800, 400, 0, 400, 100, 0, 15, 12, '2012-04-14 02:37:56', '2012-04-14 02:37:56'),
+	(2, 'สละลอยแก้ว ขนาดกลาง', 'อร่อยมาก', 'ถ้วย', '', 1, 400, 200, 0, 200, 50, 0, 30, 25, '2012-04-14 02:38:30', '2012-04-14 02:38:30'),
+	(3, 'สละลอยแก้ว ขนาดใหญ่', 'ใหญ่จัง', 'ถ้วย', '', 1, 200, 100, 0, 100, 25, 0, 60, 50, '2012-04-14 02:39:01', '2012-04-14 02:48:39');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 
 
-# Dumping structure for table champ.product_material
+-- Dumping structure for table champ.product_material
 DROP TABLE IF EXISTS `product_material`;
 CREATE TABLE IF NOT EXISTS `product_material` (
   `id_product` int(10) unsigned NOT NULL,
@@ -328,9 +302,11 @@ CREATE TABLE IF NOT EXISTS `product_material` (
   CONSTRAINT `FK_product_material_product` FOREIGN KEY (`id_product`) REFERENCES `product` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dumping data for table champ.product_material: ~9 rows (approximately)
+-- Dumping data for table champ.product_material: ~10 rows (approximately)
+DELETE FROM `product_material`;
 /*!40000 ALTER TABLE `product_material` DISABLE KEYS */;
 INSERT INTO `product_material` (`id_product`, `id_material`, `quantity`) VALUES
+	(1, 30, 0.90),
 	(1, 32, 1.00),
 	(1, 36, 1.00),
 	(2, 30, 0.25),
@@ -343,7 +319,51 @@ INSERT INTO `product_material` (`id_product`, `id_material`, `quantity`) VALUES
 /*!40000 ALTER TABLE `product_material` ENABLE KEYS */;
 
 
-# Dumping structure for table champ.product_stock
+-- Dumping structure for table champ.product_order
+DROP TABLE IF EXISTS `product_order`;
+CREATE TABLE IF NOT EXISTS `product_order` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `orderer` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `tel` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci,
+  `is_receive` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '0 = ยังไม่ได้รับ, 1 = รับแล้ว',
+  `date_receive` date NOT NULL,
+  `date_create` date NOT NULL,
+  `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Dumping data for table champ.product_order: ~2 rows (approximately)
+DELETE FROM `product_order`;
+/*!40000 ALTER TABLE `product_order` DISABLE KEYS */;
+INSERT INTO `product_order` (`id`, `orderer`, `tel`, `description`, `is_receive`, `date_receive`, `date_create`, `date_update`) VALUES
+	(1, 'ตรงกระแส', '089123456789', 'รายละเอียด', 0, '2012-03-15', '2012-03-04', '2012-03-04 17:41:41'),
+	(4, 'champ', '08401401916', '', 0, '2012-03-23', '2012-03-04', '2012-03-04 18:12:12');
+/*!40000 ALTER TABLE `product_order` ENABLE KEYS */;
+
+
+-- Dumping structure for table champ.product_order_item
+DROP TABLE IF EXISTS `product_order_item`;
+CREATE TABLE IF NOT EXISTS `product_order_item` (
+  `id_order` int(10) unsigned NOT NULL,
+  `id_product` int(10) unsigned NOT NULL,
+  `quantity` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id_order`,`id_product`),
+  KEY `FK_product_order_item_product` (`id_product`),
+  CONSTRAINT `FK_product_order_item_product` FOREIGN KEY (`id_product`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_product_order_item_product_order` FOREIGN KEY (`id_order`) REFERENCES `product_order` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Dumping data for table champ.product_order_item: ~2 rows (approximately)
+DELETE FROM `product_order_item`;
+/*!40000 ALTER TABLE `product_order_item` DISABLE KEYS */;
+INSERT INTO `product_order_item` (`id_order`, `id_product`, `quantity`) VALUES
+	(4, 1, 23),
+	(4, 3, 12);
+/*!40000 ALTER TABLE `product_order_item` ENABLE KEYS */;
+
+
+-- Dumping structure for table champ.product_stock
 DROP TABLE IF EXISTS `product_stock`;
 CREATE TABLE IF NOT EXISTS `product_stock` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -359,12 +379,13 @@ CREATE TABLE IF NOT EXISTS `product_stock` (
   CONSTRAINT `FK_product_stock_product` FOREIGN KEY (`id_product`) REFERENCES `product` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dumping data for table champ.product_stock: ~0 rows (approximately)
+-- Dumping data for table champ.product_stock: ~0 rows (approximately)
+DELETE FROM `product_stock`;
 /*!40000 ALTER TABLE `product_stock` DISABLE KEYS */;
 /*!40000 ALTER TABLE `product_stock` ENABLE KEYS */;
 
 
-# Dumping structure for table champ.product_transaction
+-- Dumping structure for table champ.product_transaction
 DROP TABLE IF EXISTS `product_transaction`;
 CREATE TABLE IF NOT EXISTS `product_transaction` (
   `id_stock` int(10) unsigned NOT NULL,
@@ -375,12 +396,13 @@ CREATE TABLE IF NOT EXISTS `product_transaction` (
   CONSTRAINT `FK_product_transaction_product_stock` FOREIGN KEY (`id_stock`) REFERENCES `product_stock` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dumping data for table champ.product_transaction: ~0 rows (approximately)
+-- Dumping data for table champ.product_transaction: ~0 rows (approximately)
+DELETE FROM `product_transaction`;
 /*!40000 ALTER TABLE `product_transaction` DISABLE KEYS */;
 /*!40000 ALTER TABLE `product_transaction` ENABLE KEYS */;
 
 
-# Dumping structure for table champ.queue
+-- Dumping structure for table champ.queue
 DROP TABLE IF EXISTS `queue`;
 CREATE TABLE IF NOT EXISTS `queue` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -392,28 +414,30 @@ CREATE TABLE IF NOT EXISTS `queue` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dumping data for table champ.queue: ~0 rows (approximately)
+-- Dumping data for table champ.queue: ~0 rows (approximately)
+DELETE FROM `queue`;
 /*!40000 ALTER TABLE `queue` DISABLE KEYS */;
 /*!40000 ALTER TABLE `queue` ENABLE KEYS */;
 
 
-# Dumping structure for table champ.queue_member
+-- Dumping structure for table champ.queue_member
 DROP TABLE IF EXISTS `queue_member`;
 CREATE TABLE IF NOT EXISTS `queue_member` (
   `id_queue` int(10) unsigned NOT NULL,
   `id_member` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id_queue`,`id_member`),
   KEY `FK_queue_member_member` (`id_member`),
-  CONSTRAINT `FK_queue_member_order` FOREIGN KEY (`id_member`) REFERENCES `order` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_queue_member_order` FOREIGN KEY (`id_member`) REFERENCES `product_order` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `FK_queue_member_queue` FOREIGN KEY (`id_queue`) REFERENCES `queue` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dumping data for table champ.queue_member: ~0 rows (approximately)
+-- Dumping data for table champ.queue_member: ~0 rows (approximately)
+DELETE FROM `queue_member`;
 /*!40000 ALTER TABLE `queue_member` DISABLE KEYS */;
 /*!40000 ALTER TABLE `queue_member` ENABLE KEYS */;
 
 
-# Dumping structure for table champ.supplier
+-- Dumping structure for table champ.supplier
 DROP TABLE IF EXISTS `supplier`;
 CREATE TABLE IF NOT EXISTS `supplier` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -428,13 +452,13 @@ CREATE TABLE IF NOT EXISTS `supplier` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-# Dumping data for table champ.supplier: ~3 rows (approximately)
+-- Dumping data for table champ.supplier: ~3 rows (approximately)
+DELETE FROM `supplier`;
 /*!40000 ALTER TABLE `supplier` DISABLE KEYS */;
 INSERT INTO `supplier` (`id`, `name`, `address`, `tel`, `fax`, `contact`, `contact_tel`, `date_create`, `date_update`) VALUES
-	(1, 'สวนสละลุงดำ', 'บางกะจะ', '039-1234567', '', 'ลุงดำ', '', '2011-04-09 23:48:00', '2011-04-09 23:48:21'),
+	(1, 'สวนสละลุงดำ', 'บางกะจะ', '039-1234567', '', 'ลุงดัก', '', '2011-04-09 23:48:00', '2012-03-01 01:20:12'),
 	(2, 'บางกะจะ ซุปเปอร์สโตร์', 'บางกะจะ', '039-987654-5', '039-987656', 'คุณพรเพ็ญ ณ บางกะจะ', '', '2011-04-09 23:50:28', '2011-04-09 23:58:43'),
 	(4, 'บางกะจะโชห่วย', 'บางกะจะ', '039-441569', '', 'เจ๊พร', '', '2011-04-11 03:45:01', '2011-05-04 09:52:17');
 /*!40000 ALTER TABLE `supplier` ENABLE KEYS */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
