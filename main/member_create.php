@@ -72,6 +72,19 @@ if(isset($_POST['submit']))
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>สมัครสมาชิก</title>
 <?php include("inc.css.php"); ?>
+<!-- jQuery -->
+<script type="text/javascript" src="../js/jquery-1.5.1.min.js"></script>
+<!-- jQuery - Form validate -->
+<link rel="stylesheet" type="text/css" href="../iic_tools/css/jquery.validate.css" />
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.additional-methods.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.messages_th.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.config.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("form").validate();
+});
+</script>
 </head>
 <body>
 <div id="container">
@@ -80,14 +93,14 @@ if(isset($_POST['submit']))
 		<h1>สมัครสมาชิก</h1>
 		<hr>
 		<form method="post" enctype="multipart/form-data">
-			<label for="name">ชื่อ-นามสกุล</label>
-			<input id="name" name="name" type="text" />
+			<label for="name">ชื่อ-นามสกุล<i>*</i></label>
+			<input id="name" name="name" type="text" class="required" />
 			<label for="nickname">ชื่อเล่น</label>
 			<input id="nickname" name="nickname" type="text" />
-			<label for="address">ที่อยู่</label>
-			<textarea name="address" rows="5" id="address"></textarea>
-			<label for="tel">เบอร์โทรศัพท์</label>
-			<input id="tel" name="tel" type="text" />
+			<label for="address">ที่อยู่<i>*</i></label>
+			<textarea name="address" rows="5" id="address" class="required"></textarea>
+			<label for="tel">เบอร์โทรศัพท์<i>*</i></label>
+			<input id="tel" name="tel" type="text" class="required integer" maxlength="10" />
 			<label for="img">รูปภาพ</label>
 			<input id="img" name="img" type="file" size="20" />
 			<label>

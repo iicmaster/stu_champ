@@ -2,7 +2,7 @@
 require('../include/connect.php');	
 
 if(isset($_POST['submit']))
-{	
+{
 	$message = '';
 
 	// Check is upload file
@@ -82,6 +82,19 @@ $data	= mysql_fetch_array($query);
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>แก้ไขข้อมูลสมาชิก</title>
 <?php include("inc.css.php"); ?>
+<!-- jQuery -->
+<script type="text/javascript" src="../js/jquery-1.5.1.min.js"></script>
+<!-- jQuery - Form validate -->
+<link rel="stylesheet" type="text/css" href="../iic_tools/css/jquery.validate.css" />
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.additional-methods.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.messages_th.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.config.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("form").validate();
+});
+</script>
 </head>
 <body>
 <div id="container">
@@ -90,14 +103,14 @@ $data	= mysql_fetch_array($query);
 		<h1>แก้ไขข้อมูลสมาชิก</h1>
 		<hr>
 		<form method="post" enctype="multipart/form-data">
-			<label for="name">ชื่อ-นามสกุล</label>
-			<input id="name" name="name" type="text" value="<?php echo $data['name'] ?>" />
+			<label for="name">ชื่อ-นามสกุล<i>*</i></label>
+			<input id="name" name="name" type="text" value="<?php echo $data['name'] ?>" class="required" />
 			<label for="nickname">ชื่อเล่น</label>
 			<input id="nickname" name="nickname" type="text" value="<?php echo $data['nickname'] ?>" />
-			<label for="address">ที่อยู่</label>
-			<textarea name="address" rows="5" id="address"><?php echo $data['address'] ?></textarea>
-			<label for="tel">เบอร์โทรศัพท์</label>
-			<input id="tel" name="tel" type="text" value="<?php echo $data['tel'] ?>" />
+			<label for="address">ที่อยู่<i>*</i></label>
+			<textarea name="address" rows="5" id="address" class="required"><?php echo $data['address'] ?></textarea>
+			<label for="tel">เบอร์โทรศัพท์<i>*</i></label>
+			<input id="tel" name="tel" type="text" value="<?php echo $data['tel'] ?>" class="required integer" maxlength="10" />
 			<label for="image">รูปภาพ</label>
 			<input id="image" name="image" type="file" />
 			<?php 
