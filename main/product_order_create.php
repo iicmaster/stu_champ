@@ -3,9 +3,7 @@ require("../include/session.php");
 require('../include/connect.php');
 
 if(isset($_POST['submit']))
-{
-	//print_array($_POST);
-	//exit();	
+{	
 	$message = '';
 	
 	/* Start transaction */
@@ -71,16 +69,27 @@ if(isset($_POST['submit']))
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>ออกใบสั่งซื้อสินค้า</title>
+<!-- jQuery -->
 <script type="text/javascript" src="../js/jquery-1.5.1.min.js"></script>
+<!-- jQuery - UI -->
 <script type="text/javascript" src="../js/jquery-ui-1.8.11.min.js"></script>
+<!-- jQuery - Form validate -->
+<link rel="stylesheet" type="text/css" href="../iic_tools/css/jquery.validate.css" />
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.additional-methods.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.messages_th.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.config.js"></script>
 <script type="text/javascript">
 $(function(){
 	$('#date_receive').datepicker({ dateFormat: 'yy-mm-dd' });
+	$("form").validate();
 });
 </script>
 <?php include("inc.css.php"); ?>
 <style type="text/css">
 input[type=text].right { min-width: 50px; }
+form hr { margin: 20px 0; }
+form td i.error { margin: 0px; float: left;}
 </style>
 </head>
 <body>
@@ -90,13 +99,13 @@ input[type=text].right { min-width: 50px; }
 		<h1>ออกใบสั่งซื้อสินค้า</h1>
 		<hr>
 		<div class="float_r">วันที่ <?php echo date('d / m / Y'); ?></div>
-		<form method="post" enctype="multipart/form-data">
-			<label for="orderer">ชื่อ</label>
-			<input id="orderer" name="orderer" type="text" />
-			<label for="tel">โทรศัพท์</label>
-			<input id="tel" name="tel" type="text" />
-			<label for="date_receive">วันที่มารับสินค้า</label>
-			<input id="date_receive" name="date_receive" class="datepicker" type="text" />
+		<form method="post" enctype="application/x-www-form-urlencoded">
+			<label for="orderer">ชื่อ<i>*</i></label>
+			<input id="orderer" name="orderer" type="text" class="required" />
+			<label for="tel">โทรศัพท์<i>*</i></label>
+			<input id="tel" name="tel" type="text" class="required integer" />
+			<label for="date_receive">วันที่มารับสินค้า<i>*</i></label>
+			<input id="date_receive" name="date_receive" class="datepicker required" type="text" readonly="readonly" />
 			<label for="description">รายละเอียด</label>
 			<textarea name="description"></textarea>
 			<hr />
@@ -114,10 +123,9 @@ input[type=text].right { min-width: 50px; }
 				?>
 				<tr>
 					<td align="center"><?php echo $loop; ?></td>
-					<td><?php echo $data['name']; ?></td>
-					<td width="200"><input type="text" name="quantity[<?php echo $data['id']; ?>]" class="right" /> <?php echo $data['unit']; ?></td>
+					<td><?php echo $data['name']; ?> (สั่งขั้นต่ำ <?php echo $data['order_min']; ?> <?php echo $data['unit']; ?>)</td>
+					<td width="200"><span></span><input type="text" name="quantity[<?php echo $data['id']; ?>]" class="right" min="<?php echo $data['order_min']; ?>" value="0" /> <?php echo $data['unit']; ?></td>
 				</tr>
-				
 				<?php 
 				$loop++;
 				endwhile; 

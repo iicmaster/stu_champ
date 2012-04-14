@@ -113,6 +113,9 @@ a.link_none:active 	{ text-decoration: none; border: none; }
 
 thead th { background-image: url(../img/bg_th.png); }
 
+.ui-datepicker table { border: none }
+.ui-datepicker th { background: none; color: #666;}
+
 /*----------------------------------------------------------------------------------------------------*/
 /* Form */
 /*----------------------------------------------------------------------------------------------------*/
