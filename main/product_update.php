@@ -136,14 +136,24 @@ $data	= mysql_fetch_array($query);
 #tabs-2 input[type=text] { min-width: 50px; margin: 3px 0px; }
 #tabs-2 label { margin: 0px; }
 </style>
+<!-- jQuery -->
 <script type="text/javascript" src="../js/jquery-1.5.1.min.js"></script>
-<script type="text/javascript"src="../js/jquery-ui-1.8.11.min.js"></script>
+<!-- jQuery - UI -->
+<script type="text/javascript" src="../js/jquery-ui-1.8.11.min.js"></script>
+<!-- jQuery - Form validate -->
+<link rel="stylesheet" type="text/css" href="../iic_tools/css/jquery.validate.css" />
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.additional-methods.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.messages_th.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.config.js"></script>
 <script type="text/javascript">
 $(function(){
 	
+	$("form").validate();
+	
 	// Generate tabs
 	$("#tabs").tabs();
-	
+
 });
 </script>
 </head>
@@ -160,28 +170,28 @@ $(function(){
 					<li><a href="#tabs-2">วัตถุดิบ</a></li>
 				</ul>
 				<div id="tabs-1">
-					<label for="name">ชื่อ</label>
-					<input id="name" name="name" type="text" value="<?php echo $data['name'] ?>" />
+					<label for="name">ชื่อ <i>*</i></label>
+					<input id="name" name="name" type="text" value="<?php echo $data['name'] ?> class="required" />
 					<label for="description">คำอธิบาย</label>
 					<textarea id="description" name="description"><?php echo $data['description'] ?></textarea>
-					<label for="unit">หน่วย</label>
-					<input id="unit" name="unit" type="text" value="<?php echo $data['unit'] ?>" />
-					<label for="stock_max">สต็อคสูงสุด</label>
+					<label for="unit">หน่วย <i>*</i></label>
+					<input id="unit" name="unit" type="text" value="<?php echo $data['unit'] ?>" class="required" />
+					<label for="stock_max">สต็อคสูงสุด <i>*</i></label>
 					<input id="stock_max" name="stock_max" type="text" value="<?php echo $data['stock_max'] ?>" />
-					<label for="manufacture_min">จำนวนขั้นต่ำในการผลิต</label>
-					<input id="manufacture_min" name="manufacture_min" type="text" value="<?php echo $data['manufacture_min'] ?>" />
-					<label for="manufacture_max">จำนวนสูงสุดในการผลิต</label>
-					<input id="manufacture_max" name="manufacture_max" type="text" value="<?php echo $data['manufacture_max'] ?>" />
-					<label for="order_min">จำนวนขึ้นต่ำในการสั่งซื้อ</label>
-					<input id="order_min" name="order_min" type="text" value="<?php echo $data['order_min'] ?>" />
-					<label for="labour_min">จำนวนแรงงานขั้นต่ำในการผลิต</label>
-					<input id="labour_min" name="labour_min" type="text" value="<?php echo $data['labour_min'] ?>" />
-					<label for="unit_per_labour">จำนวนสินค้าต่อการเพิ่มแรงงาน 1 คน</label>
-					<input id="unit_per_labour" name="unit_per_labour" type="text" value="<?php echo $data['unit_per_labour'] ?>" />
-					<label for="price_retail">ราคาขายปลีก</label>
-					<input id="price_retail" name="price_retail" type="text" value="<?php echo $data['price_retail'] ?>" />
-					<label for="price_wholesale">ราคาขายส่ง</label>
-					<input id="price_wholesale" name="price_wholesale" type="text" value="<?php echo $data['price_wholesale'] ?>" />
+					<label for="manufacture_min">จำนวนขั้นต่ำในการผลิต <i>*</i></label>
+					<input id="manufacture_min" name="manufacture_min" type="text" value="<?php echo $data['manufacture_min'] ?>" class="required integer" />
+					<label for="manufacture_max">จำนวนสูงสุดในการผลิต <i>*</i></label>
+					<input id="manufacture_max" name="manufacture_max" type="text" value="<?php echo $data['manufacture_max'] ?>" class="required integer" />
+					<label for="order_min">จำนวนขึ้นต่ำในการสั่งซื้อ <i>*</i></label>
+					<input id="order_min" name="order_min" type="text" value="<?php echo $data['order_min'] ?>" class="required integer" />
+					<label for="labour_min">จำนวนแรงงานขั้นต่ำในการผลิต <i>*</i></label>
+					<input id="labour_min" name="labour_min" type="text" value="<?php echo $data['labour_min'] ?>" class="required integer" />
+					<label for="unit_per_labour">จำนวนสินค้าต่อการเพิ่มแรงงาน 1 คน <i>*</i></label>
+					<input id="unit_per_labour" name="unit_per_labour" type="text" value="<?php echo $data['unit_per_labour'] ?>" class="required integer" />
+					<label for="price_retail">ราคาขายปลีก <i>*</i></label>
+					<input id="price_retail" name="price_retail" type="text" value="<?php echo $data['price_retail'] ?>" class="required integer" />
+					<label for="price_wholesale">ราคาขายส่ง <i>*</i></label>
+					<input id="price_wholesale" name="price_wholesale" type="text" value="<?php echo $data['price_wholesale'] ?>" class="required integer" />
 					<label for="img">รูปภาพ</label>
 					<input id="img" name="img" type="file" size="20" />
 					<?php 
@@ -204,7 +214,6 @@ $(function(){
 							<th>หน่วย</th>
 						</tr>
 						<?php 
-						
 						$sql = 'SELECT * FROM material';  
 						$query = mysql_query($sql) or die(mysql_error());
 						
