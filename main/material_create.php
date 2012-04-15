@@ -32,6 +32,21 @@ if(isset($_POST['submit']))
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>เพื่มชนิดวัตถุดิบ</title>
 <?php include("inc.css.php"); ?>
+<!-- jQuery -->
+<script type="text/javascript" src="../js/jquery-1.5.1.min.js"></script>
+<!-- jQuery - UI -->
+<script type="text/javascript" src="../js/jquery-ui-1.8.11.min.js"></script>
+<!-- jQuery - Form validate -->
+<link rel="stylesheet" type="text/css" href="../iic_tools/css/jquery.validate.css" />
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.additional-methods.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.messages_th.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.config.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("form").validate();
+});
+</script>
 </head>
 <body>
 <div id="container">
@@ -40,16 +55,16 @@ if(isset($_POST['submit']))
 		<h1>เพื่มชนิดวัตถุดิบ</h1>
 		<hr>
 		<form method="post" enctype="multipart/form-data">
-			<label for="name">วัตถุดิบ</label>
-			<input id="name" name="name" type="text" />
-			<label for="description">คำอธิบาย</label>
+			<label for="name">วัตถุดิบ<i>*</i></label>
+			<input id="name" name="name" type="text" class="required" />
+			<label for="description">คำอธิบาย<i>*</i></label>
 			<textarea id="description" name="description"></textarea>
-			<label for="stock_min">จำนวนวัตถุดิบคงคลังขั้นต่ำ</label>
-			<input id="stock_min" name="stock_min" type="text" value="" />
-			<label for="stock_max">จำนวนวัตถุดิบคงคลังสูงสุด</label>
-			<input id="stock_max" name="stock_max" type="text" value="" />
-			<label for="unit">หน่วย</label>
-			<input id="unit" name="unit" type="text" />
+			<label for="stock_min">จำนวนวัตถุดิบคงคลังขั้นต่ำ<i>*</i></label>
+			<input id="stock_min" name="stock_min" type="text" value="" class="required integer" />
+			<label for="stock_max">จำนวนวัตถุดิบคงคลังสูงสุด<i>*</i></label>
+			<input id="stock_max" name="stock_max" type="text" value="" class="required integer" />
+			<label for="unit">หน่วย<i>*</i></label>
+			<input id="unit" name="unit" type="text" class="required" />
 			<label class="center">
 				<input id="submit" name="submit" type="submit" value="บันทึก" />
 			</label>
