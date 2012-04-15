@@ -169,15 +169,44 @@ $data = mysql_fetch_array($query);
 <title>ใบสั่งซื้อวัตถุดิบ</title>
 <?php include ("inc.css.php"); ?>
 <style type="text/css">
-input[type=text], textarea
-{
-	width: 50%;
-}
+
 form input[type=text]
 {
-	min-width: 80px;
+	font-size: smaller;
+	min-width: 40px;
+	max-width: 40px;
+}
+form input[name^=total_price], form input[name^=price_per_unit]
+{
+	
+	min-width: 90px;
+	max-width: 90px;
 }
 </style>
+<!-- jQuery -->
+<script type="text/javascript" src="../js/jquery-1.5.1.min.js"></script>
+<!-- jQuery - UI -->
+<script type="text/javascript" src="../js/jquery-ui-1.8.11.min.js"></script>
+<!-- jQuery - Form validate -->
+<link rel="stylesheet" type="text/css" href="../iic_tools/css/jquery.validate.css" />
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.additional-methods.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.messages_th.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.config.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("form").validate();
+	
+	$("input[id^=total_price]").change(function() {
+		var total_price = parseInt($(this).val());
+		var id = $(this).attr("rel");
+		var qty = parseInt($("#quantity_receive_" + id).val());
+		var price_per_unit = Math.round(total_price / qty);
+		
+		$("#price_per_unit_" + id).val(price_per_unit);
+	});
+});
+</script>
 </head>
 <body>
 <div id="container">
@@ -203,8 +232,8 @@ form input[type=text]
 						<th scope="col" width="50">หน่วย</th>
 						<th scope="col" width="50">ตรวจรับ</th>
 						<th scope="col" width="50">หน่วย</th>
-						<th scope="col" width="80">ราคารวม</th>
-						<th scope="col" width="80">ราคาต่อหน่วย</th>
+						<th scope="col" width="80">ราคารวม (บาท)</th>
+						<th scope="col" width="80">ราคาต่อหน่วย (บาท)</th>
 						<th scope="col">ผู้จัดจำหน่าย</th>
 					</tr>
 				</thead>
@@ -253,10 +282,10 @@ form input[type=text]
 							</td>
 							<td>'.$data['unit'].'</td>
 							<td class="right">
-								<input type="text" name="total_price[]" id="total_price_'.$loop.'" rel="'.$loop.'" value="0" class="right" />
+								<input type="text" name="total_price[]" id="total_price_'.$loop.'" rel="'.$loop.'" value="" class="right" />
 							</td>
 							<td class="right">
-								<input type="text" name="price_per_unit[]" id="price_per_unit_'.$loop.'" value="0" readonly="readonly" class="right" />
+								<input type="text" name="price_per_unit[]" id="price_per_unit_'.$loop.'" rel="'.$loop.'" value="" readonly="readonly" class="right" />
 							</td>
 							<td>
 								'.$data['supplier'].'
