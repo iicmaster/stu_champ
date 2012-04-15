@@ -38,6 +38,21 @@ $data = mysql_fetch_array($query);
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>แก้ไขข้อมูลผู้จัดจำหน่าย</title>
 <?php include("inc.css.php"); ?>
+<!-- jQuery -->
+<script type="text/javascript" src="../js/jquery-1.5.1.min.js"></script>
+<!-- jQuery - UI -->
+<script type="text/javascript" src="../js/jquery-ui-1.8.11.min.js"></script>
+<!-- jQuery - Form validate -->
+<link rel="stylesheet" type="text/css" href="../iic_tools/css/jquery.validate.css" />
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.additional-methods.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.messages_th.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.config.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("form").validate();
+});
+</script>
 </head>
 <body>
 <div id="container">
@@ -46,18 +61,18 @@ $data = mysql_fetch_array($query);
 		<h1>แก้ไขข้อมูลผู้จัดจำหน่าย</h1>
 		<hr>
 		<form method="post" enctype="multipart/form-data">
-			<label for="name">ชื่อร้าน</label>
-			<input id="name" name="name" type="text" value="<?php echo $data['name'] ?>" />
-			<label for="address">ที่อยู่</label>
-			<textarea name="address" rows="5" id="address"><?php echo $data['address'] ?></textarea>
-			<label for="tel">โทรศัพท์</label>
-			<input id="tel" name="tel" type="text" value="<?php echo $data['tel'] ?>" />
+			<label for="name">ชื่อร้าน<i>*</i></label>
+			<input id="name" name="name" type="text" value="<?php echo $data['name'] ?>" class="required" />
+			<label for="address">ที่อยู่<i>*</i></label>
+			<textarea name="address" rows="5" id="address" class="required"><?php echo $data['address'] ?></textarea>
+			<label for="tel">โทรศัพท์<i>*</i></label>
+			<input id="tel" name="tel" type="text" value="<?php echo $data['tel'] ?>" class="required integer" maxlength="10" minlength="10" />
 			<label for="fax">แฟกซ์</label>
 			<input id="fax" name="fax" type="text" value="<?php echo $data['fax'] ?>" />
-			<label for="contact">ผู้ประสานงาน</label>
-			<input id="contact" name="contact" type="text" value="<?php echo $data['contact'] ?>" />
-			<label for="contact_tel">เบอร์โทรศัพท์ ผู้ประสานงาน</label>
-			<input id="contact_tel" name="contact_tel" type="text" value="<?php echo $data['contact_tel'] ?>" />
+			<label for="contact">ผู้ประสานงาน<i>*</i></label>
+			<input id="contact" name="contact" type="text" value="<?php echo $data['contact'] ?>" class="required" />
+			<label for="contact_tel">เบอร์โทรศัพท์ ผู้ประสานงาน<i>*</i></label>
+			<input id="contact_tel" name="contact_tel" type="text" value="<?php echo $data['contact_tel'] ?>" class="required integer" maxlength="10" minlength="10"  />
 			<input name="id" type="hidden" value="<?php echo $_GET['id'] ?>" />
 			<label>
 				<input id="submit" name="submit" type="submit" value="บันทึก" />
