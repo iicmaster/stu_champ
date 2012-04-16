@@ -6,6 +6,7 @@ if(isset($_POST['submit']))
 {	
 	$sql = 'INSERT INTO material
 			SET		
+				id_supplier	= "'.$_POST['id_supplier'].'",
 				name		= "'.$_POST['name'].'",
 				description	= "'.$_POST['description'].'",
 				stock_min	= "'.$_POST['stock_min'].'",
@@ -55,15 +56,26 @@ $(function(){
 		<h1>เพื่มชนิดวัตถุดิบ</h1>
 		<hr>
 		<form method="post" enctype="multipart/form-data">
-			<label for="name">วัตถุดิบ<i>*</i></label>
+			<label for="name">ผู้จัดจำหน่าย <i>*</i></label>
+			<select id="id_supplier" name="id_supplier" class="required">
+				<option>-</option>
+				<?php
+				$query = "SELECT * FROM supplier";
+				$result = mysql_query($query) or die(mysql_error());
+				while($data = mysql_fetch_assoc($result)):
+				?>
+				<option value="<?php echo $data["id"] ?>"><?php echo $data["name"] ?></option>
+				<?php endwhile; ?>
+			</select>
+			<label for="name">วัตถุดิบ <i>*</i></label>
 			<input id="name" name="name" type="text" class="required" />
-			<label for="description">คำอธิบาย<i>*</i></label>
+			<label for="description">คำอธิบาย <i>*</i></label>
 			<textarea id="description" name="description"></textarea>
-			<label for="stock_min">จำนวนวัตถุดิบคงคลังขั้นต่ำ<i>*</i></label>
+			<label for="stock_min">จำนวนวัตถุดิบคงคลังขั้นต่ำ <i>*</i></label>
 			<input id="stock_min" name="stock_min" type="text" value="" class="required integer" />
-			<label for="stock_max">จำนวนวัตถุดิบคงคลังสูงสุด<i>*</i></label>
+			<label for="stock_max">จำนวนวัตถุดิบคงคลังสูงสุด <i>*</i></label>
 			<input id="stock_max" name="stock_max" type="text" value="" class="required integer" />
-			<label for="unit">หน่วย<i>*</i></label>
+			<label for="unit">หน่วย <i>*</i></label>
 			<input id="unit" name="unit" type="text" class="required" />
 			<label class="center">
 				<input id="submit" name="submit" type="submit" value="บันทึก" />

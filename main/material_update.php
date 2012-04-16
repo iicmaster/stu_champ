@@ -6,6 +6,7 @@ if(isset($_POST['submit']))
 {	
 	$sql = 'UPDATE material
 			SET		
+				id_supplier	= "'.$_POST['id_supplier'].'",
 				name		= "'.$_POST['name'].'",
 				description	= "'.$_POST['description'].'",
 				stock_min	= "'.$_POST['stock_min'].'",
@@ -50,6 +51,7 @@ $data = mysql_fetch_array($query);
 <script type="text/javascript">
 $(function(){
 	$("form").validate();
+	$("#id_supplier").val("<?php echo $data["id_supplier"] ?>");
 });
 </script>
 </head>
@@ -60,6 +62,16 @@ $(function(){
 		<h1>แก้ไขข้อมูลวัตถุดิบ</h1>
 		<hr>
 		<form method="post" enctype="multipart/form-data">
+			<label for="name">ผู้จัดจำหน่าย</label>
+			<select id="id_supplier" name="id_supplier">
+				<?php
+				$query = "SELECT * FROM supplier";
+				$result = mysql_query($query);
+				while($row = mysql_fetch_assoc($result)):
+				?>
+				<option value="<?php echo $row["id"] ?>"><?php echo $row["name"] ?></option>
+				<?php endwhile; ?>
+			</select>
 			<label for="name">วัตถุดิบ</label>
 			<input id="name" name="name" type="text" value="<?php echo $data['name'] ?>" class="required" />
 			<label for="description">คำอธิบาย</label>
