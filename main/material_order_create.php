@@ -95,18 +95,26 @@ if(isset($_POST['submit']))
 	// ------------------------------------------------------------------------
 	// Open print
 	// ------------------------------------------------------------------------
+		$query = "SELECT id_supplier
+				  FROM material_order_item
+				  WHERE id_material_order = ".$id_material_order."
+				  GROUP BY id_supplier";
+		$result = mysql_query($query);
+		while($row = mysql_fetch_assoc($result))
+		{
+			$message .= '<script type="text/javascript">
+						 window.open("material_order_print.php?id='.$id_material_order.'&id_supplier='.$row["id_supplier"].'", "_blank");
+						 </script>'; 
+		}
 
-		$message .= '<script type="text/javascript">
-						 window.open("material_order_print.php?id='.$id_material_order.'", "_blank");
-					 </script>'; 
 	// --------------------------------------------------------------------------------
 	// Report
 	// --------------------------------------------------------------------------------
 	
-		$css 		= '../css/style.css';
+		$css = '../css/style.css';
 		$url_target	= 'material_order.php';
-		$title		= 'สถานะการทำงาน';
-		$message 	.= '<li class="green">บันทึกข้อมูลเสร็จสมบูรณ์</li>';
+		$title = 'สถานะการทำงาน';
+		$message .= '<li class="green">บันทึกข้อมูลเสร็จสมบูรณ์</li>';
 		require_once("../iic_tools/views/iic_report.php");
 		exit();
 		

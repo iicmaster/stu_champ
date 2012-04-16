@@ -103,7 +103,7 @@ form td i.error { margin: 0px; float: left;}
 			<label for="orderer">ชื่อ<i>*</i></label>
 			<input id="orderer" name="orderer" type="text" class="required" />
 			<label for="tel">โทรศัพท์<i>*</i></label>
-			<input id="tel" name="tel" type="text" class="required integer" />
+			<input id="tel" name="tel" type="text" class="required integer" maxlength="10" />
 			<label for="date_receive">วันที่มารับสินค้า<i>*</i></label>
 			<input id="date_receive" name="date_receive" class="datepicker required" type="text" readonly="readonly" />
 			<label for="description">รายละเอียด</label>
@@ -124,7 +124,7 @@ form td i.error { margin: 0px; float: left;}
 				<tr>
 					<td align="center"><?php echo $loop; ?></td>
 					<td><?php echo $data['name']; ?> (สั่งขั้นต่ำ <?php echo $data['order_min']; ?> <?php echo $data['unit']; ?>)</td>
-					<td width="200"><span></span><input type="text" name="quantity[<?php echo $data['id']; ?>]" class="right" min="<?php echo $data['order_min']; ?>" value="0" /> <?php echo $data['unit']; ?></td>
+					<td width="200"><span></span><input type="text" name="quantity[<?php echo $data['id']; ?>]" class="right"  value="0" /> <?php echo $data['unit']; ?></td>
 				</tr>
 				<?php 
 				$loop++;
