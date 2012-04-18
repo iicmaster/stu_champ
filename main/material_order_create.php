@@ -223,6 +223,7 @@ $(function()
 					}
 						
 					// Create supplier option
+					/*
 					$sql_supplier	= 'SELECT * FROM supplier';
 					$query_supplier	= mysql_query($sql_supplier) or die(mysql_error());
 					
@@ -232,27 +233,37 @@ $(function()
 					{
 						$supplier_option .= '<option value="'.$data_supplier['id'].'">'.$data_supplier['name'].'</option>';	
 					}
+					 * 
+					 */
 					
-					for($loop = 0; $loop < count($id_material); $loop++)
-					{
+					for($loop = 0; $loop < count($id_material); $loop++):
+						
 						$sql	= 'SELECT * FROM material WHERE id = '.$id_material[$loop];
 						$result = mysql_query($sql);
 						$data	= mysql_fetch_array($result);
-						
-						echo '<tr>
-								<td class="center">'.($loop + 1).'</td>
-								<td>'.$data['name'].'<input type="hidden" name="id_material[]" value="'.$data['id'].'" /></td>
-								<td class="right"><input type="text" name="quantity[]" value="'.add_comma(abs($data['total'] - $data['stock_min'])).'" /></td>
-								<td>'.$data['unit'].'</td>
-								<td class="center">
-									<select id="id_supplier_'.($loop + 1).'" name="id_supplier[]" class="required">
-										<option value="">-</option>
-										'.$supplier_option.'
-									</select>
-								</td>
-							</tr>';
-					}
-					?>
+					?>	
+					<tr>
+						<td class="center"><?php echo ($loop + 1); ?></td>
+						<td><?php echo $data['name']; ?><input type="hidden" name="id_material[]" value="<?php echo $data['id']; ?>" /></td>
+						<td class="right"><input type="text" name="quantity[]" value="<?php echo add_comma(abs($data['total'] - $data['stock_min'])); ?>" /></td>
+						<td><?php echo $data['unit']; ?></td>
+						<td class="center">
+							<select id="id_supplier_<?php echo ($loop + 1); ?>" name="id_supplier[]" class="required">
+								<option value="">-</option>
+								<?php
+								$sql_supplier = 'SELECT * FROM supplier WHERE id IN(SELECT id_supplier FROM material_supplier WHERE id_material = '.$id_material[$loop].')';
+								$query_supplier	= mysql_query($sql_supplier) or die(mysql_error());
+								
+								$supplier_option = '';
+								
+								while($data_supplier = mysql_fetch_array($query_supplier)):
+								?>
+								<option value="<?php echo $data_supplier['id']; ?>"><?php echo $data_supplier['name']; ?></option>';	
+								<?php endwhile; ?>
+							</select>
+						</td>
+					</tr>
+					<?php endfor; ?>
 				</tbody>
 			</table>
 			<p class="center">
