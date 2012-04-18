@@ -4,9 +4,18 @@ require('../include/connect.php');
 
 if(isset($_POST['submit']))
 {	
+	// --------------------------------------------------------------------------------
+	// Start transaction
+	// --------------------------------------------------------------------------------
+	
+	mysql_query("BEGIN");	
+	
+	// --------------------------------------------------------------------------------
+	// Insert material data
+	// --------------------------------------------------------------------------------
+	
 	$sql = 'INSERT INTO material
 			SET		
-				id_supplier	= "'.$_POST['id_supplier'].'",
 				name		= "'.$_POST['name'].'",
 				description	= "'.$_POST['description'].'",
 				stock_min	= "'.$_POST['stock_min'].'",
@@ -14,9 +23,76 @@ if(isset($_POST['submit']))
 				unit 		= "'.$_POST['unit'].'",
 				date_create	= NOW()';
 					
-	$query = mysql_query($sql) or die(mysql_error());
-
+	// RollBack transaction and show error message when query error						
+	if(! $query = mysql_query($sql))
+	{
+		echo 'Insert material data';
+		echo '<hr />';
+		echo mysql_error();
+		echo '<hr />';
+		echo $sql;
+		mysql_query("ROLLBACK");
+		exit();
+	}
+		
+	// --------------------------------------------------------------------------------
+	// Get last id
+	// --------------------------------------------------------------------------------
+	
+	$sql = 'SELECT MAX(id) AS id FROM material';
+	
+	// RollBack transaction and show error message when query error						
+	if(! $query = mysql_query($sql))
+	{
+		echo 'Get last id';
+		echo '<hr />';
+		echo mysql_error();
+		echo '<hr />';
+		echo $sql;
+		mysql_query("ROLLBACK");
+		exit();
+	}
+	
+	$data = mysql_fetch_array($query);
+	$id_material = $data['id'];
+	
+	// --------------------------------------------------------------------------------
+	// Insert material's supplier
+	// --------------------------------------------------------------------------------
+	
+	if(count($_POST["id_supplier"]) > 0)
+	{
+		foreach ($_POST["id_supplier"] as $id_supplier) 
+		{
+			$query = 'INSERT INTO material_supplier
+					  SET
+					      id_material	= "'.$id_material.'",
+					      id_supplier	= "'.$id_supplier.'"';
+						  
+			// RollBack transaction and show error message when query error						
+			if(! $result = mysql_query($query))
+			{
+				echo "Insert material's supplier";
+				echo '<hr />';
+				echo mysql_error();
+				echo '<hr />';
+				echo $query;
+				mysql_query("ROLLBACK");
+				exit();
+			}
+		}
+	}
+	
+	// --------------------------------------------------------------------------------
+	// Commit transaction
+	// --------------------------------------------------------------------------------
+	
+	mysql_query("COMMIT");
+	
+	// --------------------------------------------------------------------------------
 	// Report
+	// --------------------------------------------------------------------------------
+	
 	$css 		= '../css/style.css';
 	$url_target = 'material.php';
 	$title		= 'สถานะการทำงาน';
@@ -24,8 +100,11 @@ if(isset($_POST['submit']))
 	
 	require_once("../iic_tools/views/iic_report.php");
 	exit();
+	
+	// --------------------------------------------------------------------------------
+	// End
+	// --------------------------------------------------------------------------------
 }
-
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -43,9 +122,13 @@ if(isset($_POST['submit']))
 <script type="text/javascript" src="../iic_tools/js/jquery.validate.additional-methods.js"></script>
 <script type="text/javascript" src="../iic_tools/js/jquery.validate.messages_th.js"></script>
 <script type="text/javascript" src="../iic_tools/js/jquery.validate.config.js"></script>
+<!-- jQuery - Select List -->
+<link rel="stylesheet" type="text/css" href="../iic_tools/css/jquery.selectlist.css" />
+<script type="text/javascript" src="../iic_tools/js/jquery.selectlist.js"></script>
 <script type="text/javascript">
 $(function(){
 	$("form").validate();
+	$("#id_supplier").selectList();
 });
 </script>
 </head>
@@ -57,8 +140,7 @@ $(function(){
 		<hr>
 		<form method="post" enctype="multipart/form-data">
 			<label for="name">ผู้จัดจำหน่าย <i>*</i></label>
-			<select id="id_supplier" name="id_supplier" class="required">
-				<option>-</option>
+			<select id="id_supplier" name="id_supplier[]" class="required" multiple="" title="โปรดระบุ">
 				<?php
 				$query = "SELECT * FROM supplier";
 				$result = mysql_query($query) or die(mysql_error());
@@ -69,7 +151,7 @@ $(function(){
 			</select>
 			<label for="name">วัตถุดิบ <i>*</i></label>
 			<input id="name" name="name" type="text" class="required" />
-			<label for="description">คำอธิบาย <i>*</i></label>
+			<label for="description">คำอธิบาย</label>
 			<textarea id="description" name="description"></textarea>
 			<label for="stock_min">จำนวนวัตถุดิบคงคลังขั้นต่ำ <i>*</i></label>
 			<input id="stock_min" name="stock_min" type="text" value="" class="required integer" />
@@ -77,7 +159,7 @@ $(function(){
 			<input id="stock_max" name="stock_max" type="text" value="" class="required integer" />
 			<label for="unit">หน่วย <i>*</i></label>
 			<input id="unit" name="unit" type="text" class="required" />
-			<label class="center">
+			<label>
 				<input id="submit" name="submit" type="submit" value="บันทึก" />
 			</label>
 		</form>

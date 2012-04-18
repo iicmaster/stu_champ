@@ -3,7 +3,7 @@
 -- Server version:               5.5.16 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2012-04-17 02:35:25
+-- Date/time:                    2012-04-19 05:51:43
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -58,7 +58,6 @@ DELETE FROM `account_transaction`;
 DROP TABLE IF EXISTS `material`;
 CREATE TABLE IF NOT EXISTS `material` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `id_supplier` int(10) unsigned NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci,
   `total` int(10) unsigned NOT NULL DEFAULT '0',
@@ -70,19 +69,20 @@ CREATE TABLE IF NOT EXISTS `material` (
   `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_update_transaction` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Dumping data for table champ.material: ~7 rows (approximately)
 DELETE FROM `material`;
 /*!40000 ALTER TABLE `material` DISABLE KEYS */;
-INSERT INTO `material` (`id`, `id_supplier`, `name`, `description`, `total`, `stock_min`, `stock_max`, `unit`, `average_cost_per_unit`, `date_create`, `date_update`, `date_update_transaction`) VALUES
-	(30, 1, 'สละ', 'สละพันธุ์ดีมาก', 160, 100, 0, 'กิโลกรัม', 85.00, '2011-04-10 00:43:09', '2011-04-10 00:43:09', '2012-03-01 01:48:38'),
-	(31, 2, 'น้ำตาลทรายขาว', 'อย่างดี', 110, 100, 0, 'กิโลกรัม', 11.64, '2011-04-10 01:09:29', '2011-04-10 01:09:29', '2012-03-01 01:48:38'),
-	(32, 2, 'เกลือ', 'คุณภาพสูง', 20000, 20000, 0, 'กรัม', 0.01, '2011-04-10 01:14:18', '2011-04-10 01:14:18', '2011-09-12 02:48:34'),
-	(33, 2, 'ถ้วยพลาสติก เล็ก', '', 500, 500, 0, 'ถ้วย', 0.50, '2011-04-10 05:43:03', '2011-04-10 05:43:03', '2011-09-12 02:48:34'),
-	(34, 2, 'ถ้วยพลาสติก กลาง', '', 600, 500, 0, 'ถ้วย', 1.83, '2011-04-10 05:43:20', '2011-04-10 05:43:20', '2012-03-01 01:48:38'),
-	(35, 2, 'ถ้วยพลาสติก ใหญ่', '', 610, 500, 0, 'ถ้วย', 2.03, '2011-04-10 05:43:44', '2011-04-10 05:43:44', '2011-09-12 02:47:51'),
-	(36, 4, 'หนังยาง', 'หนังยางรัดของ', 2700, 2000, 0, 'เส้น', 0.12, '2011-04-11 03:45:44', '2011-04-11 03:45:44', '2011-09-12 02:47:51');
+INSERT INTO `material` (`id`, `name`, `description`, `total`, `stock_min`, `stock_max`, `unit`, `average_cost_per_unit`, `date_create`, `date_update`, `date_update_transaction`) VALUES
+	(30, 'สละ', 'สละพันธุ์ดีมาก', 80, 100, 0, 'กิโลกรัม', 85.00, '2011-04-10 00:43:09', '2011-04-10 00:43:09', '2012-03-01 01:48:38'),
+	(31, 'น้ำตาลทรายขาว', 'อย่างดี', 110, 100, 0, 'กิโลกรัม', 11.64, '2011-04-10 01:09:29', '2011-04-10 01:09:29', '2012-03-01 01:48:38'),
+	(32, 'เกลือ', 'คุณภาพสูง', 20000, 20000, 0, 'กรัม', 0.01, '2011-04-10 01:14:18', '2011-04-10 01:14:18', '2011-09-12 02:48:34'),
+	(33, 'ถ้วยพลาสติก เล็ก', '', 200, 500, 0, 'ถ้วย', 0.50, '2011-04-10 05:43:03', '2011-04-10 05:43:03', '2011-09-12 02:48:34'),
+	(34, 'ถ้วยพลาสติก กลาง', '', 300, 500, 0, 'ถ้วย', 1.83, '2011-04-10 05:43:20', '2011-04-10 05:43:20', '2012-03-01 01:48:38'),
+	(35, 'ถ้วยพลาสติก ใหญ่', '', 610, 500, 0, 'ถ้วย', 2.03, '2011-04-10 05:43:44', '2011-04-10 05:43:44', '2011-09-12 02:47:51'),
+	(36, 'หนังยาง', 'หนังยางรัดของ', 2700, 2000, 0, 'เส้น', 0.12, '2011-04-11 03:45:44', '2011-04-11 03:45:44', '2011-09-12 02:47:51'),
+	(38, 'สละพันธ์สุมาลีคัดพิเศษ', '', 0, 50, 100, 'กิโลกรัม', 0.00, '2012-04-19 04:16:40', '2012-04-19 04:16:40', NULL);
 /*!40000 ALTER TABLE `material` ENABLE KEYS */;
 
 
@@ -94,9 +94,9 @@ CREATE TABLE IF NOT EXISTS `material_order` (
   `date_create` date NOT NULL,
   `is_approve` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 = ยังไม่ได้ตรวจรับ, 1 = ตรวจรับแล้ว',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.material_order: ~12 rows (approximately)
+-- Dumping data for table champ.material_order: ~13 rows (approximately)
 DELETE FROM `material_order`;
 /*!40000 ALTER TABLE `material_order` DISABLE KEYS */;
 INSERT INTO `material_order` (`id`, `description`, `date_create`, `is_approve`) VALUES
@@ -111,7 +111,8 @@ INSERT INTO `material_order` (`id`, `description`, `date_create`, `is_approve`) 
 	(70, '', '2011-09-12', 0),
 	(71, '', '2011-09-12', 0),
 	(72, '', '2012-02-29', 0),
-	(73, '', '2012-02-29', 1);
+	(73, '', '2012-02-29', 1),
+	(74, NULL, '2012-04-17', 0);
 /*!40000 ALTER TABLE `material_order` ENABLE KEYS */;
 
 
@@ -132,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `material_order_item` (
   CONSTRAINT `FK_material_order_item_supplier` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.material_order_item: ~28 rows (approximately)
+-- Dumping data for table champ.material_order_item: ~31 rows (approximately)
 DELETE FROM `material_order_item`;
 /*!40000 ALTER TABLE `material_order_item` DISABLE KEYS */;
 INSERT INTO `material_order_item` (`id_material_order`, `id_material`, `id_supplier`, `quantity_order`, `quantity_receive`, `total_price`) VALUES
@@ -163,8 +164,41 @@ INSERT INTO `material_order_item` (`id_material_order`, `id_material`, `id_suppl
 	(72, 34, 4, 100, NULL, NULL),
 	(73, 30, 2, 60, 60, NULL),
 	(73, 31, 1, 10, 10, NULL),
-	(73, 34, 4, 100, 100, NULL);
+	(73, 34, 4, 100, 100, NULL),
+	(74, 30, 1, 20, NULL, NULL),
+	(74, 33, 2, 300, NULL, NULL),
+	(74, 34, 4, 200, NULL, NULL);
 /*!40000 ALTER TABLE `material_order_item` ENABLE KEYS */;
+
+
+-- Dumping structure for table champ.material_supplier
+DROP TABLE IF EXISTS `material_supplier`;
+CREATE TABLE IF NOT EXISTS `material_supplier` (
+  `id_material` int(10) unsigned NOT NULL,
+  `id_supplier` int(10) unsigned NOT NULL,
+  KEY `FK_material_supplier_material` (`id_material`),
+  KEY `FK_material_supplier_supplier` (`id_supplier`),
+  CONSTRAINT `FK_material_supplier_material` FOREIGN KEY (`id_material`) REFERENCES `material` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_material_supplier_supplier` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Dumping data for table champ.material_supplier: ~0 rows (approximately)
+DELETE FROM `material_supplier`;
+/*!40000 ALTER TABLE `material_supplier` DISABLE KEYS */;
+INSERT INTO `material_supplier` (`id_material`, `id_supplier`) VALUES
+	(38, 5),
+	(36, 2),
+	(36, 4),
+	(35, 2),
+	(34, 2),
+	(33, 2),
+	(32, 4),
+	(32, 2),
+	(31, 2),
+	(31, 4),
+	(30, 1),
+	(30, 5);
+/*!40000 ALTER TABLE `material_supplier` ENABLE KEYS */;
 
 
 -- Dumping structure for table champ.material_transaction
@@ -332,14 +366,16 @@ CREATE TABLE IF NOT EXISTS `product_order` (
   `date_create` date NOT NULL,
   `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.product_order: ~2 rows (approximately)
+-- Dumping data for table champ.product_order: ~4 rows (approximately)
 DELETE FROM `product_order`;
 /*!40000 ALTER TABLE `product_order` DISABLE KEYS */;
 INSERT INTO `product_order` (`id`, `orderer`, `tel`, `description`, `is_receive`, `date_receive`, `date_create`, `date_update`) VALUES
 	(1, 'ตรงกระแส', '089123456789', 'รายละเอียด', 0, '2012-03-15', '2012-03-04', '2012-03-04 17:41:41'),
-	(4, 'champ', '08401401916', '', 0, '2012-03-23', '2012-03-04', '2012-03-04 18:12:12');
+	(4, 'champ', '08401401916', '', 0, '2012-03-23', '2012-03-04', '2012-03-04 18:12:12'),
+	(5, 'ต๋อง', '0111111111', '', 0, '2012-04-26', '2012-04-17', '2012-04-17 02:43:47'),
+	(6, 'champ', '0840140191', '', 0, '2012-04-27', '2012-04-17', '2012-04-17 17:46:53');
 /*!40000 ALTER TABLE `product_order` ENABLE KEYS */;
 
 
@@ -355,12 +391,14 @@ CREATE TABLE IF NOT EXISTS `product_order_item` (
   CONSTRAINT `FK_product_order_item_product_order` FOREIGN KEY (`id_order`) REFERENCES `product_order` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.product_order_item: ~2 rows (approximately)
+-- Dumping data for table champ.product_order_item: ~4 rows (approximately)
 DELETE FROM `product_order_item`;
 /*!40000 ALTER TABLE `product_order_item` DISABLE KEYS */;
 INSERT INTO `product_order_item` (`id_order`, `id_product`, `quantity`) VALUES
 	(4, 1, 23),
-	(4, 3, 12);
+	(4, 3, 12),
+	(5, 1, 400),
+	(6, 1, 400);
 /*!40000 ALTER TABLE `product_order_item` ENABLE KEYS */;
 
 
@@ -451,7 +489,7 @@ CREATE TABLE IF NOT EXISTS `supplier` (
   `date_create` datetime NOT NULL,
   `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Dumping data for table champ.supplier: ~3 rows (approximately)
 DELETE FROM `supplier`;
@@ -459,7 +497,8 @@ DELETE FROM `supplier`;
 INSERT INTO `supplier` (`id`, `name`, `address`, `tel`, `fax`, `contact`, `contact_tel`, `date_create`, `date_update`) VALUES
 	(1, 'สวนสละลุงดำ', 'บางกะจะ', '0391234567', '', 'ลุงดัก', '0812345678', '2011-04-09 23:48:00', '2012-04-16 02:01:58'),
 	(2, 'บางกะจะ ซุปเปอร์สโตร์', 'บางกะจะ', '039-987654-5', '039-987656', 'คุณพรเพ็ญ ณ บางกะจะ', '', '2011-04-09 23:50:28', '2011-04-09 23:58:43'),
-	(4, 'บางกะจะโชห่วย', 'บางกะจะ', '039-441569', '', 'เจ๊พร', '', '2011-04-11 03:45:01', '2011-05-04 09:52:17');
+	(4, 'บางกะจะโชห่วย', 'บางกะจะ', '039-441569', '', 'เจ๊พร', '', '2011-04-11 03:45:01', '2011-05-04 09:52:17'),
+	(5, 'สวนสละลุงแดง', 'ท่าใหม่', '0812345678', '', 'น้าเขียว', '0845678901', '2012-04-19 03:57:27', '2012-04-19 03:57:27');
 /*!40000 ALTER TABLE `supplier` ENABLE KEYS */;
 /*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

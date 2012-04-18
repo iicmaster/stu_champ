@@ -13,4 +13,6 @@
 	cursor: pointer;
 	padding: 0.2em 0.3em;
 	margin: 1px 0;
+	
+	max-width: 292px;
 }
