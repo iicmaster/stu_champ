@@ -100,13 +100,15 @@ $(function() {
 						{
 							while($data = mysql_fetch_array($query))
 							{
+								$date_update_transaction = (is_null($data['date_update_transaction'])) ? '-' : change_date_time_format($data['date_update_transaction']);
+								
 								echo '	<tr>
 											<td class="center"><input type="checkbox" name="id[]" value="'.$data['id'].'" /></td>
 											<td class="center">'.zero_fill(4, $data['id']).'</td>
 											<td>'.$data['name'].'</td>
 											<td class="right">'.add_comma($data['total']).' ('.$data['unit'].')</td>
 											<td class="right">'.add_comma(abs($data['total'] - $data['stock_min'])).' ('.$data['unit'].')</td>
-											<td class="center">'.change_date_time_format($data['date_update_transaction']).'</td>
+											<td class="center">'.$date_update_transaction.'</td>
 											<td class="center">
 												<a class="button" href="material_view.php?id='.$data['id'].'">ดู</a>
 											</td>
