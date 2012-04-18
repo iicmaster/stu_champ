@@ -13,39 +13,69 @@ if(isset($_POST['submit']))
 	// Start transaction
 	// --------------------------------------------------------------------------------
 	
-		mysql_query("BEGIN");	
+	mysql_query("BEGIN");	
 		
 	// --------------------------------------------------------------------------------
 	// Create material order
 	// --------------------------------------------------------------------------------
 	
-		$sql = 	'INSERT INTO material_order
-				 SET 	
-					date_create	= "'.date('Y-m-d').'"';
-		
-		// RollBack transaction and show error message when query error						
-		if( ! $query = mysql_query($sql))
-		{
-			echo 'Create material_order';
-			echo '<hr />';
-			echo mysql_error();
-			echo '<hr />';
-			echo $sql;
-			mysql_query("ROLLBACK");
-			exit();
-		}
+	$sql = 	'INSERT INTO material_order
+			 SET 	
+				date_create	= "'.date('Y-m-d').'"';
+	
+	// RollBack transaction and show error message when query error						
+	if( ! $query = mysql_query($sql))
+	{
+		echo 'Create material_order';
+		echo '<hr />';
+		echo mysql_error();
+		echo '<hr />';
+		echo $sql;
+		mysql_query("ROLLBACK");
+		exit();
+	}
 		
 	// --------------------------------------------------------------------------------
 	// Get last id
 	// --------------------------------------------------------------------------------
 	
-		$sql	= 'SELECT MAX(id) AS id FROM material_order';
-		$query	= mysql_query($sql);
+	$sql	= 'SELECT MAX(id) AS id FROM material_order';
+	
+	// RollBack transaction and show error message when query error						
+	if( ! $query = mysql_query($sql))
+	{
+		echo 'Get last id';
+		echo '<hr />';
+		echo mysql_error();
+		echo '<hr />';
+		echo $sql;
+		mysql_query("ROLLBACK");
+		exit();
+	}
+	
+	$data = mysql_fetch_array($query);
+	$id_material_order = $data['id'];
 		
+	// --------------------------------------------------------------------------------
+	// Create material order item		
+	// --------------------------------------------------------------------------------
+
+	for($loop = 0; $loop < count($_POST['id_material']); $loop++)
+	{
+		// Remove comma
+		$quantity = remove_comma($_POST['quantity'][$loop]);
+		
+		$sql = 	'INSERT INTO material_order_item
+				 SET 	
+				 		id_material_order	= "'.$id_material_order.'",
+				 		id_material 		= "'.$_POST['id_material'][$loop].'",
+				 		quantity_order		= "'.$quantity.'",
+						id_supplier			= "'.$_POST['id_supplier'][$loop].'"';
+						
 		// RollBack transaction and show error message when query error						
 		if( ! $query = mysql_query($sql))
 		{
-			echo 'Get last id';
+			echo 'Create material order item	';
 			echo '<hr />';
 			echo mysql_error();
 			echo '<hr />';
@@ -53,70 +83,42 @@ if(isset($_POST['submit']))
 			mysql_query("ROLLBACK");
 			exit();
 		}
-		
-		$data				= mysql_fetch_array($query);
-		$id_material_order	= $data['id'];
-		
-	// --------------------------------------------------------------------------------
-	// Create material order item		
-	// --------------------------------------------------------------------------------
-
-		for($loop = 0; $loop < count($_POST['id_material']); $loop++)
-		{
-			// Remove comma
-			$quantity = remove_comma($_POST['quantity'][$loop]);
-			
-			$sql = 	'INSERT INTO material_order_item
-					 SET 	
-					 		id_material_order	= "'.$id_material_order.'",
-					 		id_material 		= "'.$_POST['id_material'][$loop].'",
-					 		quantity_order		= "'.$quantity.'",
-							id_supplier			= "'.$_POST['id_supplier'][$loop].'"';
-							
-			// RollBack transaction and show error message when query error						
-			if( ! $query = mysql_query($sql))
-			{
-				echo 'Create material order item	';
-				echo '<hr />';
-				echo mysql_error();
-				echo '<hr />';
-				echo $sql;
-				mysql_query("ROLLBACK");
-				exit();
-			}
-		}
+	}
 		
 	// --------------------------------------------------------------------------------
 	// Commit transaction
 	// --------------------------------------------------------------------------------
 	
-		mysql_query("COMMIT");
+	mysql_query("COMMIT");
 	
-	// ------------------------------------------------------------------------
+	// --------------------------------------------------------------------------------
 	// Open print
-	// ------------------------------------------------------------------------
-		$query = "SELECT id_supplier
-				  FROM material_order_item
-				  WHERE id_material_order = ".$id_material_order."
-				  GROUP BY id_supplier";
-		$result = mysql_query($query);
-		while($row = mysql_fetch_assoc($result))
-		{
-			$message .= '<script type="text/javascript">
-						 window.open("material_order_print.php?id='.$id_material_order.'&id_supplier='.$row["id_supplier"].'", "_blank");
-						 </script>'; 
-		}
+	// --------------------------------------------------------------------------------
+	
+	$query = "SELECT id_supplier
+			  FROM material_order_item
+			  WHERE id_material_order = ".$id_material_order."
+			  GROUP BY id_supplier";
+			  
+	$result = mysql_query($query);
+	
+	while($row = mysql_fetch_assoc($result))
+	{
+		$message .= '<script type="text/javascript">
+					 window.open("material_order_print.php?id='.$id_material_order.'&id_supplier='.$row["id_supplier"].'", "_blank");
+					 </script>'; 
+	}
 
 	// --------------------------------------------------------------------------------
 	// Report
 	// --------------------------------------------------------------------------------
 	
-		$css = '../css/style.css';
-		$url_target	= 'material_order.php';
-		$title = 'สถานะการทำงาน';
-		$message .= '<li class="green">บันทึกข้อมูลเสร็จสมบูรณ์</li>';
-		require_once("../iic_tools/views/iic_report.php");
-		exit();
+	$css = '../css/style.css';
+	$url_target	= 'material_order.php';
+	$title = 'สถานะการทำงาน';
+	$message .= '<li class="green">บันทึกข้อมูลเสร็จสมบูรณ์</li>';
+	require_once("../iic_tools/views/iic_report.php");
+	exit();
 		
 	// --------------------------------------------------------------------------------
 	// End
