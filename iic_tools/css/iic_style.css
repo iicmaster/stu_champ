@@ -111,7 +111,10 @@ a.link_none:active 	{ text-decoration: none; border: none; }
 /* Table */
 /*----------------------------------------------------------------------------------------------------*/
 
-thead th { background-image: url(../img/bg_th.png); }
+thead th { background-image: url(../img/bg_th.png); white-space: nowrap; }
+
+.ui-datepicker table { border: none }
+.ui-datepicker th { background: none; color: #666;}
 
 /*----------------------------------------------------------------------------------------------------*/
 /* Form */

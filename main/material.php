@@ -72,7 +72,11 @@ $(function() {
 					</thead>
 					<tbody>
 						<?php 					
-						$sql = 'SELECT * FROM material LIMIT '.$limit_start.', '.$rows_per_page;  
+						$sql = 'SELECT * 
+								FROM material 
+								ORDER BY id DESC
+								LIMIT '.$limit_start.', '.$rows_per_page;  
+								
 						$query = mysql_query($sql);
 						$query_row = mysql_num_rows($query);
 						
@@ -80,11 +84,12 @@ $(function() {
 						{
 							while($data = mysql_fetch_array($query))
 							{
+								$date_update_transaction = (is_null($data['date_update_transaction'])) ? '-' : change_date_time_format($data['date_update_transaction']);
 								echo '	<tr>
 											<td class="center">'.zero_fill(4, $data['id']).'</td>
 											<td>'.$data['name'].'</td>
-											<td class="right">'.add_comma($data['total']).' ('.$data['unit'].')</td>
-											<td class="center">'.change_date_time_format($data['date_update_transaction']).'</td>
+											<td class="right">'.add_comma($data['total']).' '.$data['unit'].'</td>
+											<td class="center">'.$date_update_transaction.'</td>
 											<td class="center">
 												<a class="button" href="material_view.php?id='.$data['id'].'">ดู</a>
 												<a class="button" href="material_update.php?id='.$data['id'].'">แก้ไข</a>

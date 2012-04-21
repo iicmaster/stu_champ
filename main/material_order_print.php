@@ -2,10 +2,10 @@
 require("../include/session.php");
 require('../include/connect.php');
 
-$sql 	= 'SELECT material_order.*
+$ID_SUPPLIER = (isset($_GET['id_supplier'])) ? 'AND material_order_item.id_supplier = '.$_GET['id_supplier'] : '';
 
+$sql 	= 'SELECT material_order.*
 		   FROM material_order 
-		   
 		   WHERE material_order.id = "'.$_GET['id'].'"';
 				
 $query	= mysql_query($sql) or die(mysql_error());
@@ -41,8 +41,8 @@ $data	= mysql_fetch_array($query);
 
 #paper th
 {
+	color: #333;
 	background: none;
-	color: #000
 }
 
 #paper hr { border-style: solid; }
@@ -55,6 +55,12 @@ $data	= mysql_fetch_array($query);
 	position: absolute;
 	right: 0;
 	text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6, th, b, strong
+{
+	color: #333;
+	text-shadow: none;
 }
 </style>
 </head>
@@ -84,38 +90,47 @@ $data	= mysql_fetch_array($query);
 		</thead>
 		<tbody>
 			<?php 
+			$sql = 'SELECT	
+						material_order_item.quantity_order as quantity, 
+						material_order_item.quantity_receive as quantity_receive, 
+						material.name as material,
+						material.unit as unit, 
+						supplier.name as supplier
+							
+					FROM material_order_item 
 					
-					$sql = 'SELECT	
-								material_order_item.quantity_order as quantity, 
-								material_order_item.quantity_receive as quantity_receive, 
-								material.name as material,
-								material.unit as unit, 
-								supplier.name as supplier
-									
-							FROM material_order_item 
-							
-							LEFT JOIN material
-							ON material_order_item.id_material = material.id
-							
-							LEFT JOIN supplier
-							ON material_order_item.id_supplier = supplier.id
-							
-							WHERE material_order_item.id_material_order = "'.$data['id'].'"';
-							
-					$query = mysql_query($sql) or die(mysql_error());
-					$loop = 1;
-						
-					while($data = mysql_fetch_array($query))
-					{
-						echo '<tr>
-								<td class="center">'.$loop++.'</td>
-								<td>'.$data['material'].'</td>
-								<td class="right">'.add_comma($data['quantity']).'</td>
-								<td>'.$data['unit'].'</td>
-								<td>'.$data['supplier'].'</td>
-							</tr>';
-					}
-					?>
+					LEFT JOIN material
+					ON material_order_item.id_material = material.id
+					
+					LEFT JOIN supplier
+					ON material_order_item.id_supplier = supplier.id
+					
+					WHERE 
+						material_order_item.id_material_order = "'.$data['id'].'"'.
+						$ID_SUPPLIER;
+					
+			$result = mysql_query($sql) or die(mysql_error());
+			$result_row = mysql_num_rows($result);
+			$loop = 1;
+			
+			if($result_row > 0)
+			{
+				while($data = mysql_fetch_array($result))
+				{
+					echo '<tr>
+							<td class="center">'.$loop++.'</td>
+							<td>'.$data['material'].'</td>
+							<td class="right">'.add_comma($data['quantity']).'</td>
+							<td>'.$data['unit'].'</td>
+							<td>'.$data['supplier'].'</td>
+						</tr>';
+				}
+			}
+			else 
+			{
+				echo '<tr><td colspan="5" align="center">ไม่พบข้อมูล</td></tr>';
+			}
+			?>
 		</tbody>
 	</table>
 	<div id="signature">

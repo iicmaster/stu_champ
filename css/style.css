@@ -9,7 +9,6 @@ body
 	background: #D7D7BD url(../images/img01.png) repeat;
 	text-align: justify;
 	line-height: 20px;
-	font-family: Tahoma, Arial, Helvetica, sans-serif;
 	font-size: 11px;
 	color: #4C4C4C;
 }
@@ -19,10 +18,9 @@ h1, h2, h3, h4, h5, h6, th, b, strong
 	color: #333;
 	
 	/* CSS3 */ 
-	
-	text-shadow: -1px 1px 2px rgba(0, 0, 0, 0.3);
-	-moz-text-shadow: -1px 1px 2px rgba(0, 0, 0, 0.3);
-	-webkit-text-shadow: -1px 1px 2px rgba(0, 0, 0, 0.3);
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+	-moz-text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+	-webkit-text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
 }
 
 hr { border-style: dashed; }
@@ -36,7 +34,6 @@ hr { border-style: dashed; }
 	padding: 2px;
 	
 	/* CSS3 */
-	
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -76,7 +73,6 @@ a.button:hover
 /*----------------------------------------------------------------------------------------------------*/
 /* Form */
 /*----------------------------------------------------------------------------------------------------*/
-
 
 form input[type=text], form input[type=password], form textarea { min-width: 290px; }
 

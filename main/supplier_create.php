@@ -31,6 +31,21 @@ if(isset($_POST['submit']))
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>เพิ่มผู้จัดจำหน่าย</title>
 <?php include("inc.css.php"); ?>
+<!-- jQuery -->
+<script type="text/javascript" src="../js/jquery-1.5.1.min.js"></script>
+<!-- jQuery - UI -->
+<script type="text/javascript" src="../js/jquery-ui-1.8.11.min.js"></script>
+<!-- jQuery - Form validate -->
+<link rel="stylesheet" type="text/css" href="../iic_tools/css/jquery.validate.css" />
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.min.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.additional-methods.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.messages_th.js"></script>
+<script type="text/javascript" src="../iic_tools/js/jquery.validate.config.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("form").validate();
+});
+</script>
 </head>
 <body>
 <div id="container">
@@ -39,18 +54,18 @@ if(isset($_POST['submit']))
 		<h1>เพิ่มผู้จัดจำหน่าย</h1>
 		<hr>
 		<form method="post" enctype="multipart/form-data">
-			<label for="name">ชื่อร้าน</label>
-			<input id="name" name="name" type="text" />
-			<label for="address">ที่อยู่</label>
-			<textarea name="address" rows="5" id="address"></textarea>
-			<label for="tel">โทรศัพท์</label>
-			<input id="tel" name="tel" type="text" />
+			<label for="name">ชื่อร้าน<i>*</i></label>
+			<input id="name" name="name" type="text" class="required" />
+			<label for="address">ที่อยู่<i>*</i></label>
+			<textarea name="address" rows="5" id="address" class="required"></textarea>
+			<label for="tel">โทรศัพท์<i>*</i></label>
+			<input id="tel" name="tel" type="text" class="required integer" maxlength="10" minlength="10" />
 			<label for="fax">แฟกซ์</label>
 			<input id="fax" name="fax" type="text" />
-			<label for="contact">ผู้ประสานงาน</label>
-			<input id="contact" name="contact" type="text" />
-			<label for="contact_tel">เบอร์โทรศัพท์ ผู้ประสานงาน</label>
-			<input id="contact_tel" name="contact_tel" type="text" />
+			<label for="contact">ผู้ประสานงาน<i>*</i></label>
+			<input id="contact" name="contact" type="text" class="required" />
+			<label for="contact_tel">เบอร์โทรศัพท์ ผู้ประสานงาน<i>*</i></label>
+			<input id="contact_tel" name="contact_tel" type="text" class="required integer" maxlength="10" minlength="10" />
 			<label>
 				<input id="submit" name="submit" type="submit" value="บันทึก" />
 			</label>

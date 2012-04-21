@@ -36,7 +36,6 @@ input[type=text], textarea
 		<label>รายการ</label>
 		<hr />
 		<table width="100%">
-		
 			<thead>
 				<tr>
 					<th scope="col" width="30">ลำดับ</th>
@@ -50,42 +49,39 @@ input[type=text], textarea
 			</thead>
 			<tbody>
 				<?php 
-					
-					$sql = 'SELECT	
-								material_order_item.quantity_order as quantity, 
-								material_order_item.quantity_receive as quantity_receive, 
-								material.name as material,
-								material.unit as unit, 
-								supplier.name as supplier
-									
-							FROM material_order_item 
-							
-							LEFT JOIN material
-							ON material_order_item.id_material = material.id
-							
-							LEFT JOIN supplier
-							ON material_order_item.id_supplier = supplier.id
-							
-							WHERE 
-								material_order_item.id_material_order = "'.$data['id'].'"';
-							
-					$query = mysql_query($sql) or die(mysql_error());
-					$loop = 1;
+				$sql = 'SELECT	
+							material.name as material,
+							material.unit as unit, 
+							supplier.name as supplier
+								
+						FROM material_order_item 
 						
-					while($data = mysql_fetch_array($query))
-					{
-						$quantity_receive = ($data['quantity_receive'] != '') ? add_comma($data['quantity_receive']) : '<span class="block center red">ยังไม่ได้ตรวจรับ</span>';
-						echo '<tr>
-								<td class="center">'.$loop++.'</td>
-								<td>'.$data['material'].'</td>
-								<td class="right">'.add_comma($data['quantity']).'</td>
-								<td>'.$data['unit'].'</td>
-								<td class="right">'.$quantity_receive.'</td>
-								<td>'.$data['unit'].'</td>
-								<td>'.$data['supplier'].'</td>
-							</tr>';
-					}
-					?>
+						LEFT JOIN material
+						ON material_order_item.id_material = material.id
+						
+						LEFT JOIN supplier
+						ON material_order_item.id_supplier = supplier.id
+						
+						WHERE 
+							material_order_item.id_material_order = "'.$data['id'].'"';
+						
+				$query = mysql_query($sql) or die(mysql_error());
+				$loop = 1;
+					
+				while($data = mysql_fetch_array($query))
+				{
+					$quantity_receive = ($data['quantity_receive'] != '') ? add_comma($data['quantity_receive']) : '<span class="block center red">ยังไม่ได้ตรวจรับ</span>';
+					echo '<tr>
+							<td class="center">'.$loop++.'</td>
+							<td>'.$data['material'].'</td>
+							<td class="right">'.add_comma($data['quantity']).'</td>
+							<td>'.$data['unit'].'</td>
+							<td class="right">'.$quantity_receive.'</td>
+							<td>'.$data['unit'].'</td>
+							<td>'.$data['supplier'].'</td>
+						</tr>';
+				}
+				?>
 			</tbody>
 		</table>
 		<hr style="margin-top:25px" />

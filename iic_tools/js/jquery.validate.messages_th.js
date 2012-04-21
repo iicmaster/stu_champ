@@ -22,5 +22,6 @@ jQuery.extend(jQuery.validator.messages, {
 	min: jQuery.validator.format("โปรดระบุค่ามากกว่าหรือเท่ากับ {0}"),
 	
 	// Additional methods
-	lettersonly: "โปรดระบุเฉพาะตัวอักษร"
+	lettersonly: "โปรดระบุเฉพาะตัวอักษร",
+	integer: "โปรดระบุเฉพาะตัวเลข"
 });

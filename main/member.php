@@ -52,7 +52,6 @@ $target = 'member.php?page=';
 					<option value="id">รหัส</option>
 					<option value="nickname">ชื่อเล่น</option>
 					<option value="name">ชื่อ-นามสกุล</option>
-					<option value="nickname">ชื่อเล่น</option>
 					<option value="tel">เบอร์โทรศัพท์</option>
 				</select>
 				<label for="keyword" class="inline">คำค้น: </label>
@@ -67,19 +66,18 @@ $target = 'member.php?page=';
 					<th width="30">รหัส</th>
 					<th class="nowarp">ชื่อเล่น</th>
 					<th>ชื่อ-นามสกุล</th>
-					<th class="nowarp">ชื่อเล่น</th>
 					<th>เบอร์โทรศัพท์</th>
 					<th width="80">การดำเนินการ</th>
 				</tr>
 			</thead>
 			<tbody>
 				<?php 
-				$sql		= 'SELECT * 
-							   FROM member 
-							   ORDER BY id DESC 
-							   LIMIT '.$limit_start.', '.$rows_per_page;
+				$sql = 'SELECT * 
+						FROM member 
+						ORDER BY id DESC 
+						LIMIT '.$limit_start.', '.$rows_per_page;
 							     
-				$query		= mysql_query($sql) or die(mysql_error()); 
+				$query = mysql_query($sql) or die(mysql_error()); 
 				$query_rows = mysql_num_rows($query);
 				
 				if($query_rows > 0)
@@ -90,7 +88,6 @@ $target = 'member.php?page=';
 									<td width="30" class="center">'.zero_fill(4, $data['id']).'</td>
 									<td>'.$data['nickname'].'</td>
 									<td>'.$data['name'].'</td>
-									<td>'.$data['nickname'].'</td>
 									<td>'.$data['tel'].'</td>
 									<td class="center nowarp">
 										<a class="button" href="member_read.php?id='.$data['id'].'">ดู</a>
