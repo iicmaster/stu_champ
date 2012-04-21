@@ -59,7 +59,7 @@ $(function() {
 	/* Form validation */
 	
 	$('form input:submit').click(function(){
-		if($("input:checked").length == 0)
+		if($("tbody input:checked").length == 0)
 		{
 			alert('กรุณาเลือกวิตถุดิบอย่างน้อย 1 ชนิด');
 			
