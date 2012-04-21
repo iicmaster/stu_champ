@@ -29,14 +29,17 @@ $(function(){
 <div id="container">
 	<?php include("inc.header.php"); ?>
 	<div id="content">
-		<h1>ผลิตสินค้า</h1>
+		<h1>คำนวนการผลิต</h1>
 		<hr />
 		<div id="product_stock">
+			<h3>จำนวนสินค้าที่ต้องผลิต</h3>
 			<table>
 				<tr>
 					<th scope="col">สินค้า</th>
 					<th scope="col">จำนวนคงเหลือ</th>
 					<th scope="col">จำนวนที่ควรผลิตเพิ่ม</th>
+					<th scope="col">ยอดการสั่งซื้อสินค้า</th>
+					<th scope="col">รวมสินค้าที่ต้องผลิตทั้งหมด</th>
 				</tr>
 				<?php 
 				$sql = 'SELECT * FROM product';
@@ -47,29 +50,31 @@ $(function(){
 								<td>'.$data['name'].'</td>
 								<td class="right">'.$data['total'].'</td>
 								<td class="right">'.($data['stock_max'] - $data['total']).'</td>
+								<td></td>
+								<td></td>
 							</tr>';	
 				}
 				?>
 			</table>
+		<h3>วัตถุดิบที่ต้องใช้</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>วัตถุดิบ</th>
+					<th>จำนวน</th>
+					<th>หน่วย</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
 		</div>
 		<form method="get" action="production_queue_add.php">
-			<label for="id_product">เลือกสินค้า <span class="normal">| <a href="product_create.php">เพิ่มสินค้า</a></span></label>
-			<select id="id_product" name="id_product">
-				<option value="NULL">-</option>
-				<?php 
-				$sql	= 'SELECT * FROM product';
-				$query	= mysql_query($sql) or die(mysql_error()); 
-				
-				while($data = mysql_fetch_array($query))
-				{
-					echo '<option value="'.$data['id'].'">'.$data['name'].'</option>';	
-				}
-				?>
-			</select>
-			<label for="quantity">จำนวนสินค้า</label>
-			<select id="quantity" name="quantity">
-				<option value="NULL">-</option>
-			</select>
 			<p class="center">
 				<input id="submit" name="submit" type="submit" value="จัดคิวทำงาน" />
 			</p>

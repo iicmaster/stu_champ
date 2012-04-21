@@ -85,6 +85,7 @@ $(function() {
 							while($data = mysql_fetch_array($query))
 							{
 								$date_update_transaction = (is_null($data['date_update_transaction'])) ? '-' : change_date_time_format($data['date_update_transaction']);
+								
 								echo '	<tr>
 											<td class="center">'.zero_fill(4, $data['id']).'</td>
 											<td>'.$data['name'].'</td>
