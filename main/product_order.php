@@ -50,7 +50,7 @@ $target = 'product_order.php?page=';
 					<tr>
 						<th width="30">รหัส</th>
 						<th width="80">วันที่ทำรายการ</th>
-						<th>คำอธิบาย</th>
+						<th>ผู้สั่ง</th>
 						<th width="80">สถานะ</th>
 						<th width="100">การดำเนินการ</th>
 					</tr>
@@ -62,7 +62,7 @@ $target = 'product_order.php?page=';
 							ORDER BY product_order.id DESC
 							LIMIT '.$limit_start.', '.$rows_per_page;  
 							
-					$query		= mysql_query($sql) or die(mysql_error());
+					$query = mysql_query($sql) or die(mysql_error());
 					$query_rows	= mysql_num_rows($query);
 					
 					if($query_rows > 0)
@@ -74,11 +74,11 @@ $target = 'product_order.php?page=';
 							echo '	<tr>
 										<td class="center">'.zero_fill(4, $data['id']).'</td>
 										<td class="center">'.change_date_format($data['date_create']).'</td>
-										<td>'.$data['description'].'</td>
+										<td>'.$data['orderer'].'</td>
 										<td class="center">'.$status.'</td>
 										<td class="center nowarp">
 											<a class="button" href="product_order_read.php?id='.$data['id'].'">ดู</a>
-											<a class="button" href="product_order_edit.php?id='.$data['id'].'">แก้ไข</a> 
+											<a class="button" href="product_order_confirm_receive.php?id='.$data['id'].'">ยืนยันการรับสินค้า</a> 
 											<a class="button" href="product_order_delete.php?id='.$data['id'].'">ยกเลิก</a>
 										</td>
 									</tr>';

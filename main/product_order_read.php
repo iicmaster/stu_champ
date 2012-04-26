@@ -1,6 +1,10 @@
 <?php 
 require("../include/session.php");
 require('../include/connect.php');
+
+$sql = 'SELECT * FROM product_order WHERE id = "'.$_GET['id'].'"';
+$query = mysql_query($sql) or die(mysql_error());
+$data = mysql_fetch_array($query);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -17,6 +21,7 @@ $(function(){
 <?php include("inc.css.php"); ?>
 <style type="text/css">
 input[type=text].right { min-width: 50px; }
+form hr { margin-top: 20px; }
 </style>
 </head>
 <body>
@@ -29,13 +34,13 @@ input[type=text].right { min-width: 50px; }
 		<div class="float_r">วันที่ <?php echo date('d / m / Y'); ?></div>
 		<form method="post" enctype="multipart/form-data">
 			<label for="orderer">ชื่อ</label>
-			<input id="orderer" name="orderer" type="text" />
+			<input id="orderer" name="orderer" type="text" value="<?php echo $data['orderer']; ?>" />
 			<label for="tel">โทรศัพท์</label>
-			<input id="tel" name="tel" type="text" />
+			<input id="tel" name="tel" type="text" value="<?php echo $data['tel']; ?>" />
 			<label for="date_receive">วันที่มารับสินค้า</label>
-			<input id="date_receive" name="date_receive" class="datepicker" type="text" />
+			<input id="date_receive" name="date_receive" class="datepicker" type="text" value="<?php echo $data['date_receive']; ?>" />
 			<label for="description">รายละเอียด</label>
-			<textarea name="description"></textarea>
+			<textarea name="description"><?php echo $data['description']; ?></textarea>
 			<hr />
 			<table>
 				<tr>
@@ -44,15 +49,23 @@ input[type=text].right { min-width: 50px; }
 					<th>จำนวน</th>
 				</tr>
 				<?php 
-				$sql = 'SELECT * FROM product';
-				$query = mysql_query($sql);
+				$sql = 'SELECT *
+						FROM product_order_item 
+				
+						LEFT JOIN product
+						ON product_order_item.id_product = product.id
+						
+						WHERE product_order_item.id_order = '.$_GET['id'];
+						
+				$query = mysql_query($sql) or die(mysql_error());
 				$loop = 1;
+				
 				while($data = mysql_fetch_assoc($query)): 
 				?>
 				<tr>
 					<td align="center"><?php echo $loop; ?></td>
 					<td><?php echo $data['name']; ?></td>
-					<td width="200"><input type="text" name="quantity[<?php echo $data['id']; ?>]" class="right" /> <?php echo $data['unit']; ?></td>
+					<td width="200"><input type="text" name="quantity[<?php echo $data['id']; ?>]" class="right" value="<?php echo $data['quantity'] ?>" readonly="readonly" /> <?php echo $data['unit']; ?></td>
 				</tr>
 				
 				<?php 
@@ -65,7 +78,7 @@ input[type=text].right { min-width: 50px; }
 			</p>
 		</form>
 		<hr style="margin-top:25px" />
-		<a href="supplier.php">กลับ</a>
+		<a href="product_order.php">กลับ</a>
 	</div>
 	<?php include("inc.footer.php"); ?>
 </div>

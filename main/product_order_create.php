@@ -6,10 +6,16 @@ if(isset($_POST['submit']))
 {	
 	$message = '';
 	
-	/* Start transaction */
-	mysql_query('BEGIN');
+	// --------------------------------------------------------------------------------
+	// Start transaction
+	// --------------------------------------------------------------------------------
 	
+	mysql_query('BEGIN');
+
+	// --------------------------------------------------------------------------------
 	// Insert order head
+	// --------------------------------------------------------------------------------
+	
 	$sql = 'INSERT INTO product_order
 			SET		
 				orderer			= "'.$_POST['orderer'].'",
@@ -20,13 +26,19 @@ if(isset($_POST['submit']))
 					
 	$query = mysql_query($sql) or die(mysql_error());
 	
+	// --------------------------------------------------------------------------------
 	// Get id
+	// --------------------------------------------------------------------------------
+	
 	$sql = 'SELECT MAX(id) as id FROM product_order';
 	$query = mysql_query($sql) or die(mysql_error());
 	$data = mysql_fetch_assoc($query);
 	$id_order = $data['id'];
 	
+	// --------------------------------------------------------------------------------
 	// Insert order item
+	// --------------------------------------------------------------------------------
+	
 	foreach($_POST['quantity'] as $key => $val)
 	{
 		if($val != '' && $val != 0)
@@ -37,31 +49,46 @@ if(isset($_POST['submit']))
 						id_product	= "'.$key.'",
 						quantity	= "'.$val.'"';
 						
-			if(mysql_query($sql))
-			{
-				$message .= '<li class="green">บันทึกข้อมูลเสร็จสมบูรณ์</li>';
-				
-				/* Commit transaction */
-				mysql_query('COMMIT');
-			}
-			else
+			if(! mysql_query($sql))
 			{
 				$message .= '<li class="red">เกิดข้อผิดพลาด: บันทึกข้อมูลรายการสินค้าล้มเหลว</li>';
 				$message .= '<li>'.mysql_error().'</li>';
 				
 				/* Rollback transaction */
 				mysql_query('ROLLBACK');
+				
+				// Report
+				$css = '../css/style.css';
+				$url_target = 'product_order.php';
+				$title = 'สถานะการทำงาน';
+				
+				require_once("../iic_tools/views/iic_report.php");
+				exit();
 			}
 		}
 	}
+				
+	// --------------------------------------------------------------------------------
+	// Commit transaction
+	// --------------------------------------------------------------------------------
+	
+	mysql_query('COMMIT');
 		
+	// --------------------------------------------------------------------------------
 	// Report
-	$css 		= '../css/style.css';
+	// --------------------------------------------------------------------------------
+	
+	$css = '../css/style.css';
 	$url_target = 'product_order.php';
-	$title		= 'สถานะการทำงาน';
+	$title = 'สถานะการทำงาน';
+	$message = '<li class="green">บันทึกข้อมูลเสร็จสมบูรณ์</li>';
 	
 	require_once("../iic_tools/views/iic_report.php");
 	exit();
+	
+	// --------------------------------------------------------------------------------
+	// End
+	// --------------------------------------------------------------------------------
 }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -124,7 +151,7 @@ form td i.error { margin: 0px; float: left;}
 				<tr>
 					<td align="center"><?php echo $loop; ?></td>
 					<td><?php echo $data['name']; ?> (สั่งขั้นต่ำ <?php echo $data['order_min']; ?> <?php echo $data['unit']; ?>)</td>
-					<td width="200"><span></span><input type="text" name="quantity[<?php echo $data['id']; ?>]" class="right"  value="0" /> <?php echo $data['unit']; ?></td>
+					<td width="200"><span></span><input type="text" name="quantity[<?php echo $data['id']; ?>]" class="right"  value="0" accept="0|<?php echo $data['order_min']; ?>" /> <?php echo $data['unit']; ?></td>
 				</tr>
 				<?php 
 				$loop++;
