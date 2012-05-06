@@ -135,6 +135,11 @@ $data	= mysql_fetch_array($query);
 <style type="text/css">
 #tabs-2 input[type=text] { min-width: 50px; margin: 3px 0px; }
 #tabs-2 label { margin: 0px; }
+#tabs-2 p.float_l, #tabs-2 a.float_r
+{
+    white-space: nowrap;
+    margin: 20px 0 15px 0;
+}
 </style>
 <!-- jQuery -->
 <script type="text/javascript" src="../js/jquery-1.5.1.min.js"></script>
@@ -171,7 +176,7 @@ $(function(){
 				</ul>
 				<div id="tabs-1">
 					<label for="name">ชื่อ <i>*</i></label>
-					<input id="name" name="name" type="text" value="<?php echo $data['name'] ?> class="required" />
+					<input id="name" name="name" type="text" value="<?php echo $data['name'] ?>" class="required" />
 					<label for="description">คำอธิบาย</label>
 					<textarea id="description" name="description"><?php echo $data['description'] ?></textarea>
 					<label for="unit">หน่วย <i>*</i></label>
@@ -204,7 +209,7 @@ $(function(){
 				</div>
 				<div id="tabs-2"> 
 					<a href="material_create.php" class="float_r">เพิ่มชนิดวัตถุดิบ</a>
-					<p>จำนวนวัตถุดิบที่ต้องใช้ในการผลิตสินค้า 1 หน่วย</p>
+					<p class="float_l">จำนวนวัตถุดิบที่ต้องใช้ในการผลิตสินค้า 1 หน่วย</p>
 					<hr />
 					<table>
 						<tr>
