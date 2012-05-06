@@ -18,9 +18,9 @@ h1, h2, h3, h4, h5, h6, th, b, strong
 	color: #333;
 	
 	/* CSS3 */ 
-	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
-	-moz-text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
-	-webkit-text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+	-moz-text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+	-webkit-text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
 hr { border-style: dashed; }
