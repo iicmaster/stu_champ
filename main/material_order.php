@@ -50,7 +50,6 @@ $target = 'material_order.php?page=';
 					<tr>
 						<th width="30">รหัส</th>
 						<th width="80">วันที่ทำรายการ</th>
-						<th>คำอธิบาย</th>
 						<th width="80">สถานะ</th>
 						<th width="100">การดำเนินการ</th>
 					</tr>
@@ -77,7 +76,6 @@ $target = 'material_order.php?page=';
 							echo '	<tr>
 										<td class="center">'.zero_fill(4, $data['id']).'</td>
 										<td class="center">'.change_date_format($data['date_create']).'</td>
-										<td>'.$data['description'].'</td>
 										<td class="center">'.$status.'</td>
 										<td class="center nowarp">
 											<a class="button" href="material_order_read.php?id='.$data['id'].'">ดู</a>
