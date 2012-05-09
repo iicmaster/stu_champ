@@ -29,9 +29,9 @@ if($query)
 {
 	$message = '<li class="green">ลบข้อมูลเสร็จสมบูรณ์</li>';
 }
-else if(mysql_errno() == 1415)
+else if(mysql_errno() == 1451)
 {
-	$message .= '<li class="red">ข้อสมาชิกคนนี้ยังถูกอ้างอิงใช้ในระบบอยู่ ไม่สามารถลบได้</li>';
+	$message .= '<li class="red">ข้อมูลสมาชิกคนนี้ยังถูกอ้างอิงใช้ในระบบอยู่ ไม่สามารถลบได้</li>';
 	$message .= '<li class="red">การสั่งลบถูกยกเลิก</li>';
 }
 
