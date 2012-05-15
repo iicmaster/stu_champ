@@ -6,9 +6,9 @@ require ('../include/connect.php');
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>ระบบจัดการผลิตและจำหน่ายสละลอยแก้ว</title>
+<title>คำนวนการผลิต - ระบบจัดการผลิตและจำหน่ายสละลอยแก้ว</title>
 <style type="text/css">
-#product_stock h3 { margin-bottom: 10px; }
+#product_stock h3 { margin-bottom: 10px; font-size: medium; }
 </style>
 <?php include ("inc.css.php") ?>
 <script type="text/javascript" src="../js/jquery-1.5.1.min.js"></script>
@@ -41,7 +41,7 @@ $(function()
                 <tbody>
     				<!-- @formatter:off -->
     				<?php 
-    				$total_manufactured = array();
+    				$total_produced = array();
                     
     				$sql = 'SELECT * FROM product';
     				$query = mysql_query($sql);
@@ -55,19 +55,26 @@ $(function()
                         
                         $order_qty = mysql_fetch_assoc($query_order);
                         $order_qty = ($order_qty['order_qty'] > 0) ? $order_qty['order_qty'] : 0;
-                        $total_manufactured[$data['id']] = ($data['stock_max'] - $data['total']) + $order_qty;
+                        $total_produced[$data['id']] = ($data['stock_max'] - $data['total']) + $order_qty;
     				?>
     				<tr>
     					<td><?php echo $data['name'] ?></td>
     					<td class="right"><?php echo $data['total'] ?></td>
     					<td class="right"><?php echo ($data['stock_max'] - $data['total']) ?></td>
                         <td class="right"><?php echo $order_qty ?></td>
-                        <td class="right"><?php echo add_comma($total_manufactured[$data['id']]) ?></td>
+                        <td class="right"><?php echo add_comma($total_produced[$data['id']]) ?></td>
     					<td><?php echo $data['unit'] ?></td>
     				</tr>
     				<?php endwhile ?>
     				<!--@formatter:on-->
 				</tbody>
+                <tfoot>
+                    <tr>
+                        <td class="center" colspan="4">รวมทั้งหมด</td>
+                        <td class="right"><?php echo add_comma(array_sum($total_produced)) ?></td>
+                        <td>หน่วย</td>
+                    </tr>
+                </tfoot>
 			</table>
 			<h3>วัตถุดิบที่ต้องใช้</h3>
 			<table>
@@ -116,7 +123,7 @@ $(function()
                             $result_pm = mysql_query($sql) or die(mysql_error);
                             $data = mysql_fetch_assoc($result_pm);
                             
-                            $required_qty += $total_manufactured[$product['id']] * $data['qty'];
+                            $required_qty += $total_produced[$product['id']] * $data['qty'];
                         }
                         
                         $buy_qty = $required_qty - $material['total'];
@@ -135,9 +142,12 @@ $(function()
 				</tbody>
 			</table>
 		</div>
-		<form method="get" action="production_queue_add.php">
+		<form method="post" action="production_queue_create.php">
 			<p class="center">
-				<input id="submit" name="submit" type="submit" value="จัดคิวทำงาน" />
+			    <?php foreach ($total_produced as $key => $value): ?>
+				<input type="hidden" name="total_manufactured[<?php echo $key ?>]" value="<?php echo $value ?>" />
+			    <?php endforeach ?>
+				<input type="submit" value="จัดคิวทำงาน" />
 			</p>
 		</form>
 	</div>

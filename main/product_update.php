@@ -258,9 +258,9 @@ $(function(){
 				</div>
 			</div>
 			<input name="id" type="hidden" value="<?php echo $_GET['id'] ?>" />
-			<label class="center">
+			<p class="center">
 				<input id="submit" name="submit" type="submit" value="บันทึก" />
-			</label>
+			</p>
 		</form>
 		<hr style="margin-top:25px" />
 		<a href="product.php">กลับ</a> </div>
