@@ -44,6 +44,7 @@ if(isset($_POST['submit']))
 				name 			= "'.$_POST['name'].'",
 				description		= "'.$_POST['description'].'",
 				unit			= "'.$_POST['unit'].'",
+				weight			= "'.$_POST['weight'].'",
 				image			= "'.$file_uri.'",
 				stock_max 		= "'.$_POST['stock_max'].'",
 				manufacture_min	= "'.$_POST['manufacture_min'].'",
@@ -146,6 +147,8 @@ $(function(){
 					<textarea id="description" name="description"></textarea>
 					<label for="unit">หน่วย <i>*</i></label>
 					<input id="unit" name="unit" type="text" class="required" />
+					<label for="weight">หน่วย (กรัม) <i>*</i></label>
+					<input id="weight" name="weight" type="text" class="required" />
 					<label for="stock_max">สต็อคสูงสุด <i>*</i></label>
 					<input id="stock_max" name="stock_max" type="text" class="required integer" />
 					<label for="manufacture_min">จำนวนขั้นต่ำในการผลิต <i>*</i></label>
