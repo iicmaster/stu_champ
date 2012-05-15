@@ -1,9 +1,9 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               5.5.16 - MySQL Community Server (GPL)
--- Server OS:                    Win32
--- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2012-04-21 20:06:30
+-- Server version:               5.1.57-community - MySQL Community Server (GPL)
+-- Server OS:                    Win64
+-- HeidiSQL version:             7.0.0.4140
+-- Date/time:                    2012-05-15 09:01:29
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -299,6 +299,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci,
+  `weight` int(10) NOT NULL,
   `unit` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `manufacture_min` int(10) unsigned NOT NULL,
@@ -318,10 +319,10 @@ CREATE TABLE IF NOT EXISTS `product` (
 -- Dumping data for table champ.product: ~3 rows (approximately)
 DELETE FROM `product`;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` (`id`, `name`, `description`, `unit`, `image`, `manufacture_min`, `manufacture_max`, `stock_max`, `labour_min`, `order_min`, `unit_per_labour`, `total`, `price_retail`, `price_wholesale`, `date_create`, `date_update`) VALUES
-	(1, 'สละลอยแก้ว ขนาดเล็ก', 'หวาน...กรอบ', 'ถ้วย', '', 1, 800, 400, 0, 400, 100, 0, 15, 12, '2012-04-14 02:37:56', '2012-04-14 02:37:56'),
-	(2, 'สละลอยแก้ว ขนาดกลาง', 'อร่อยมาก', 'ถ้วย', '', 1, 400, 200, 0, 200, 50, 0, 30, 25, '2012-04-14 02:38:30', '2012-04-14 02:38:30'),
-	(3, 'สละลอยแก้ว ขนาดใหญ่', 'ใหญ่จัง', 'ถ้วย', '', 1, 200, 100, 0, 100, 25, 0, 60, 50, '2012-04-14 02:39:01', '2012-04-14 02:48:39');
+INSERT INTO `product` (`id`, `name`, `description`, `weight`, `unit`, `image`, `manufacture_min`, `manufacture_max`, `stock_max`, `labour_min`, `order_min`, `unit_per_labour`, `total`, `price_retail`, `price_wholesale`, `date_create`, `date_update`) VALUES
+	(1, 'สละลอยแก้ว ขนาดเล็ก', 'หวาน...กรอบ', 150, 'ถ้วย', '', 1, 800, 400, 0, 100, 100, 0, 15, 12, '2012-05-15 08:51:49', '2012-05-15 08:51:49'),
+	(2, 'สละลอยแก้ว ขนาดกลาง', 'อร่อยมาก', 300, 'ถ้วย', '', 1, 400, 200, 0, 50, 50, 0, 30, 25, '2012-05-15 08:51:59', '2012-05-15 08:51:59'),
+	(3, 'สละลอยแก้ว ขนาดใหญ่', '', 350, 'ถ้วย', '', 1, 200, 100, 0, 25, 25, 0, 60, 50, '2012-05-15 08:52:11', '2012-05-15 08:52:11');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 
 
@@ -337,20 +338,22 @@ CREATE TABLE IF NOT EXISTS `product_material` (
   CONSTRAINT `FK_product_material_product` FOREIGN KEY (`id_product`) REFERENCES `product` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.product_material: ~10 rows (approximately)
+-- Dumping data for table champ.product_material: ~12 rows (approximately)
 DELETE FROM `product_material`;
 /*!40000 ALTER TABLE `product_material` DISABLE KEYS */;
 INSERT INTO `product_material` (`id_product`, `id_material`, `quantity`) VALUES
-	(1, 30, 0.90),
-	(1, 32, 1.00),
-	(1, 36, 1.00),
-	(2, 30, 0.25),
-	(2, 31, 0.05),
-	(2, 32, 1.25),
-	(2, 33, 1.00),
-	(3, 33, 1.00),
-	(3, 34, 2.00),
-	(3, 35, 3.00);
+	(1, 30, 0.25),
+	(1, 31, 0.03),
+	(1, 32, 0.60),
+	(1, 33, 1.00),
+	(2, 30, 0.50),
+	(2, 31, 0.06),
+	(2, 32, 1.20),
+	(2, 34, 1.00),
+	(3, 30, 1.00),
+	(3, 31, 0.12),
+	(3, 32, 1.80),
+	(3, 35, 1.00);
 /*!40000 ALTER TABLE `product_material` ENABLE KEYS */;
 
 
@@ -366,16 +369,13 @@ CREATE TABLE IF NOT EXISTS `product_order` (
   `date_create` date NOT NULL,
   `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.product_order: ~4 rows (approximately)
+-- Dumping data for table champ.product_order: ~1 rows (approximately)
 DELETE FROM `product_order`;
 /*!40000 ALTER TABLE `product_order` DISABLE KEYS */;
 INSERT INTO `product_order` (`id`, `orderer`, `tel`, `description`, `is_receive`, `date_receive`, `date_create`, `date_update`) VALUES
-	(1, 'ตรงกระแส', '089123456789', 'รายละเอียด', 0, '2012-03-15', '2012-03-04', '2012-03-04 17:41:41'),
-	(4, 'champ', '08401401916', '', 0, '2012-03-23', '2012-03-04', '2012-03-04 18:12:12'),
-	(5, 'ต๋อง', '0111111111', '', 0, '2012-04-26', '2012-04-17', '2012-04-17 02:43:47'),
-	(6, 'champ', '0840140191', '', 0, '2012-04-27', '2012-04-17', '2012-04-17 17:46:53');
+	(7, 'ตรงกระแส กระแสสั้น', '123456789', '', 0, '2012-05-16', '2012-05-09', '2012-05-09 15:28:16');
 /*!40000 ALTER TABLE `product_order` ENABLE KEYS */;
 
 
@@ -391,14 +391,13 @@ CREATE TABLE IF NOT EXISTS `product_order_item` (
   CONSTRAINT `FK_product_order_item_product_order` FOREIGN KEY (`id_order`) REFERENCES `product_order` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.product_order_item: ~4 rows (approximately)
+-- Dumping data for table champ.product_order_item: ~3 rows (approximately)
 DELETE FROM `product_order_item`;
 /*!40000 ALTER TABLE `product_order_item` DISABLE KEYS */;
 INSERT INTO `product_order_item` (`id_order`, `id_product`, `quantity`) VALUES
-	(4, 1, 23),
-	(4, 3, 12),
-	(5, 1, 400),
-	(6, 1, 400);
+	(7, 1, 200),
+	(7, 2, 100),
+	(7, 3, 50);
 /*!40000 ALTER TABLE `product_order_item` ENABLE KEYS */;
 
 
