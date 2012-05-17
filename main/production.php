@@ -41,7 +41,8 @@ $(function()
                 <tbody>
     				<!-- @formatter:off -->
     				<?php 
-    				$total_produced = array();
+    				$total_produced_qty = array();
+    				$total_produced_weight = array();
                     
     				$sql = 'SELECT * FROM product';
     				$query = mysql_query($sql);
@@ -55,14 +56,15 @@ $(function()
                         
                         $order_qty = mysql_fetch_assoc($query_order);
                         $order_qty = ($order_qty['order_qty'] > 0) ? $order_qty['order_qty'] : 0;
-                        $total_produced[$data['id']] = ($data['stock_max'] - $data['total']) + $order_qty;
+                        $total_produced_qty[$data['id']] = ($data['stock_max'] - $data['total']) + $order_qty;
+                        $total_produced_weight[$data['id']] = $total_produced_qty[$data['id']] * $data['weight'];
     				?>
     				<tr>
     					<td><?php echo $data['name'] ?></td>
     					<td class="right"><?php echo $data['total'] ?></td>
     					<td class="right"><?php echo ($data['stock_max'] - $data['total']) ?></td>
                         <td class="right"><?php echo $order_qty ?></td>
-                        <td class="right"><?php echo add_comma($total_produced[$data['id']]) ?></td>
+                        <td class="right"><?php echo add_comma($total_produced_qty[$data['id']]) ?></td>
     					<td><?php echo $data['unit'] ?></td>
     				</tr>
     				<?php endwhile ?>
@@ -71,7 +73,7 @@ $(function()
                 <tfoot>
                     <tr>
                         <td class="center" colspan="4">รวมทั้งหมด</td>
-                        <td class="right"><?php echo add_comma(array_sum($total_produced)) ?></td>
+                        <td class="right"><?php echo add_comma(array_sum($total_produced_qty)) ?></td>
                         <td>หน่วย</td>
                     </tr>
                 </tfoot>
@@ -123,7 +125,7 @@ $(function()
                             $result_pm = mysql_query($sql) or die(mysql_error);
                             $data = mysql_fetch_assoc($result_pm);
                             
-                            $required_qty += $total_produced[$product['id']] * $data['qty'];
+                            $required_qty += $total_produced_qty[$product['id']] * $data['qty'];
                         }
                         
                         $buy_qty = $required_qty - $material['total'];
@@ -144,8 +146,9 @@ $(function()
 		</div>
 		<form method="post" action="production_queue_create.php">
 			<p class="center">
-			    <?php foreach ($total_produced as $key => $value): ?>
-				<input type="hidden" name="total_manufactured[<?php echo $key ?>]" value="<?php echo $value ?>" />
+			    <?php foreach ($total_produced_qty as $key => $value): ?>
+				<input type="hidden" name="total_produced_qty[<?php echo $key ?>]" value="<?php echo $value ?>" />
+				<input type="hidden" name="total_produced_weight[<?php echo $key ?>]" value="<?php echo $total_produced_weight[$key] ?>" />
 			    <?php endforeach ?>
 				<input type="submit" value="จัดคิวทำงาน" />
 			</p>
