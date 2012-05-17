@@ -4,6 +4,9 @@ require ('../include/connect.php');
 
 //sprint_array($_POST);
 //exit();
+
+$total_worker = round(array_sum($_POST['total_produced_weight'])/15000);
+//echo $total_worker;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -61,7 +64,7 @@ $(function()
               } 
               
               // Create member list
-              $query = 'SELECT * FROM member';
+              $query = 'SELECT * FROM member LIMIT '.$total_worker;
               $result = mysql_query($query);
               
               $loop = 1;
