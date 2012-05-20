@@ -3,7 +3,7 @@
 -- Server version:               5.1.57-community - MySQL Community Server (GPL)
 -- Server OS:                    Win64
 -- HeidiSQL version:             7.0.0.4140
--- Date/time:                    2012-05-15 09:01:29
+-- Date/time:                    2012-05-21 06:02:39
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -272,11 +272,11 @@ CREATE TABLE IF NOT EXISTS `member` (
 DELETE FROM `member`;
 /*!40000 ALTER TABLE `member` DISABLE KEYS */;
 INSERT INTO `member` (`id`, `name`, `nickname`, `address`, `tel`, `image`, `date_create`, `date_update`) VALUES
-	(1, 'นายแชมป์', 'hhh', '268  ซอยดอนกุศล  ถนนเจริญกรุง 57  เขตสาทร กรุงเทพมหานคร 10120', '0-2211-3800', '', NULL, '2011-09-06 16:28:32'),
-	(3, 'นายดำรงค์  ปคุณวานิช', 'c', '166/3  หมู่ 7  ซอยมหามิตร  ถนนทหาร  ตำบลหมากแข้ง อำเภอเมือง อุดรธานี 41000', '0-4230-0031-2', '', NULL, '2011-09-06 16:35:38'),
-	(5, 'นายสมหวัง  จตุรงค์ล้ำเลิศ', 'f', '64/515 หมู่1  ซอยนครทอง  ถนนบางนา-ตราด  ตำบลราชาเทวะ อำเภอบางพลี สมุทรปราการ 10540', '0-9104-4170, 0-2316-2120', '', NULL, '2011-09-06 16:35:56'),
+	(1, 'นายแชมป์', '', '268  ซอยดอนกุศล  ถนนเจริญกรุง 57  เขตสาทร กรุงเทพมหานคร 10120', '022113800', '', NULL, '2012-05-20 14:08:27'),
+	(3, 'นายดำรงค์  ปคุณวานิช', '', '166/3  หมู่ 7  ซอยมหามิตร  ถนนทหาร  ตำบลหมากแข้ง อำเภอเมือง อุดรธานี 41000', '0423000312', '', NULL, '2012-05-20 14:08:15'),
+	(5, 'นายสมหวัง  จตุรงค์ล้ำเลิศ', '', '64/515 หมู่1  ซอยนครทอง  ถนนบางนา-ตราด  ตำบลราชาเทวะ อำเภอบางพลี สมุทรปราการ 10540', '091044170', '', NULL, '2012-05-20 14:08:01'),
 	(6, 'นางสุมาลี  ดลสุขวงศาวัฒน์', '', '605  หมู่10   ถนนนวมินทร์  แขวงคลองกุ่ม เขตบึงกุ่ม กรุงเทพมหานคร 10230', '0-1901-9465', NULL, NULL, '2011-04-16 19:20:24'),
-	(7, 'นายทรงพล  อาริยวัฒน์hh', '', '112/31  หมู่6  ซอยชินเขต1/5   ถนนงามวงศ์วาน  แขวงทุ่งสองห้อง   เขตหลักสี่ กรุงเทพมหานคร 10210', '0-2589-2269,0-1804-0561', '', NULL, '2011-09-06 16:24:56'),
+	(7, 'นายทรงพล  อาริยวัฒน์', '', '112/31  หมู่6  ซอยชินเขต1/5   ถนนงามวงศ์วาน  แขวงทุ่งสองห้อง   เขตหลักสี่ กรุงเทพมหานคร 10210', '025892269', '', NULL, '2012-05-20 14:07:45'),
 	(8, 'นางสาวอรมนัส  อยู่บุญสอ', '', '124/247  หมู่4  ซอยเรวดี 18  ถนนเรวดี  ตำบลตลาดขวัญ อำเภอเมือง นนทบุรี 11000', '0-2951-4593 กด 0', NULL, NULL, '2011-04-16 19:20:24'),
 	(9, 'นางสาวสมใจ  หาญเรืองเกียรติ', '', '        ', '-', NULL, NULL, '2011-04-16 19:20:24'),
 	(10, 'นายธันยกร  หลีสันติพงศ์', '', '385/462   เตาปูนแมนชั่น C  ถนนเตชะวณิช  แขวงบางซื่อ เขตบางซื่อ กรุงเทพมหานคร 10800', '0-1825-1432', NULL, NULL, '2011-04-16 19:20:24'),
@@ -324,6 +324,59 @@ INSERT INTO `product` (`id`, `name`, `description`, `weight`, `unit`, `image`, `
 	(2, 'สละลอยแก้ว ขนาดกลาง', 'อร่อยมาก', 300, 'ถ้วย', '', 1, 400, 200, 0, 50, 50, 0, 30, 25, '2012-05-15 08:51:59', '2012-05-15 08:51:59'),
 	(3, 'สละลอยแก้ว ขนาดใหญ่', '', 350, 'ถ้วย', '', 1, 200, 100, 0, 25, 25, 0, 60, 50, '2012-05-15 08:52:11', '2012-05-15 08:52:11');
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
+
+
+-- Dumping structure for table champ.production_log
+DROP TABLE IF EXISTS `production_log`;
+CREATE TABLE IF NOT EXISTS `production_log` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `description` text COLLATE utf8_unicode_ci,
+  `date_create` date NOT NULL,
+  `date_work` date NOT NULL,
+  `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Dumping data for table champ.production_log: ~0 rows (approximately)
+DELETE FROM `production_log`;
+/*!40000 ALTER TABLE `production_log` DISABLE KEYS */;
+/*!40000 ALTER TABLE `production_log` ENABLE KEYS */;
+
+
+-- Dumping structure for table champ.production_member
+DROP TABLE IF EXISTS `production_member`;
+CREATE TABLE IF NOT EXISTS `production_member` (
+  `id_log` int(10) unsigned NOT NULL,
+  `id_member` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id_log`,`id_member`),
+  KEY `FK_queue_member_member` (`id_member`),
+  CONSTRAINT `FK_queue_member_queue` FOREIGN KEY (`id_log`) REFERENCES `production_log` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_queue_member_order` FOREIGN KEY (`id_member`) REFERENCES `product_order` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Dumping data for table champ.production_member: ~0 rows (approximately)
+DELETE FROM `production_member`;
+/*!40000 ALTER TABLE `production_member` DISABLE KEYS */;
+/*!40000 ALTER TABLE `production_member` ENABLE KEYS */;
+
+
+-- Dumping structure for table champ.production_product
+DROP TABLE IF EXISTS `production_product`;
+CREATE TABLE IF NOT EXISTS `production_product` (
+  `id_log` int(10) unsigned NOT NULL,
+  `id_product` int(10) unsigned NOT NULL,
+  `type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '0 = สต็อกปกติ, 1 = สั่งผลิตจากลูกค้า',
+  `quantity` int(10) unsigned NOT NULL,
+  KEY `FK_production_product_production_log` (`id_log`),
+  KEY `FK_production_product_product` (`id_product`),
+  CONSTRAINT `FK_production_product_product` FOREIGN KEY (`id_product`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_production_product_production_log` FOREIGN KEY (`id_log`) REFERENCES `production_log` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Dumping data for table champ.production_product: ~0 rows (approximately)
+DELETE FROM `production_product`;
+/*!40000 ALTER TABLE `production_product` DISABLE KEYS */;
+/*!40000 ALTER TABLE `production_product` ENABLE KEYS */;
 
 
 -- Dumping structure for table champ.product_material
@@ -405,7 +458,9 @@ INSERT INTO `product_order_item` (`id_order`, `id_product`, `quantity`) VALUES
 DROP TABLE IF EXISTS `product_stock`;
 CREATE TABLE IF NOT EXISTS `product_stock` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id_production_log` int(10) unsigned NOT NULL DEFAULT '0',
   `id_product` int(10) unsigned NOT NULL,
+  `type` tinyint(1) unsigned DEFAULT '0' COMMENT '0 = สต็อกปกติ, 1 = สั่งผลิตจากลูกค้า',
   `description` text COLLATE utf8_unicode_ci NOT NULL,
   `total` int(10) unsigned NOT NULL,
   `date_create` datetime NOT NULL,
@@ -438,41 +493,6 @@ CREATE TABLE IF NOT EXISTS `product_transaction` (
 DELETE FROM `product_transaction`;
 /*!40000 ALTER TABLE `product_transaction` DISABLE KEYS */;
 /*!40000 ALTER TABLE `product_transaction` ENABLE KEYS */;
-
-
--- Dumping structure for table champ.queue
-DROP TABLE IF EXISTS `queue`;
-CREATE TABLE IF NOT EXISTS `queue` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `description` text COLLATE utf8_unicode_ci,
-  `total_member` int(10) unsigned NOT NULL,
-  `date_create` date NOT NULL,
-  `date_work` date NOT NULL,
-  `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- Dumping data for table champ.queue: ~0 rows (approximately)
-DELETE FROM `queue`;
-/*!40000 ALTER TABLE `queue` DISABLE KEYS */;
-/*!40000 ALTER TABLE `queue` ENABLE KEYS */;
-
-
--- Dumping structure for table champ.queue_member
-DROP TABLE IF EXISTS `queue_member`;
-CREATE TABLE IF NOT EXISTS `queue_member` (
-  `id_queue` int(10) unsigned NOT NULL,
-  `id_member` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id_queue`,`id_member`),
-  KEY `FK_queue_member_member` (`id_member`),
-  CONSTRAINT `FK_queue_member_order` FOREIGN KEY (`id_member`) REFERENCES `product_order` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `FK_queue_member_queue` FOREIGN KEY (`id_queue`) REFERENCES `queue` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- Dumping data for table champ.queue_member: ~0 rows (approximately)
-DELETE FROM `queue_member`;
-/*!40000 ALTER TABLE `queue_member` DISABLE KEYS */;
-/*!40000 ALTER TABLE `queue_member` ENABLE KEYS */;
 
 
 -- Dumping structure for table champ.supplier
