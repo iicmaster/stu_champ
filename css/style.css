@@ -55,6 +55,11 @@ hr { border-style: dashed; }
 	padding: 20px;
 }
 
+#content h1
+{
+	margin-top: 10px;
+}
+
 a.button
 {
 	border: 1px solid #CCC;
@@ -103,6 +108,7 @@ table th
 	border: 1px solid #999;
 	color: #FFF;
 	text-align: center;
+	letter-spacing: 0.5px;
 }
 
 /*----------------------------------------------------------------------------------------------------*/
