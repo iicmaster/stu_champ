@@ -204,14 +204,14 @@ $(function()
                 </tbody>
             </table>
             <h3>หมายเหตุ</h3>
-            <textarea name="description" style="width:760px"></textarea>
+            <textarea name="description" style="width:750px"></textarea>
 		</div>
 			<p class="center">
 			    <?php foreach ($product_ordered as $key => $value): ?>
                     <input type="hidden" name="product_ordered[<?php echo $key ?>]" value="<?php echo $value ?>" />
                     <input type="hidden" name="product_restock[<?php echo $key ?>]" value="<?php echo $product_restock[$key] ?>" />
                 <?php endforeach ?>
-				<input type="submit" value="บันทึกการผลิต" />
+				<input type="submit" name="submit" value="บันทึกการผลิต" />
 			</p>
 		</form>
 	</div>
