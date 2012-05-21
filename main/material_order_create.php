@@ -24,7 +24,7 @@ if(isset($_POST['submit']))
 				date_create	= "'.date('Y-m-d').'"';
 	
 	// RollBack transaction and show error message when query error						
-	if( ! $query = mysql_query($sql))
+	if(! $query = mysql_query($sql))
 	{
 		echo 'Create material_order';
 		echo '<hr />';
@@ -42,7 +42,7 @@ if(isset($_POST['submit']))
 	$sql	= 'SELECT MAX(id) AS id FROM material_order';
 	
 	// RollBack transaction and show error message when query error						
-	if( ! $query = mysql_query($sql))
+	if(! $query = mysql_query($sql))
 	{
 		echo 'Get last id';
 		echo '<hr />';
@@ -73,7 +73,7 @@ if(isset($_POST['submit']))
 						id_supplier			= "'.$_POST['id_supplier'][$loop].'"';
 						
 		// RollBack transaction and show error message when query error						
-		if( ! $query = mysql_query($sql))
+		if(! $query = mysql_query($sql))
 		{
 			echo 'Create material order item	';
 			echo '<hr />';
@@ -84,7 +84,7 @@ if(isset($_POST['submit']))
 			exit();
 		}
 	}
-		
+	
 	// --------------------------------------------------------------------------------
 	// Commit transaction
 	// --------------------------------------------------------------------------------
