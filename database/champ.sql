@@ -3,7 +3,7 @@
 -- Server version:               5.1.57-community - MySQL Community Server (GPL)
 -- Server OS:                    Win64
 -- HeidiSQL version:             7.0.0.4140
--- Date/time:                    2012-05-21 06:02:39
+-- Date/time:                    2012-05-21 12:21:03
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -332,14 +332,17 @@ CREATE TABLE IF NOT EXISTS `production_log` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `description` text COLLATE utf8_unicode_ci,
   `date_create` date NOT NULL,
+  `date_exp` date NOT NULL,
   `date_work` date NOT NULL,
   `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.production_log: ~0 rows (approximately)
+-- Dumping data for table champ.production_log: ~1 rows (approximately)
 DELETE FROM `production_log`;
 /*!40000 ALTER TABLE `production_log` DISABLE KEYS */;
+INSERT INTO `production_log` (`id`, `description`, `date_create`, `date_exp`, `date_work`, `date_update`) VALUES
+	(2, '', '2012-05-21', '0000-00-00', '2012-05-21', '2012-05-21 09:21:01');
 /*!40000 ALTER TABLE `production_log` ENABLE KEYS */;
 
 
@@ -350,13 +353,30 @@ CREATE TABLE IF NOT EXISTS `production_member` (
   `id_member` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id_log`,`id_member`),
   KEY `FK_queue_member_member` (`id_member`),
-  CONSTRAINT `FK_queue_member_queue` FOREIGN KEY (`id_log`) REFERENCES `production_log` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `FK_queue_member_order` FOREIGN KEY (`id_member`) REFERENCES `product_order` (`id`) ON UPDATE CASCADE
+  CONSTRAINT `FK_queue_member_order` FOREIGN KEY (`id_member`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_queue_member_queue` FOREIGN KEY (`id_log`) REFERENCES `production_log` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.production_member: ~0 rows (approximately)
+-- Dumping data for table champ.production_member: ~16 rows (approximately)
 DELETE FROM `production_member`;
 /*!40000 ALTER TABLE `production_member` DISABLE KEYS */;
+INSERT INTO `production_member` (`id_log`, `id_member`) VALUES
+	(2, 1),
+	(2, 3),
+	(2, 5),
+	(2, 6),
+	(2, 7),
+	(2, 8),
+	(2, 9),
+	(2, 10),
+	(2, 11),
+	(2, 12),
+	(2, 13),
+	(2, 14),
+	(2, 15),
+	(2, 16),
+	(2, 17),
+	(2, 18);
 /*!40000 ALTER TABLE `production_member` ENABLE KEYS */;
 
 
@@ -365,6 +385,7 @@ DROP TABLE IF EXISTS `production_product`;
 CREATE TABLE IF NOT EXISTS `production_product` (
   `id_log` int(10) unsigned NOT NULL,
   `id_product` int(10) unsigned NOT NULL,
+  `id_order` int(10) unsigned NOT NULL,
   `type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '0 = สต็อกปกติ, 1 = สั่งผลิตจากลูกค้า',
   `quantity` int(10) unsigned NOT NULL,
   KEY `FK_production_product_production_log` (`id_log`),
@@ -373,9 +394,16 @@ CREATE TABLE IF NOT EXISTS `production_product` (
   CONSTRAINT `FK_production_product_production_log` FOREIGN KEY (`id_log`) REFERENCES `production_log` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.production_product: ~0 rows (approximately)
+-- Dumping data for table champ.production_product: ~6 rows (approximately)
 DELETE FROM `production_product`;
 /*!40000 ALTER TABLE `production_product` DISABLE KEYS */;
+INSERT INTO `production_product` (`id_log`, `id_product`, `id_order`, `type`, `quantity`) VALUES
+	(2, 1, 0, 0, 400),
+	(2, 2, 0, 0, 200),
+	(2, 3, 0, 0, 100),
+	(2, 1, 0, 1, 200),
+	(2, 2, 0, 1, 100),
+	(2, 3, 0, 1, 50);
 /*!40000 ALTER TABLE `production_product` ENABLE KEYS */;
 
 
