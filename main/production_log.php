@@ -35,7 +35,7 @@ $target = 'product_order.php?page=';
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>บันทึกการผลิต</title>
+<title>บันทึกการผลิต - ระบบจัดการผลิตและจำหน่ายสละลอยแก้ว</title>
 <?php include("inc.css.php"); ?>
 </head>
 <body>
@@ -49,7 +49,10 @@ $target = 'product_order.php?page=';
 					<tr>
 						<th width="80">วันที่ผลิต</th>
 						<th>จำนวนผู้เข้าทำงาน</th>
-						<th>จำนวนสินค้า</th>
+						<th>จำนวนสินค้าที่ผลิต</th>
+						<th>จำนวนสินค้ารวม</th>
+						<th>ต้นทุนรวม</th>
+						<th width="80">วันหมดอายุ</th>
 						<th width="100">การดำเนินการ</th>
 					</tr>
 				</thead>
@@ -70,13 +73,12 @@ $target = 'product_order.php?page=';
 							$status = ($data['is_receive'] == 0) ? '<span class="red">ยังไม่ได้รับสินค้า</span>' : '<span class="green">รับสินค้าแล้ว</span>';
 							
 							echo '	<tr>
-										<td class="center">'.zero_fill(4, $data['id']).'</td>
+										<td class="center">'.change_date_format($data['date_create']).'</td>
 										<td class="center">'.change_date_format($data['date_create']).'</td>
 										<td>'.$data['orderer'].'</td>
 										<td class="center nowarp">
-											<a class="button" href="product_order_read.php?id='.$data['id'].'">ดู</a>
-											<a class="button" href="product_order_confirm_receive.php?id='.$data['id'].'">แก้ไข</a> 
-											<a class="button" href="product_order_delete.php?id='.$data['id'].'">ยกเลิก</a>
+											<a class="button" href="production_log_read.php?id='.$data['id'].'">ดู</a>
+											<a class="button" href="production_log_delete.php?id='.$data['id'].'">ลบ</a>
 										</td>
 									</tr>';
 						}
