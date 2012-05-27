@@ -1,6 +1,6 @@
 <?php
-require_once ("../include/session.php");
-require ('../include/connect.php');
+require_once("../include/session.php");
+require('../include/connect.php');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -74,6 +74,9 @@ $(function()
                         $restock_qty = $data['stock_max'] - $data['total'];
 						$total_restock += $restock_qty;
                         $product_restock_list[$data['id']] = $restock_qty;
+						
+						$total_produced_qty[$data['id']] = $restock_qty;
+						$total_produced_weight[$data['id']] = $restock_qty * $data['weight'];
     				?>
     				<tr>
     					<td><?php echo $data['name'] ?></td>
@@ -98,84 +101,114 @@ $(function()
     				<tr>
     					<th scope="col"></th>
     					<th scope="col">เลขที่ใบสั่งซื้อ</th>
+    					<th scope="col">วันที่นัดรับ</th>
     					<?php 
-    					$query = 'SELECT name FROM product';
-    					$result = mysql_query($query);
+    					$query = 'SELECT name, unit FROM product';
+    					$result = mysql_query($query) or die(mysql_error());
 						while($product = mysql_fetch_assoc($result)):
 						?>
-    					<th scope="col"><?php echo $product['name'] ?></th>
+    					<th scope="col"><?php echo $product['name'] ?> (<?php echo $product['unit'] ?>)</th>
     					<?php endwhile  ?>
-    					<th scope="col">รวมสินค้าที่ต้องผลิตทั้งหมด</th>
+    					<th scope="col">รวม</th>
                         <th scope="col">หน่วย</th>
     				</tr>
                 </thead>
                 <tbody>
-    				<!-- @formatter:off -->
-    				<?php 
-    				// --------------------------------------------------
-    				// Product order
-    				// --------------------------------------------------
-					
-                    $product_order = array();
-					$total_order = 0;
+				<!-- @formatter:off -->
+				<?php 
+				// --------------------------------------------------
+				// Product order
+				// --------------------------------------------------
+				
+                $product_order = array();
+				$total_ordered_product = 0;
+                
+				// Get product order
+				$sql = 'SELECT * FROM product_order ORDER BY id DESC';
+				$result_order = mysql_query($sql) or die(mysql_error());
+				
+				while($order = mysql_fetch_assoc($result_order)):
                     
-    				$sql = 'SELECT * FROM product';
-    				$query = mysql_query($sql);
-    				while($data = mysql_fetch_array($query)):
-                        
-                        $sql_order = 'SELECT SUM(quantity) AS order_qty 
-                                      FROM product_order_item 
-                                      WHERE id_product = '.$data['id'];
-                                      
-                        $query_order = mysql_query($sql_order);
-                        
-                        $order_qty = mysql_fetch_assoc($query_order);
-                        $order_qty = ($order_qty['order_qty'] > 0) ? $order_qty['order_qty'] : 0;
-                        $restock_qty = $data['stock_max'] - $data['total'];
-                        
-                        $product_restock_list[$data['id']] = $restock_qty;
-                        $product_order[$data['id']] = $order_qty;
-                        $total_produced_qty[$data['id']] = ($data['stock_max'] - $data['total']) + $order_qty;
-                        $total_produced_weight[$data['id']] = $total_produced_qty[$data['id']] * $data['weight'];
-    				?>
+					// Get product order item
+                    $sql_order_item = 'SELECT *
+                                  	   FROM product_order_item
+                                  	   WHERE id_order = '.$order['id'];
+                                  
+                    $query_order_item = mysql_query($sql_order_item) or die(mysql_error());
+					
+					// Gen order item array
+                    while($data_order_item = mysql_fetch_assoc($query_order_item))
+					{
+						$order_item[$data_order_item['id_product']] = $data_order_item['quantity'];
+					}
+					
+					$total_ordered_product += array_sum($order_item);
+                ?>
     				<tr>
-    					<td><input type="checkbox" name="id_order[]" value="" /><?php echo $data['name'] ?></td>
-    					<td><?php echo $data['name'] ?></td>
-    					<td class="right"><?php echo $data['total'] ?></td>
-    					<td class="right"><?php echo add_comma($restock_qty) ?></td>
-                        <td class="right"><?php echo add_comma($order_qty) ?></td>
-                        <td class="right"><?php echo add_comma($total_produced_qty[$data['id']]) ?></td>
-    					<td><?php echo $data['unit'] ?></td>
+    					<td align="center"><input type="checkbox" name="id_order[]" checked="checked" value="<?php echo $order['id'] ?>" /></td>
+    					<td align="center"><a target="_blank" href="product_order_read.php?id=<?php echo $order['id'] ?>"><?php echo zero_fill(10, $order['id']) ?></a></td>
+    					<td align="center" nowrap="nowrap"><?php echo change_date_format($order['date_receive']) ?></td>
+    					
+    					<?php 
+    					$query = 'SELECT id, name, weight FROM product';
+    					$result = mysql_query($query) or die(mysql_error());
+						?>
+    					<?php while($product = mysql_fetch_assoc($result)): ?>
+							<?php 
+							if(isset($order_item[$product['id']]))
+							{
+								$total_produced_weight[$data['id']] = $order_item[$product['id']] * $product['weight']; 
+								$total_produced_qty[$product['id']] += $order_item[$product['id']];
+							}
+							?>
+                        <td class="right">
+                        	<?php 
+                        	if(isset($order_item[$product['id']]))
+                        	{
+                        		echo add_comma($order_item[$product['id']]);
+							} 
+                        	else 
+                        	{
+                        		echo 0;
+                        	}
+                        	?>
+                        </td>
+                        <?php endwhile ?>
+                        
+                        <td class="right"><?php echo add_comma(array_sum($order_item)) ?></td>
+    					<td>หน่วย</td>
     				</tr>
-    				<?php endwhile ?>
-    				<!--@formatter:on-->
+				<?php endwhile ?>
+				<!--@formatter:on-->
 				</tbody>
                 <tfoot>
                     <tr>
-                        <td class="center" colspan="5">รวมทั้งหมด</td>
-                        <td class="right"><?php echo add_comma(array_sum($total_produced_qty)) ?></td>
+                        <td class="center" colspan="6">รวมทั้งหมด</td>
+                        <td class="right"><?php echo add_comma($total_ordered_product) ?></td>
                         <td>หน่วย</td>
                     </tr>
                 </tfoot>
 			</table>
+			<a href="material_stock.php" class="float_r">ออกใบสั่งซื้อวัตถุดิบ</a>
 			<h3>วัตถุดิบที่ต้องใช้</h3>
 			<table>
 				<thead>
 					<tr>
 						<th>วัตถุดิบ</th>
-						<th>จำนวนที่ต้องใช้</th>
                         <th>จำนวนคงเหลือ</th>
+						<th>จำนวนที่ต้องใช้</th>
                         <th>จำนวนที่ต้องซื้อเพื่ม</th>
 						<th>หน่วย</th>
 					</tr>
 				</thead>
 				<tbody>
 				    <!-- @formatter:off -->
-                    <?php
+                    <?php					
     				// --------------------------------------------------
     				// Required material
     				// --------------------------------------------------
-    				                    
+    				   
+    				// Get material                  
                     $sql = 'SELECT 
                                 id_material as id,
                                 name,
@@ -196,8 +229,9 @@ $(function()
                         $required_qty = 0;
                         $buy_qty = 0;
                         
+						// Get required material per product
                         $sql = 'SELECT id FROM product';
-                        $result = mysql_query($sql);
+                        $result = mysql_query($sql) or die(mysql_error());
                         
                         while($product = mysql_fetch_assoc($result))
                         {
@@ -215,12 +249,11 @@ $(function()
                         
                         $buy_qty = $required_qty - $material['total'];
                         $buy_qty = ($buy_qty > 0) ? $buy_qty : 0;
-                        
                     ?>
 					<tr>
 						<td><?php echo $material['name'] ?></td>
-						<td align="right"><?php echo add_comma($required_qty) ?></td>
                         <td align="right"><?php echo add_comma($material['total']) ?></td>
+						<td align="right"><?php echo add_comma($required_qty) ?></td>
                         <td align="right"><?php echo add_comma($buy_qty) ?></td>
 						<td><?php echo $material['unit'] ?></td>
 					</tr>
