@@ -76,6 +76,9 @@ $target = 'product_order.php?page=';
 										<td class="center">'.change_date_format($data['date_create']).'</td>
 										<td class="center">'.change_date_format($data['date_create']).'</td>
 										<td>'.$data['orderer'].'</td>
+										<td></td>
+										<td></td>
+										<td></td>
 										<td class="center nowarp">
 											<a class="button" href="production_log_read.php?id='.$data['id'].'">ดู</a>
 											<a class="button" href="production_log_delete.php?id='.$data['id'].'">ลบ</a>
