@@ -13,6 +13,7 @@
 		<li><a href="material.php">วัตถุดิบ</a>
 			<ul>
 				<li><a href="material_stock.php">วัตถุดิบที่แนะนำให้ซื้อเพิ่ม</a></li>
+				<li><a href="material_order_manual_create.php">สั่งซื้อวัตถุดิบ</a></li>
 				<li><a href="material_order.php">ใบสั่งซ์้อวัตถุดิบ</a></li>
 			</ul></li>
 		<li><a href="product.php">สินค้า</a>
