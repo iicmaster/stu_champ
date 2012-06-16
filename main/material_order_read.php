@@ -51,7 +51,7 @@ input[type=text], textarea
 				<?php 
 				$sql = 'SELECT	
 							material.name as material,
-							material_order_item.quantity_order as quantity, 
+							material_order_item.quantity_receive as quantity, 
 							material.unit as unit, 
 							supplier.name as supplier
 								
@@ -71,7 +71,7 @@ input[type=text], textarea
 					
 				while($data = mysql_fetch_array($query))
 				{
-					@$quantity_receive = ($data['quantity_receive'] != '') ? add_comma($data['quantity_receive']) : '<span class="block center red">ยังไม่ได้ตรวจรับ</span>';
+					$quantity_receive = ($data['quantity'] != '') ? add_comma($data['quantity']) : '<span class="block center red">ยังไม่ได้ตรวจรับ</span>';
 					echo '<tr>
 							<td class="center">'.$loop++.'</td>
 							<td>'.$data['material'].'</td>

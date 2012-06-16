@@ -74,6 +74,7 @@ if(isset($_POST['submit']))
 					 SET 	
 					 	id_material		= "'.$_POST['id_material'][$key].'",
 						id_supplier		= "'.$_POST['id_supplier'][$key].'",
+						stock_code		= CURDATE(),
 						amount			= "'.$_POST['total_price'][$key].'",
 						quantity		= "'.$value.'",
 						date_create		= "'.date('Y-m-d H:i:s').'"';

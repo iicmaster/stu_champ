@@ -14,8 +14,8 @@ require_once("../include/connect.php");
 $_GET['page'] = (isset($_GET['page'])) ? $_GET['page'] : 1;
 
 // Get total rows
-$sql		= 'SELECT * FROM product_order';
-$query		= mysql_query($sql) or die(mysql_error()); 
+$sql = 'SELECT * FROM product_order';
+$query = mysql_query($sql) or die(mysql_error()); 
 $total_rows = mysql_num_rows($query);
 
 // Set date to display per page
@@ -54,9 +54,7 @@ $target = 'product_order.php?page=';
 				</thead>
 				<tbody>
 					<?php 					
-					$sql = 'SELECT 
-								*
-								
+					$sql = 'SELECT *
 							FROM production_log
 							LIMIT '.$limit_start.', '.$rows_per_page;  
 							
@@ -73,6 +71,7 @@ $target = 'product_order.php?page=';
 										<td class="center">'.change_date_format($data['date_create']).'</td>
 										<td class="center">'.$status.'</td>
 										<td class="center nowarp">
+											<a class="button" href="production_log_read.php?id='.$data['id'].'" target="_blank">ดู</a>
 											<a class="button" href="production_log_print.php?id='.$data['id'].'" target="_blank">ดูใบผลิต</a>
 											<a class="button" href="production_log_approve.php?id='.$data['id'].'">ตรวจรับ</a>
 											<a class="button" href="production_log_delete.php?id='.$data['id'].'">ลบ</a>
