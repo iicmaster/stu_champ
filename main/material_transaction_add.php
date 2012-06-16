@@ -24,12 +24,14 @@ if(isset($_POST['submit']))
 
 	// Step 1 - Add transaction
 	$sql = 	'INSERT INTO material_transaction
-			 SET 	id_material		= "'.$_POST['id'].'",
-					id_supplier		= '.$_POST['id_supplier'].',
-					amount			= '.$amount.',
-					quantity		= "'.$quantity.'",
-					description		= "'.$_POST['description'].'",
-					date_create		= NOW()';
+			 SET 	
+			 	id_material		= "'.$_POST['id'].'",
+				id_supplier		= '.$_POST['id_supplier'].',
+				amount			= '.$amount.',
+				quantity		= "'.$quantity.'",
+				description		= "'.$_POST['description'].'",
+				date_create		= NOW()';
+					
 	$query = mysql_query($sql);
 	
 	if($query)
@@ -39,31 +41,33 @@ if(isset($_POST['submit']))
 		// Calculate average_cost_per_unit
 		$sql =	'SELECT SUM(amount)/SUM(quantity) as average_cost_per_unit
 				 FROM material_transaction
-				 WHERE	id_material = '.$_POST['id'].'
-				 		AND quantity > 0';
+				 WHERE	
+				 	id_material = '.$_POST['id'].'
+				 	AND quantity > 0';
+						
 		$query = mysql_query($sql);
 		$data  = mysql_fetch_array($query);
 	
 		// Step 2 - Update amount, average_cost_per_unit, date_last_update_transaction
 		$sql =	'UPDATE material
-				 SET	total							= total + '.$quantity.',
-				 		average_cost_per_unit			= '.$data['average_cost_per_unit'].',
-						date_last_update_transaction	= now()				 
-				 WHERE	id_material						= '.$_POST['id'];
+				 SET	
+				 	total							= total + '.$quantity.',
+				 	average_cost_per_unit			= '.$data['average_cost_per_unit'].',
+					date_last_update_transaction	= now()				 
+				 WHERE id_material = '.$_POST['id'];
+				 
 		$query = mysql_query($sql);
 		
 		if($query)
 		{
 			/* Commit transaction */
 			mysql_query('COMMIT');
-			
 			$message .= '<li class="green">ปรับปรุงยอดวัตถุดิบเสร็จสมบูรณ์</li>';
 		}
 		else
 		{
 			/* Rollback transaction */
 			mysql_query('ROLLBACK');
-			
 			$message .= '<li class="red">เกิดข้อผิดพลาด: เปรับปรุงยอดวัตถุดิบล้มเหลว</li>';
 		}
 	}

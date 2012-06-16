@@ -51,6 +51,7 @@ input[type=text], textarea
 				<?php 
 				$sql = 'SELECT	
 							material.name as material,
+							material_order_item.quantity_order as quantity, 
 							material.unit as unit, 
 							supplier.name as supplier
 								

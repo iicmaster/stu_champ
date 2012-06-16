@@ -14,8 +14,8 @@ require_once('../include/connect.php');
 $_GET['page'] = (isset($_GET['page'])) ? $_GET['page'] : 1;
 
 // Get total rows
-$sql		= 'SELECT * FROM member';
-$query		= mysql_query($sql); 
+$sql = 'SELECT * FROM member';
+$query = mysql_query($sql); 
 $total_rows = mysql_num_rows($query);
 
 // Set date to display per page
