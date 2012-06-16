@@ -73,7 +73,7 @@ $target = 'product_order.php?page=';
 										<td class="center">'.change_date_format($data['date_create']).'</td>
 										<td class="center">'.$status.'</td>
 										<td class="center nowarp">
-											<a class="button" href="production_log_read.php?id='.$data['id'].'">ดู</a>
+											<a class="button" href="production_log_print.php?id='.$data['id'].'" target="_blank">ดูใบผลิต</a>
 											<a class="button" href="production_log_approve.php?id='.$data['id'].'">ตรวจรับ</a>
 											<a class="button" href="production_log_delete.php?id='.$data['id'].'">ลบ</a>
 										</td>

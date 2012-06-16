@@ -276,7 +276,7 @@ include ("inc.css.php");
         <thead>
             <tr>
                 <th width="20">ลำดับ</th>
-                <th>ชื่อ</th>
+                <th>ชื่อ-นามสกุล</th>
                 <th>เบอร์โทรศัพท์</th>
             </tr>
         </thead>

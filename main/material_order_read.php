@@ -71,7 +71,7 @@ input[type=text], textarea
 					
 				while($data = mysql_fetch_array($query))
 				{
-					$quantity_receive = ($data['quantity_receive'] != '') ? add_comma($data['quantity_receive']) : '<span class="block center red">ยังไม่ได้ตรวจรับ</span>';
+					@$quantity_receive = ($data['quantity_receive'] != '') ? add_comma($data['quantity_receive']) : '<span class="block center red">ยังไม่ได้ตรวจรับ</span>';
 					echo '<tr>
 							<td class="center">'.$loop++.'</td>
 							<td>'.$data['material'].'</td>
