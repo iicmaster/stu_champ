@@ -4,9 +4,8 @@ require_once('../include/connect.php');
 $message = '';
 
 // Delete data
-
-$sql	= 'DELETE FROM material_order WHERE id = '.$_GET['id'];
-$query	= mysql_query($sql) or die(mysql_error());
+$sql = 'DELETE FROM material_order WHERE id = '.$_GET['id'];
+$query = mysql_query($sql) or die(mysql_error());
 
 $sql = 'DELETE FROM material_order WHERE id = '.$_GET['id'];
 $query = mysql_query($sql);

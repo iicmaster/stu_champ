@@ -117,10 +117,9 @@ table th
 
 #header
 {
-	width: 800px;
 	height: 150px;
 	margin: 0px auto;
-	background: #FFAC16 url(../images/img03.jpg) no-repeat left top;
+	background: #FFAC16 url(../images/img03.jpg) left top;
 }
 
 #header h1, #header h2
@@ -236,7 +235,6 @@ table th
 #footer
 {
 	clear: both;
-	width: 800px;
 	height: 38px;
 	margin: 0px auto;
 	padding-top: 18px;

@@ -18,9 +18,9 @@ else if(mysql_errno() == 1451)
 }
 
 // Report
-$css 		= '../css/style.css';
+$css = '../css/style.css';
 $url_target = 'material.php';
-$title		= 'สถานะการทำงาน';
+$title = 'สถานะการทำงาน';
 
 require_once("../iic_tools/views/iic_report.php");
 exit();
