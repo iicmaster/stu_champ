@@ -29,7 +29,7 @@ $(function()
 <div id="container">
 	<?php include ("inc.header.php") ?>
 	<div id="content">
-        <form method="post" action="production_log_create.php">
+        <form method="post" action="production2.php">
         <p class="float_r" style="margin-bottom: 0">ประจำวันที่ : <input type="text" id="production_date" name="production_date" value="<?php echo date('Y-m-d') ?>" size="8" class="center" style="max-width:195px;min-width: 195px;width:195px;" /></p>
 		<h1>คำนวนการผลิตสินค้า</h1>
 		<hr />
@@ -105,6 +105,7 @@ $(function()
     					<?php 
     					$query = 'SELECT name, unit FROM product';
     					$result = mysql_query($query) or die(mysql_error());
+						$total_product_type = mysql_num_rows($result);
 						while($product = mysql_fetch_assoc($result)):
 						?>
     					<th scope="col"><?php echo $product['name'] ?> (<?php echo $product['unit'] ?>)</th>
@@ -120,13 +121,18 @@ $(function()
 				// Product order
 				// --------------------------------------------------
 				
-                $product_order = array();
+				$product_ordered_list = array();
 				$total_ordered_product = 0;
                 
 				// Get product order
-				$sql = 'SELECT * FROM product_order ORDER BY id DESC';
+				$sql = 'SELECT * 
+						FROM product_order 
+						WHERE id NOT IN (SELECT id_order FROM production_product WHERE type = 1)
+						ORDER BY id DESC';
 				$result_order = mysql_query($sql) or die(mysql_error());
-				
+				$result_order_row = mysql_num_rows($result_order);
+				if($result_order_row > 0)
+				{
 				while($order = mysql_fetch_assoc($result_order)):
                     
 					// Get product order item
@@ -136,9 +142,10 @@ $(function()
                                   
                     $query_order_item = mysql_query($sql_order_item) or die(mysql_error());
 					
-					// Gen order item array
+					// Get order item array
                     while($data_order_item = mysql_fetch_assoc($query_order_item))
 					{
+						$product_ordered_list[$order['id']][$data_order_item['id_product']] = $data_order_item['quantity'];
 						$order_item[$data_order_item['id_product']] = $data_order_item['quantity'];
 					}
 					
@@ -178,7 +185,7 @@ $(function()
                         <td class="right"><?php echo add_comma(array_sum($order_item)) ?></td>
     					<td>หน่วย</td>
     				</tr>
-				<?php endwhile ?>
+				<?php endwhile; ?>
 				<!--@formatter:on-->
 				</tbody>
                 <tfoot>
@@ -188,137 +195,27 @@ $(function()
                         <td>หน่วย</td>
                     </tr>
                 </tfoot>
+				<?php
+				}
+				else
+				{
+					echo '<tr><td colspan="'.(5 + $total_product_type).'" align="center">ไม่พบข้อมูล</td></tr>';
+				}
+				?>
 			</table>
-			<a href="material_stock.php" class="float_r">ออกใบสั่งซื้อวัตถุดิบ</a>
-			<h3>วัตถุดิบที่ต้องใช้</h3>
-			<table>
-				<thead>
-					<tr>
-						<th>วัตถุดิบ</th>
-                        <th>จำนวนคงเหลือ</th>
-						<th>จำนวนที่ต้องใช้</th>
-                        <th>จำนวนที่ต้องซื้อเพื่ม</th>
-						<th>หน่วย</th>
-					</tr>
-				</thead>
-				<tbody>
-				    <!-- @formatter:off -->
-                    <?php					
-    				// --------------------------------------------------
-    				// Required material
-    				// --------------------------------------------------
-    				   
-    				// Get material                  
-                    $sql = 'SELECT 
-                                id_material as id,
-                                name,
-                                total,
-                                unit
-                            
-                            FROM product_material
-                            
-                            LEFT JOIN material
-                            ON product_material.id_material = material.id
-                            
-                            GROUP BY id_material';
-                            
-                    $query = mysql_query($sql);
-                    
-                    while($material = mysql_fetch_array($query)):
-                        
-                        $required_qty = 0;
-                        $buy_qty = 0;
-                        
-						// Get required material per product
-                        $sql = 'SELECT id FROM product';
-                        $result = mysql_query($sql) or die(mysql_error());
-                        
-                        while($product = mysql_fetch_assoc($result))
-                        {
-                            $sql = 'SELECT quantity as qty 
-                                    FROM product_material
-                                    WHERE
-                                        id_product = '.$product['id'].'
-                                        AND id_material = '.$material['id'];
-										
-                            $result_pm = mysql_query($sql) or die(mysql_error);
-                            $data = mysql_fetch_assoc($result_pm);
-                            
-                            $required_qty += $total_produced_qty[$product['id']] * $data['qty'];
-                        }
-                        
-                        $buy_qty = $required_qty - $material['total'];
-                        $buy_qty = ($buy_qty > 0) ? $buy_qty : 0;
-                    ?>
-					<tr>
-						<td><?php echo $material['name'] ?></td>
-                        <td align="right"><?php echo add_comma($material['total']) ?></td>
-						<td align="right"><?php echo add_comma($required_qty) ?></td>
-                        <td align="right"><?php echo add_comma($buy_qty) ?></td>
-						<td><?php echo $material['unit'] ?></td>
-					</tr>
-    				<?php endwhile ?>
-                    <!--@formatter:on-->
-				</tbody>
-			</table>
-            <h3>รายชื่อผู้ทำการผลิต</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th width="20">ลำดับ</th>
-                        <th>ชื่อ</th>
-                        <th>เบอร์โทรศัพท์</th>
-                    </tr>
-                </thead>
-                <tbody>
-                	<?php
-    				// --------------------------------------------------
-    				// Worker
-    				// --------------------------------------------------
-	                $total_worker = round(array_sum($total_produced_weight) / 15000);
-	                
-	                $query = 'SELECT * FROM member';
-	                $result_member = mysql_query($query);
-	                
-	                // Create member list
-	                $query = 'SELECT * FROM member LIMIT '.$total_worker;
-	                $result = mysql_query($query);
-	                
-	                $loop = 1;
-	                while($member = mysql_fetch_assoc($result)):
-	                ?>
-	                    <tr>
-	                        <td class="right"><?php echo $loop ?></td>
-	                        <td>
-	                            <select id="id_member_<?php echo $member['id'] ?>" name="id_member[]">
-	                            <?php 
-	                            $selected = '';
-	                            while($option = mysql_fetch_assoc($result_member))
-	                            {
-	                                $selected = ($option['id'] == $member['id']) ? 'selected="selected"' : '';
-	                                echo '<option value="'.$option['id'].'" '.$selected.'>'.$option['name'].'</option>';
-	                            }
-	                            ?>
-	                            </select>
-	                        </td>
-	                        <td><?php echo $member['tel'] ?></td>
-	                    </tr>
-	                <?php 
-	                mysql_data_seek($result_member, 0);
-	                $loop++;
-	                endwhile 
-	                ?>
-                </tbody>
-            </table>
-            <h3>หมายเหตุ</h3>
-            <textarea name="description" style="width:750px"></textarea>
 		</div>
 			<p class="center">
-			    <?php foreach ($product_order as $key => $value): ?>
-                    <input type="hidden" name="product_ordered[<?php echo $key ?>]" value="<?php echo $value ?>" />
-                    <input type="hidden" name="product_restock[<?php echo $key ?>]" value="<?php echo $product_restock_list[$key] ?>" />
+			    <?php foreach($total_produced_qty as $key => $value): ?>
+					<input type="hidden" name="total_produced_weight[<?php echo $key ?>]" value="<?php echo $total_produced_weight[$key] ?>" />
+                    <input type="hidden" name="product_restock_list[<?php echo $key ?>]" value="<?php echo $product_restock_list[$key] ?>" />
                 <?php endforeach ?>
-				<input type="submit" name="submit" value="บันทึกการผลิต" />
+                
+			    <?php foreach($product_ordered_list as $id_order => $order): ?>
+			    	<?php foreach($order as $id_product => $product): ?>
+                    <input type="hidden" name="product_ordered_list[<?php echo $id_order ?>][<?php echo $id_product ?>]" value="<?php echo $product ?>" />
+                	<?php endforeach ?>
+                <?php endforeach ?>
+				<input type="submit" name="submit" value="คำนวณการผลิต" />
 			</p>
 		</form>
 	</div>

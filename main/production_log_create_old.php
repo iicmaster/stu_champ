@@ -22,7 +22,6 @@ if(isset($_POST['submit']))
     $sql = 'INSERT INTO production_log
             SET     
                 date_work	= "'.$_POST['production_date'].'",
-                date_exp	= DATE_ADD(NOW(), INTERVAL 30 DAY),
                 description	= "'.$_POST['description'].'",
                 date_create	= NOW()';
 	
@@ -69,8 +68,8 @@ if(isset($_POST['submit']))
         {
             $sql = 'INSERT INTO production_member
                     SET
-                        id_log				= "'.$id_log.'",
-                        id_assigned_member	= "'.$val.'"';
+                        id_log		= "'.$id_log.'",
+                        id_member	= "'.$val.'"';
                         
 			// RollBack transaction and show error message when query error						
 			if(! $query = mysql_query($sql))
@@ -96,10 +95,10 @@ if(isset($_POST['submit']))
         {
             $sql = 'INSERT INTO production_product
                     SET
-                        id_log			= "'.$id_log.'",
-                        type			= 0,
-                        id_product		= "'.$key.'",
-                        quantity_order	= "'.$val.'"';
+                        id_log		= "'.$id_log.'",
+                        type		= 0,
+                        id_product  = "'.$key.'",
+                        quantity    = "'.$val.'"';
                         
 			// RollBack transaction and show error message when query error						
 			if(! $query = mysql_query($sql))
@@ -119,31 +118,91 @@ if(isset($_POST['submit']))
     // Insert production product (ordered)
     // --------------------------------------------------------------------------------
     
-    foreach($_POST['product_ordered'] as $id_order => $order)
+    foreach($_POST['product_ordered'] as $key => $val)
     {
-    	foreach($order as $id_product => $qty)
-		{
-	        if($qty != '' && $qty != 0)
-	        {
-	            $sql = 'INSERT INTO production_product
-	                    SET
-	                        id_log			= "'.$id_log.'",
-	                        type			= 1,
-	                        id_order	  	= "'.$id_order.'",
-	                        id_product  	= "'.$id_product.'",
-	                        quantity_order	= "'.$qty.'"';
-	                        
-				// RollBack transaction and show error message when query error						
-				if(! $query = mysql_query($sql))
-				{
-					echo 'Insert production product (ordered)';
-					echo '<hr />';
-					echo mysql_error();
-					echo '<hr />';
-					echo $sql;
-					mysql_query("ROLLBACK");
-					exit();
-				}
+        if($val != '' && $val != 0)
+        {
+            $sql = 'INSERT INTO production_product
+                    SET
+                        id_log		= "'.$id_log.'",
+                        type		= 1,
+                        id_product  = "'.$key.'",
+                        quantity    = "'.$val.'"';
+                        
+			// RollBack transaction and show error message when query error						
+			if(! $query = mysql_query($sql))
+			{
+				echo 'Insert production product (ordered)';
+				echo '<hr />';
+				echo mysql_error();
+				echo '<hr />';
+				echo $sql;
+				mysql_query("ROLLBACK");
+				exit();
+			}
+        }
+    }
+	
+	// --------------------------------------------------------------------------------
+	// Update material
+	// --------------------------------------------------------------------------------
+	
+	# Create material transaction
+	# ---------------------------
+	
+    foreach($_POST['product_ordered'] as $key => $val)
+    {
+        if($val != '' && $val != 0 && FALSE)
+        {
+			$sql = 	'INSERT INTO material_transaction
+					 SET 	
+					 	id_material		= "'.$_POST['id'].'",
+						id_supplier		= '.$_POST['id_supplier'].',
+						amount			= '.$amount.',
+						quantity		= "'.$quantity.'",
+						description		= "'.$_POST['description'].'",
+						date_create		= NOW()';
+		
+			// RollBack transaction and show error message when query error						
+			if(! $query = mysql_query($sql))
+			{
+				echo 'Insert production product (ordered)';
+				echo '<hr />';
+				echo mysql_error();
+				echo '<hr />';
+				echo $sql;
+				mysql_query("ROLLBACK");
+				exit();
+			}
+        }
+    }
+	
+	// --------------------------------------------------------------------------------
+	// Update stock
+	// --------------------------------------------------------------------------------
+	
+	foreach($_POST['product_restock'] as $key => $val)
+    {
+        if($val != '' && $val != 0)
+        {
+            $sql = 'INSERT INTO product_stock
+                    SET
+                        id_production_log	= "'.$id_log.'",
+                        id_product  		= "'.$key.'",
+                        type				= 0,
+                        total	    		= "'.$val.'",
+                		date_create			= NOW()';
+                        
+			// RollBack transaction and show error message when query error						
+			if(! $query = mysql_query($sql))
+			{
+				echo 'Insert product_stock';
+				echo '<hr />';
+				echo mysql_error();
+				echo '<hr />';
+				echo $sql;
+				mysql_query("ROLLBACK");
+				exit();
 			}
         }
     }

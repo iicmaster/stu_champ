@@ -48,19 +48,16 @@ $target = 'product_order.php?page=';
 				<thead>
 					<tr>
 						<th width="80">วันที่ผลิต</th>
-						<th>จำนวนผู้เข้าทำงาน</th>
-						<th>จำนวนสินค้าที่ผลิต</th>
-						<th>จำนวนสินค้ารวม</th>
-						<th>ต้นทุนรวม</th>
-						<th width="80">วันหมดอายุ</th>
+						<th>สถานะการตรวจรับ</th>
 						<th width="100">การดำเนินการ</th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php 					
-					$sql = 'SELECT *
-							FROM product_order 
-							ORDER BY product_order.id DESC
+					$sql = 'SELECT 
+								*
+								
+							FROM production_log
 							LIMIT '.$limit_start.', '.$rows_per_page;  
 							
 					$query = mysql_query($sql) or die(mysql_error());
@@ -70,17 +67,14 @@ $target = 'product_order.php?page=';
 					{
 						while($data = mysql_fetch_array($query))
 						{
-							$status = ($data['is_receive'] == 0) ? '<span class="red">ยังไม่ได้รับสินค้า</span>' : '<span class="green">รับสินค้าแล้ว</span>';
+							$status = ($data['is_approved'] == 0) ? '<span class="red">ยังไม่ได้ตรวจรับ</span>' : '<span class="green">ตรวจรับแล้ว</span>';
 							
 							echo '	<tr>
 										<td class="center">'.change_date_format($data['date_create']).'</td>
-										<td class="center">'.change_date_format($data['date_create']).'</td>
-										<td>'.$data['orderer'].'</td>
-										<td></td>
-										<td></td>
-										<td></td>
+										<td class="center">'.$status.'</td>
 										<td class="center nowarp">
 											<a class="button" href="production_log_read.php?id='.$data['id'].'">ดู</a>
+											<a class="button" href="production_log_approve.php?id='.$data['id'].'">ตรวจรับ</a>
 											<a class="button" href="production_log_delete.php?id='.$data['id'].'">ลบ</a>
 										</td>
 									</tr>';
