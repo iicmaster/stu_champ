@@ -2,9 +2,35 @@
 require("../include/session.php");
 require('../include/connect.php');
 
-$sql	= 'SELECT * FROM material WHERE id = '.$_GET['id'];
-$query	= mysql_query($sql) or die(mysql_error());
-$data	= mysql_fetch_array($query);
+$sql = 'SELECT * FROM material WHERE id = '.$_GET['id'];
+$query = mysql_query($sql) or die(mysql_error());
+$data = mysql_fetch_array($query);
+
+$total_stock_remain = 0;
+$total_stock_value = 0;
+
+$sql = 'SELECT
+			stock_code,
+			SUM(quantity) AS "material_remain",
+			ROUND(SUM(amount) / (SELECT SUM(quantity) 
+									FROM material_transaction 
+									WHERE 
+										quantity > 0 
+										AND stock_code = t1.stock_code
+								), 2) AS "average_price_per_unit"			
+		FROM material_transaction AS t1
+		WHERE id_material = '.$_GET['id'].'
+		GROUP BY stock_code';
+		
+$query = mysql_query($sql) or die(mysql_error());
+
+while($data_cost = mysql_fetch_array($query))
+{
+	$total_stock_remain += $data_cost['material_remain'];
+	$total_stock_value += $data_cost['material_remain'] * $data_cost['average_price_per_unit'];
+}
+
+$average_cost_per_unit = round($total_stock_value/$total_stock_remain, 2);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -43,7 +69,7 @@ $data	= mysql_fetch_array($query);
 			</tr>
 			<tr>
 				<th>ราคาเฉลี่ยต่อหน่วย</th>
-				<td><?php echo add_comma($data['average_cost_per_unit']) ?> บาท/<?php echo $data['unit'] ?></td>
+				<td><?php echo add_comma($average_cost_per_unit) ?> บาท/<?php echo $data['unit'] ?></td>
 			</tr>
 		</table>
 		<a href="material_transaction_view.php?id=<?php echo $_GET['id'] ?>" class="float_r">ดูทั้งหมด</a>
@@ -52,6 +78,7 @@ $data	= mysql_fetch_array($query);
 		<table width="100%">
 			<tr>
 				<th rowspan="2" width="100">วันที่-เวลา</th>
+				<th rowspan="2" width="80">รหัสสต็อค</th>
 				<th rowspan="2" width="150">ผู้จัดจำหน่าย</th>
 				<th rowspan="2">คำอธิบาย</th>
 				<th rowspan="2" width="50">ราคาซื้อ</th>
@@ -65,6 +92,7 @@ $data	= mysql_fetch_array($query);
 			<?php 
 			$sql = 'SELECT 
 						material_transaction.date_create, 
+						material_transaction.stock_code,
 						name, 
 						description, 
 						amount, 
@@ -111,6 +139,7 @@ $data	= mysql_fetch_array($query);
 					
 					echo '<tr>
 							  <td class="center nowarp">'.change_date_time_format($data['date_create']).'</td>
+							  <td class="center nowarp">'.$data['stock_code'].'</td>
 							  <td>'.$data['name'].'</td>
 							  <td>'.$data['description'].'</td>
 							  <td class="right">'.$data['amount'].'</td>
@@ -122,7 +151,7 @@ $data	= mysql_fetch_array($query);
 			}
 			else
 			{
-				echo '<tr><td colspan="4" class="center">ไม่มีข้อมูล</td></tr>';
+				echo '<tr><td colspan="7" class="center">ไม่มีข้อมูล</td></tr>';
 			}
 			?>
 		</table>
