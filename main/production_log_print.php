@@ -75,7 +75,7 @@ include ("inc.css.php");
 <body>
 <div id="paper">
 	<h1 class="center">ใบการผลิต</h1>
-	<p class="float_r">วันที่: <?php echo change_date_format($production['date_create']) ?></p>
+	<p class="float_r">วันที่: <?php echo change_date_format($production['date_work']) ?></p>
 	<p id="address"> 
 		กลุ่มแม่บ้านบางกะจะ
 		<br />
@@ -155,32 +155,37 @@ include ("inc.css.php");
 		?>
 		<?php while($order = mysql_fetch_array($result_order)): ?>
 			<tr>
-				<td class="center"><?php echo zero_fill($order['id'], 10) ?></td>
+				<td class="center"><?php echo zero_fill(10, $order['id']) ?></td>
 				<td class="center"><?php echo change_date_format($order['date_receive']) ?></td>
 				
 				<?php
-				$sql = 'SELECT	
-							production_product.*,
-							product.name AS name,
-							product.unit AS unit,
-							product.weight AS weight
-								
-						FROM production_product 
-						
-						LEFT JOIN product
-						ON production_product.id_product = product.id
-						
-						WHERE 
-							production_product.type = 0
-							AND id_log = '.$_GET['id'];
-
-				$result = mysql_query($sql) or die(mysql_error());
-				$result_row = mysql_num_rows($result);
+				$query = 'SELECT id, name, unit FROM product';
+				$result = mysql_query($query) or die(mysql_error());
 				?>
 				
-				<?php while($product = mysql_fetch_assoc($result)): ?>
+				<?php while($data = mysql_fetch_assoc($result)): ?>
 					
 					<?php
+					$sql = 'SELECT	
+								production_product.*,
+								product.name AS name,
+								product.unit AS unit,
+								product.weight AS weight
+									
+							FROM product 
+							
+							LEFT JOIN production_product
+							ON product.id = production_product.id_product
+							
+							WHERE 
+								production_product.type = 1
+								AND id_product = '.$data['id'].'
+								AND id_order = '.$order['id'].'
+								AND id_log = '.$_GET['id'];
+	
+					$result_product = mysql_query($sql) or die(mysql_error());
+					$product = mysql_fetch_assoc($result_product);
+					
 					$ordered_list[$order['id']][$product['id_product']] = $product['quantity_order'];
 					@$total_ordered[$product['id_product']] += $product['quantity_order'];
 					@$total_produced[$product['id_product']] += $product['quantity_order'];
@@ -282,7 +287,10 @@ include ("inc.css.php");
                     FROM production_member
                     
                     LEFT JOIN member
-                    ON production_member.id_assigned_member = member.id';
+                    ON production_member.id_assigned_member = member.id
+                    
+                    WHERE 
+                    	id_log = '.$_GET['id'];
 					
             $result = mysql_query($sql) or die(mysql_error());
             $loop = 1;

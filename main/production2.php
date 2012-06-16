@@ -6,6 +6,7 @@ require('../include/connect.php');
 //exit();
 
 $total_ordered = array();
+$product_ordered = array();
 
 if(isset($_POST['id_order']))
 {
@@ -59,11 +60,11 @@ $(function()
 	<?php include ("inc.header.php") ?>
 	<div id="content">
         <form method="post" action="production_log_create.php">
-        <p class="float_r" style="margin-bottom: 0">ประจำวันที่ : <input type="text" id="production_date" name="production_date" value="<?php echo date('Y-m-d') ?>" size="8" class="center" style="max-width:195px;min-width: 195px;width:195px;" /></p>
+        <p class="float_r" style="margin-bottom: 0">ประจำวันที่ : <input type="text" id="production_date" name="production_date" value="<?php echo $_POST['production_date'] ?>" size="8" class="center" style="max-width:195px;min-width: 195px;width:195px;" /></p>
 		<h1>คำนวนการผลิตสินค้า</h1>
 		<hr />
 		<div id="product_stock">
-			<a href="material_stock.php" class="float_r">ออกใบสั่งซื้อวัตถุดิบ</a>
+			<a href="material_order_manual_create.php" class="float_r">ออกใบสั่งซื้อวัตถุดิบ</a>
 			<h3>วัตถุดิบที่ต้องใช้</h3>
 			<table>
 				<thead>
@@ -195,7 +196,7 @@ $(function()
                 <?php endforeach ?>
                 
                 
-			    <?php foreach ($_POST['product_restock_list'] as $key => $value): ?>
+			    <?php foreach($_POST['product_restock_list'] as $key => $value): ?>
                     <input type="hidden" name="product_restock[<?php echo $key ?>]" value="<?php echo $value ?>" />
                 <?php endforeach ?>
 				<input type="submit" name="submit" value="บันทึกการผลิต" />
