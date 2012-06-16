@@ -1,9 +1,9 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               5.5.16 - MySQL Community Server (GPL)
--- Server OS:                    Win32
+-- Server version:               5.1.57-community - MySQL Community Server (GPL)
+-- Server OS:                    Win64
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2012-05-28 04:29:35
+-- Date/time:                    2012-06-17 01:45:25
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -330,21 +330,20 @@ INSERT INTO `product` (`id`, `name`, `description`, `weight`, `unit`, `image`, `
 DROP TABLE IF EXISTS `production_log`;
 CREATE TABLE IF NOT EXISTS `production_log` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `is_approved` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `description` text COLLATE utf8_unicode_ci,
   `date_create` date NOT NULL,
   `date_exp` date NOT NULL,
   `date_work` date NOT NULL,
   `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.production_log: ~3 rows (approximately)
+-- Dumping data for table champ.production_log: ~0 rows (approximately)
 DELETE FROM `production_log`;
 /*!40000 ALTER TABLE `production_log` DISABLE KEYS */;
-INSERT INTO `production_log` (`id`, `description`, `date_create`, `date_exp`, `date_work`, `date_update`) VALUES
-	(2, '', '2012-05-21', '0000-00-00', '2012-05-21', '2012-05-21 09:21:01'),
-	(3, '', '2012-05-26', '0000-00-00', '2012-05-26', '2012-05-26 03:16:04'),
-	(4, '', '2012-05-26', '0000-00-00', '2012-05-26', '2012-05-26 14:08:08');
+INSERT INTO `production_log` (`id`, `is_approved`, `description`, `date_create`, `date_exp`, `date_work`, `date_update`) VALUES
+	(22, 0, '', '2012-06-17', '2012-07-17', '2012-06-21', '2012-06-17 01:31:12');
 /*!40000 ALTER TABLE `production_log` ENABLE KEYS */;
 
 
@@ -352,65 +351,28 @@ INSERT INTO `production_log` (`id`, `description`, `date_create`, `date_exp`, `d
 DROP TABLE IF EXISTS `production_member`;
 CREATE TABLE IF NOT EXISTS `production_member` (
   `id_log` int(10) unsigned NOT NULL,
-  `id_member` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`id_log`,`id_member`),
-  KEY `FK_queue_member_member` (`id_member`),
-  CONSTRAINT `FK_queue_member_order` FOREIGN KEY (`id_member`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_queue_member_queue` FOREIGN KEY (`id_log`) REFERENCES `production_log` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `id_assigned_member` int(10) unsigned NOT NULL,
+  `id_worked_member` int(10) unsigned DEFAULT NULL,
+  KEY `FK_production_member_production_log` (`id_log`),
+  KEY `id_assigned_member` (`id_assigned_member`),
+  CONSTRAINT `FK_production_member_production_log` FOREIGN KEY (`id_log`) REFERENCES `production_log` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `production_member_ibfk_1` FOREIGN KEY (`id_assigned_member`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.production_member: ~48 rows (approximately)
+-- Dumping data for table champ.production_member: ~0 rows (approximately)
 DELETE FROM `production_member`;
 /*!40000 ALTER TABLE `production_member` DISABLE KEYS */;
-INSERT INTO `production_member` (`id_log`, `id_member`) VALUES
-	(2, 1),
-	(3, 1),
-	(4, 1),
-	(2, 3),
-	(3, 3),
-	(4, 3),
-	(2, 5),
-	(3, 5),
-	(4, 5),
-	(2, 6),
-	(3, 6),
-	(4, 6),
-	(2, 7),
-	(3, 7),
-	(4, 7),
-	(2, 8),
-	(3, 8),
-	(4, 8),
-	(2, 9),
-	(3, 9),
-	(4, 9),
-	(2, 10),
-	(3, 10),
-	(4, 10),
-	(2, 11),
-	(3, 11),
-	(4, 11),
-	(2, 12),
-	(3, 12),
-	(4, 12),
-	(2, 13),
-	(3, 13),
-	(4, 13),
-	(2, 14),
-	(3, 14),
-	(4, 14),
-	(2, 15),
-	(3, 15),
-	(4, 15),
-	(2, 16),
-	(3, 16),
-	(4, 16),
-	(2, 17),
-	(3, 17),
-	(4, 17),
-	(2, 18),
-	(3, 18),
-	(4, 18);
+INSERT INTO `production_member` (`id_log`, `id_assigned_member`, `id_worked_member`) VALUES
+	(22, 1, NULL),
+	(22, 3, NULL),
+	(22, 5, NULL),
+	(22, 6, NULL),
+	(22, 7, NULL),
+	(22, 8, NULL),
+	(22, 9, NULL),
+	(22, 10, NULL),
+	(22, 11, NULL),
+	(22, 12, NULL);
 /*!40000 ALTER TABLE `production_member` ENABLE KEYS */;
 
 
@@ -419,37 +381,28 @@ DROP TABLE IF EXISTS `production_product`;
 CREATE TABLE IF NOT EXISTS `production_product` (
   `id_log` int(10) unsigned NOT NULL,
   `id_product` int(10) unsigned NOT NULL,
-  `id_order` int(10) unsigned NOT NULL,
   `type` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '0 = สต็อกปกติ, 1 = สั่งผลิตจากลูกค้า',
-  `quantity` int(10) unsigned NOT NULL,
-  KEY `FK_production_product_production_log` (`id_log`),
-  KEY `FK_production_product_product` (`id_product`),
-  CONSTRAINT `FK_production_product_product` FOREIGN KEY (`id_product`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_production_product_production_log` FOREIGN KEY (`id_log`) REFERENCES `production_log` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `id_order` int(10) unsigned DEFAULT NULL,
+  `quantity_order` int(10) unsigned NOT NULL,
+  `quantity_receive` int(10) DEFAULT NULL,
+  KEY `id_log` (`id_log`),
+  KEY `id_product` (`id_product`),
+  CONSTRAINT `production_product_ibfk_2` FOREIGN KEY (`id_product`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `production_product_ibfk_1` FOREIGN KEY (`id_log`) REFERENCES `production_log` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.production_product: ~18 rows (approximately)
+-- Dumping data for table champ.production_product: ~0 rows (approximately)
 DELETE FROM `production_product`;
 /*!40000 ALTER TABLE `production_product` DISABLE KEYS */;
-INSERT INTO `production_product` (`id_log`, `id_product`, `id_order`, `type`, `quantity`) VALUES
-	(2, 1, 0, 0, 400),
-	(2, 2, 0, 0, 200),
-	(2, 3, 0, 0, 100),
-	(2, 1, 0, 1, 200),
-	(2, 2, 0, 1, 100),
-	(2, 3, 0, 1, 50),
-	(3, 1, 0, 0, 400),
-	(3, 2, 0, 0, 200),
-	(3, 3, 0, 0, 100),
-	(3, 1, 0, 1, 200),
-	(3, 2, 0, 1, 100),
-	(3, 3, 0, 1, 50),
-	(4, 1, 0, 0, 400),
-	(4, 2, 0, 0, 200),
-	(4, 3, 0, 0, 100),
-	(4, 1, 0, 1, 200),
-	(4, 2, 0, 1, 100),
-	(4, 3, 0, 1, 50);
+INSERT INTO `production_product` (`id_log`, `id_product`, `type`, `id_order`, `quantity_order`, `quantity_receive`) VALUES
+	(22, 1, 0, NULL, 400, NULL),
+	(22, 2, 0, NULL, 200, NULL),
+	(22, 3, 0, NULL, 100, NULL),
+	(22, 1, 1, 8, 120, NULL),
+	(22, 2, 1, 8, 60, NULL),
+	(22, 1, 1, 7, 200, NULL),
+	(22, 2, 1, 7, 100, NULL),
+	(22, 3, 1, 7, 50, NULL);
 /*!40000 ALTER TABLE `production_product` ENABLE KEYS */;
 
 
