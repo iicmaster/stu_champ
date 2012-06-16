@@ -129,27 +129,28 @@ $(function()
 						FROM product_order 
 						WHERE id NOT IN (SELECT id_order FROM production_product WHERE type = 1)
 						ORDER BY id DESC';
+						
 				$result_order = mysql_query($sql) or die(mysql_error());
 				$result_order_row = mysql_num_rows($result_order);
 				if($result_order_row > 0)
 				{
-				while($order = mysql_fetch_assoc($result_order)):
-                    
-					// Get product order item
-                    $sql_order_item = 'SELECT *
-                                  	   FROM product_order_item
-                                  	   WHERE id_order = '.$order['id'];
-                                  
-                    $query_order_item = mysql_query($sql_order_item) or die(mysql_error());
-					
-					// Get order item array
-                    while($data_order_item = mysql_fetch_assoc($query_order_item))
-					{
-						$product_ordered_list[$order['id']][$data_order_item['id_product']] = $data_order_item['quantity'];
-						$order_item[$data_order_item['id_product']] = $data_order_item['quantity'];
-					}
-					
-					$total_ordered_product += array_sum($order_item);
+					while($order = mysql_fetch_assoc($result_order)):
+	                    
+						// Get product order item
+	                    $sql_order_item = 'SELECT *
+	                                  	   FROM product_order_item
+	                                  	   WHERE id_order = '.$order['id'];
+	                                  
+	                    $query_order_item = mysql_query($sql_order_item) or die(mysql_error());
+						
+						// Get order item array
+	                    while($data_order_item = mysql_fetch_assoc($query_order_item))
+						{
+							$product_ordered_list[$order['id']][$data_order_item['id_product']] = $data_order_item['quantity'];
+							$order_item[$data_order_item['id_product']] = $data_order_item['quantity'];
+						}
+						
+						$total_ordered_product += array_sum($order_item);
                 ?>
     				<tr>
     					<td align="center"><input type="checkbox" name="id_order[]" checked="checked" value="<?php echo $order['id'] ?>" /></td>
@@ -160,6 +161,7 @@ $(function()
     					$query = 'SELECT id, name, weight FROM product';
     					$result = mysql_query($query) or die(mysql_error());
 						?>
+						
     					<?php while($product = mysql_fetch_assoc($result)): ?>
 							<?php 
 							if(isset($order_item[$product['id']]))
