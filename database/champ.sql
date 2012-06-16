@@ -3,7 +3,7 @@
 -- Server version:               5.1.57-community - MySQL Community Server (GPL)
 -- Server OS:                    Win64
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2012-06-17 01:45:25
+-- Date/time:                    2012-06-17 06:07:31
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -75,14 +75,14 @@ CREATE TABLE IF NOT EXISTS `material` (
 DELETE FROM `material`;
 /*!40000 ALTER TABLE `material` DISABLE KEYS */;
 INSERT INTO `material` (`id`, `name`, `description`, `total`, `stock_min`, `stock_max`, `unit`, `average_cost_per_unit`, `date_create`, `date_update`, `date_update_transaction`) VALUES
-	(30, 'สละ', 'สละพันธุ์ดีมาก', 80, 100, 0, 'กิโลกรัม', 85.00, '2011-04-10 00:43:09', '2011-04-10 00:43:09', '2012-03-01 01:48:38'),
-	(31, 'น้ำตาลทรายขาว', 'อย่างดี', 110, 100, 0, 'กิโลกรัม', 11.64, '2011-04-10 01:09:29', '2011-04-10 01:09:29', '2012-03-01 01:48:38'),
-	(32, 'เกลือ', 'คุณภาพสูง', 20000, 20000, 0, 'กรัม', 0.01, '2011-04-10 01:14:18', '2011-04-10 01:14:18', '2011-09-12 02:48:34'),
-	(33, 'ถ้วยพลาสติก เล็ก', '', 200, 500, 0, 'ถ้วย', 0.50, '2011-04-10 05:43:03', '2011-04-10 05:43:03', '2011-09-12 02:48:34'),
-	(34, 'ถ้วยพลาสติก กลาง', '', 300, 500, 0, 'ถ้วย', 1.83, '2011-04-10 05:43:20', '2011-04-10 05:43:20', '2012-03-01 01:48:38'),
-	(35, 'ถ้วยพลาสติก ใหญ่', '', 610, 500, 0, 'ถ้วย', 2.03, '2011-04-10 05:43:44', '2011-04-10 05:43:44', '2011-09-12 02:47:51'),
-	(36, 'หนังยาง', 'หนังยางรัดของ', 2700, 2000, 0, 'เส้น', 0.12, '2011-04-11 03:45:44', '2011-04-11 03:45:44', '2011-09-12 02:47:51'),
-	(38, 'สละพันธ์สุมาลีคัดพิเศษ', '', 0, 50, 100, 'กิโลกรัม', 0.00, '2012-04-19 04:16:40', '2012-04-19 04:16:40', NULL);
+	(30, 'สละ', 'สละพันธุ์ดีมาก', 50, 400, 0, 'กิโลกรัม', 28.00, '2011-04-10 00:43:09', '2011-04-10 00:43:09', '2012-06-17 03:26:05'),
+	(31, 'น้ำตาลทรายขาว', 'อย่างดี', 0, 100, 0, 'กิโลกรัม', 35.00, '2011-04-10 01:09:29', '2011-04-10 01:09:29', '2012-06-17 03:01:28'),
+	(32, 'เกลือ', 'คุณภาพสูง', 0, 20000, 0, 'กรัม', 0.01, '2011-04-10 01:14:18', '2011-04-10 01:14:18', '2012-06-17 03:01:28'),
+	(33, 'ถ้วยพลาสติก เล็ก', '', 0, 500, 0, 'ถ้วย', 1.00, '2011-04-10 05:43:03', '2011-04-10 05:43:03', '2012-06-17 03:08:42'),
+	(34, 'ถ้วยพลาสติก กลาง', '', 0, 500, 0, 'ถ้วย', 2.00, '2011-04-10 05:43:20', '2011-04-10 05:43:20', '2012-06-17 03:01:28'),
+	(35, 'ถ้วยพลาสติก ใหญ่', '', 0, 500, 0, 'ถ้วย', 3.00, '2011-04-10 05:43:44', '2011-04-10 05:43:44', '2012-06-17 03:01:28'),
+	(36, 'หนังยาง', 'หนังยางรัดของ', 0, 2000, 0, 'เส้น', 0.03, '2011-04-11 03:45:44', '2011-04-11 03:45:44', '2012-06-17 03:01:28'),
+	(38, 'สละพันธ์สุมาลีคัดพิเศษ', '', 0, 50, 100, 'กิโลกรัม', 30.00, '2012-04-19 04:16:40', '2012-04-19 04:16:40', '2012-06-17 03:01:28');
 /*!40000 ALTER TABLE `material` ENABLE KEYS */;
 
 
@@ -94,25 +94,18 @@ CREATE TABLE IF NOT EXISTS `material_order` (
   `date_create` date NOT NULL,
   `is_approve` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 = ยังไม่ได้ตรวจรับ, 1 = ตรวจรับแล้ว',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Dumping data for table champ.material_order: ~13 rows (approximately)
 DELETE FROM `material_order`;
 /*!40000 ALTER TABLE `material_order` DISABLE KEYS */;
 INSERT INTO `material_order` (`id`, `description`, `date_create`, `is_approve`) VALUES
-	(53, '', '2011-09-12', 1),
-	(54, '', '2011-09-12', 1),
-	(56, '', '2011-09-12', 1),
-	(57, '', '2011-09-12', 1),
-	(58, '', '2011-09-12', 1),
-	(59, '', '2011-09-12', 1),
-	(68, '', '2011-09-12', 0),
-	(69, '', '2011-09-12', 0),
-	(70, '', '2011-09-12', 0),
-	(71, '', '2011-09-12', 0),
-	(72, '', '2012-02-29', 0),
-	(73, '', '2012-02-29', 1),
-	(74, NULL, '2012-04-17', 0);
+	(78, NULL, '2012-06-17', 1),
+	(79, NULL, '2012-06-17', 1),
+	(80, NULL, '2012-06-17', 1),
+	(81, NULL, '2012-06-17', 1),
+	(82, NULL, '2012-06-17', 1),
+	(83, NULL, '2012-06-17', 1);
 /*!40000 ALTER TABLE `material_order` ENABLE KEYS */;
 
 
@@ -137,37 +130,12 @@ CREATE TABLE IF NOT EXISTS `material_order_item` (
 DELETE FROM `material_order_item`;
 /*!40000 ALTER TABLE `material_order_item` DISABLE KEYS */;
 INSERT INTO `material_order_item` (`id_material_order`, `id_material`, `id_supplier`, `quantity_order`, `quantity_receive`, `total_price`) VALUES
-	(53, 33, 4, 500, 100, NULL),
-	(54, 34, 2, 500, 300, NULL),
-	(56, 35, 4, 500, 600, NULL),
-	(57, 36, 2, 500, 1000, NULL),
-	(58, 34, 2, 500, 100, NULL),
-	(58, 35, 2, 500, 10, NULL),
-	(58, 36, 2, 500, 200, NULL),
-	(59, 31, 2, 90, 80, NULL),
-	(59, 32, 4, 8000, 8000, NULL),
-	(59, 33, 2, 500, 400, NULL),
-	(68, 30, 1, 60, NULL, NULL),
-	(68, 31, 2, 10, NULL, NULL),
-	(68, 34, 2, 100, NULL, NULL),
-	(69, 30, 1, 60, NULL, NULL),
-	(69, 31, 2, 10, NULL, NULL),
-	(69, 34, 2, 100, NULL, NULL),
-	(70, 30, 1, 60, NULL, NULL),
-	(70, 31, 2, 10, NULL, NULL),
-	(70, 34, 2, 100, NULL, NULL),
-	(71, 30, 1, 60, NULL, NULL),
-	(71, 31, 2, 10, NULL, NULL),
-	(71, 34, 2, 100, NULL, NULL),
-	(72, 30, 1, 60, NULL, NULL),
-	(72, 31, 2, 10, NULL, NULL),
-	(72, 34, 4, 100, NULL, NULL),
-	(73, 30, 2, 60, 60, NULL),
-	(73, 31, 1, 10, 10, NULL),
-	(73, 34, 4, 100, 100, NULL),
-	(74, 30, 1, 20, NULL, NULL),
-	(74, 33, 2, 300, NULL, NULL),
-	(74, 34, 4, 200, NULL, NULL);
+	(78, 30, 1, 10, 10, NULL),
+	(79, 30, 1, 10, 10, NULL),
+	(80, 30, 1, 10, 10, NULL),
+	(81, 30, 1, 10, 10, NULL),
+	(82, 30, 1, 10, 10, NULL),
+	(83, 30, 1, 10, 10, NULL);
 /*!40000 ALTER TABLE `material_order_item` ENABLE KEYS */;
 
 
@@ -206,6 +174,7 @@ DROP TABLE IF EXISTS `material_transaction`;
 CREATE TABLE IF NOT EXISTS `material_transaction` (
   `id_material` int(10) unsigned NOT NULL,
   `id_supplier` int(10) unsigned DEFAULT NULL,
+  `stock_code` char(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `description` text COLLATE utf8_unicode_ci,
   `amount` int(10) unsigned NOT NULL DEFAULT '0',
   `quantity` int(10) NOT NULL DEFAULT '0',
@@ -219,38 +188,14 @@ CREATE TABLE IF NOT EXISTS `material_transaction` (
 -- Dumping data for table champ.material_transaction: ~31 rows (approximately)
 DELETE FROM `material_transaction`;
 /*!40000 ALTER TABLE `material_transaction` DISABLE KEYS */;
-INSERT INTO `material_transaction` (`id_material`, `id_supplier`, `description`, `amount`, `quantity`, `date_create`) VALUES
-	(30, 1, '', 1000, 10, '2011-04-10 06:48:15'),
-	(30, 1, '', 2000, 10, '2011-04-10 07:05:02'),
-	(30, 1, '', 1000, 10, '2011-04-10 07:06:35'),
-	(30, 1, '', 1500, 10, '2011-04-10 07:12:57'),
-	(30, 1, '', 3600, 20, '2011-04-10 07:21:00'),
-	(30, NULL, 'นำไปผลิตสละลอยแก้ว', 0, -50, '2011-04-10 07:24:01'),
-	(30, 1, '', 7500, 50, '2011-04-10 07:34:55'),
-	(30, 1, '', 6000, 50, '2011-04-10 07:42:43'),
-	(30, NULL, 'นำไปผลิตสละลอยแก้ว', 0, -50, '2011-04-10 08:18:18'),
-	(30, NULL, 'นำไปผลิตสละลอยแก้ว', 0, -20, '2011-04-10 08:22:47'),
-	(31, 2, '', 180, 10, '2011-04-10 08:25:08'),
-	(36, 4, '', 100, 500, '2011-04-11 03:46:32'),
-	(36, 2, '', 50, 500, '2011-04-11 03:47:55'),
-	(36, 4, '', 120, 500, '2011-04-11 04:02:18'),
-	(32, 2, '', 100, 12000, '2011-04-17 01:58:49'),
-	(33, 4, '', 100, 100, '2011-09-12 02:43:29'),
-	(34, 2, '', 600, 300, '2011-09-12 02:45:57'),
-	(35, 4, '', 1200, 600, '2011-09-12 02:47:05'),
-	(36, 2, '', 50, 1000, '2011-09-12 02:47:15'),
-	(34, 2, '', 300, 100, '2011-09-12 02:47:51'),
-	(35, 2, '', 40, 10, '2011-09-12 02:47:51'),
-	(36, 2, '', 10, 200, '2011-09-12 02:47:51'),
-	(31, 2, '', 100, 80, '2011-09-12 02:48:34'),
-	(32, 4, '', 150, 8000, '2011-09-12 02:48:34'),
-	(33, 2, '', 150, 400, '2011-09-12 02:48:34'),
-	(30, 2, '', 600, 60, '2012-03-01 01:46:34'),
-	(31, 1, '', 500, 10, '2012-03-01 01:46:34'),
-	(34, 4, '', 100, 100, '2012-03-01 01:46:34'),
-	(30, 2, NULL, 600, 60, '2012-03-01 01:48:38'),
-	(31, 1, NULL, 500, 10, '2012-03-01 01:48:38'),
-	(34, 4, NULL, 100, 100, '2012-03-01 01:48:38');
+INSERT INTO `material_transaction` (`id_material`, `id_supplier`, `stock_code`, `description`, `amount`, `quantity`, `date_create`) VALUES
+	(30, 1, '2012-06-17', NULL, 300, 10, '2012-06-17 03:18:22'),
+	(30, 1, '2012-06-18', NULL, 300, 10, '2012-06-17 03:22:40'),
+	(30, 1, '2012-06-19', NULL, 200, 10, '2012-06-17 03:24:25'),
+	(30, 1, '2012-06-18', NULL, 250, 10, '2012-06-17 03:24:55'),
+	(30, 1, '2012-06-17', NULL, 350, 10, '2012-06-17 03:26:05'),
+	(30, 1, '2012-06-17', 'เอาไปผลิต', 0, -20, '2012-06-17 03:28:46'),
+	(30, 1, '2012-06-18', 'เอาไปผลิต', 0, -8, '2012-06-17 03:28:46');
 /*!40000 ALTER TABLE `material_transaction` ENABLE KEYS */;
 
 
@@ -339,7 +284,7 @@ CREATE TABLE IF NOT EXISTS `production_log` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.production_log: ~0 rows (approximately)
+-- Dumping data for table champ.production_log: ~1 rows (approximately)
 DELETE FROM `production_log`;
 /*!40000 ALTER TABLE `production_log` DISABLE KEYS */;
 INSERT INTO `production_log` (`id`, `is_approved`, `description`, `date_create`, `date_exp`, `date_work`, `date_update`) VALUES
@@ -359,7 +304,7 @@ CREATE TABLE IF NOT EXISTS `production_member` (
   CONSTRAINT `production_member_ibfk_1` FOREIGN KEY (`id_assigned_member`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.production_member: ~0 rows (approximately)
+-- Dumping data for table champ.production_member: ~10 rows (approximately)
 DELETE FROM `production_member`;
 /*!40000 ALTER TABLE `production_member` DISABLE KEYS */;
 INSERT INTO `production_member` (`id_log`, `id_assigned_member`, `id_worked_member`) VALUES
@@ -391,7 +336,7 @@ CREATE TABLE IF NOT EXISTS `production_product` (
   CONSTRAINT `production_product_ibfk_1` FOREIGN KEY (`id_log`) REFERENCES `production_log` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.production_product: ~0 rows (approximately)
+-- Dumping data for table champ.production_product: ~8 rows (approximately)
 DELETE FROM `production_product`;
 /*!40000 ALTER TABLE `production_product` DISABLE KEYS */;
 INSERT INTO `production_product` (`id_log`, `id_product`, `type`, `id_order`, `quantity_order`, `quantity_receive`) VALUES
