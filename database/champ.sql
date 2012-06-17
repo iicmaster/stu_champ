@@ -3,7 +3,7 @@
 -- Server version:               5.1.57-community - MySQL Community Server (GPL)
 -- Server OS:                    Win64
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2012-06-17 06:07:31
+-- Date/time:                    2012-06-17 17:41:11
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `material_order` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.material_order: ~13 rows (approximately)
+-- Dumping data for table champ.material_order: ~6 rows (approximately)
 DELETE FROM `material_order`;
 /*!40000 ALTER TABLE `material_order` DISABLE KEYS */;
 INSERT INTO `material_order` (`id`, `description`, `date_create`, `is_approve`) VALUES
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `material_order_item` (
   CONSTRAINT `FK_material_order_item_supplier` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.material_order_item: ~31 rows (approximately)
+-- Dumping data for table champ.material_order_item: ~6 rows (approximately)
 DELETE FROM `material_order_item`;
 /*!40000 ALTER TABLE `material_order_item` DISABLE KEYS */;
 INSERT INTO `material_order_item` (`id_material_order`, `id_material`, `id_supplier`, `quantity_order`, `quantity_receive`, `total_price`) VALUES
@@ -185,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `material_transaction` (
   CONSTRAINT `FK_material_transaction_supplier` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.material_transaction: ~31 rows (approximately)
+-- Dumping data for table champ.material_transaction: ~7 rows (approximately)
 DELETE FROM `material_transaction`;
 /*!40000 ALTER TABLE `material_transaction` DISABLE KEYS */;
 INSERT INTO `material_transaction` (`id_material`, `id_supplier`, `stock_code`, `description`, `amount`, `quantity`, `date_create`) VALUES
@@ -436,6 +436,7 @@ CREATE TABLE IF NOT EXISTS `product_stock` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `id_production_log` int(10) unsigned NOT NULL DEFAULT '0',
   `id_product` int(10) unsigned NOT NULL,
+  `stock_code` char(10) COLLATE utf8_unicode_ci NOT NULL,
   `type` tinyint(1) unsigned DEFAULT '0' COMMENT '0 = สต็อกปกติ, 1 = สั่งผลิตจากลูกค้า',
   `description` text COLLATE utf8_unicode_ci NOT NULL,
   `quantity` int(10) unsigned NOT NULL,
@@ -451,28 +452,26 @@ CREATE TABLE IF NOT EXISTS `product_stock` (
 -- Dumping data for table champ.product_stock: ~3 rows (approximately)
 DELETE FROM `product_stock`;
 /*!40000 ALTER TABLE `product_stock` DISABLE KEYS */;
-INSERT INTO `product_stock` (`id`, `id_production_log`, `id_product`, `type`, `description`, `quantity`, `date_create`, `date_expire`, `date_update`, `date_transaction_update`) VALUES
-	(1, 4, 1, 0, '', 400, '2012-05-26 14:08:08', '0000-00-00 00:00:00', '2012-05-26 14:08:08', '0000-00-00 00:00:00'),
-	(2, 4, 2, 0, '', 200, '2012-05-26 14:08:08', '0000-00-00 00:00:00', '2012-05-26 14:08:08', '0000-00-00 00:00:00'),
-	(3, 4, 3, 0, '', 100, '2012-05-26 14:08:08', '0000-00-00 00:00:00', '2012-05-26 14:08:08', '0000-00-00 00:00:00');
+INSERT INTO `product_stock` (`id`, `id_production_log`, `id_product`, `stock_code`, `type`, `description`, `quantity`, `date_create`, `date_expire`, `date_update`, `date_transaction_update`) VALUES
+	(1, 4, 1, '', 0, '', 400, '2012-05-26 14:08:08', '0000-00-00 00:00:00', '2012-05-26 14:08:08', '0000-00-00 00:00:00'),
+	(2, 4, 2, '', 0, '', 200, '2012-05-26 14:08:08', '0000-00-00 00:00:00', '2012-05-26 14:08:08', '0000-00-00 00:00:00'),
+	(3, 4, 3, '', 0, '', 100, '2012-05-26 14:08:08', '0000-00-00 00:00:00', '2012-05-26 14:08:08', '0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `product_stock` ENABLE KEYS */;
 
 
--- Dumping structure for table champ.product_transaction
-DROP TABLE IF EXISTS `product_transaction`;
-CREATE TABLE IF NOT EXISTS `product_transaction` (
+-- Dumping structure for table champ.product_stock_transaction
+DROP TABLE IF EXISTS `product_stock_transaction`;
+CREATE TABLE IF NOT EXISTS `product_stock_transaction` (
   `id_stock` int(10) unsigned NOT NULL,
   `description` text COLLATE utf8_unicode_ci,
   `quantity` int(10) unsigned NOT NULL DEFAULT '0',
-  `date_create` date NOT NULL,
-  KEY `FK_product_transaction_product_stock` (`id_stock`),
-  CONSTRAINT `FK_product_transaction_product_stock` FOREIGN KEY (`id_stock`) REFERENCES `product_stock` (`id`) ON UPDATE CASCADE
+  `date_create` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.product_transaction: ~0 rows (approximately)
-DELETE FROM `product_transaction`;
-/*!40000 ALTER TABLE `product_transaction` DISABLE KEYS */;
-/*!40000 ALTER TABLE `product_transaction` ENABLE KEYS */;
+-- Dumping data for table champ.product_stock_transaction: ~0 rows (approximately)
+DELETE FROM `product_stock_transaction`;
+/*!40000 ALTER TABLE `product_stock_transaction` DISABLE KEYS */;
+/*!40000 ALTER TABLE `product_stock_transaction` ENABLE KEYS */;
 
 
 -- Dumping structure for table champ.supplier
