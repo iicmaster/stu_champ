@@ -47,6 +47,8 @@ $target = 'product_order.php?page=';
 			<table width="100%" border="1" align="center" cellpadding="5" cellspacing="0">
 				<thead>
 					<tr>
+						<th width="80">เลขที่ใบผลิต</th>
+						<th width="80">วันที่ออกใบผลิต</th>
 						<th width="80">วันที่ผลิต</th>
 						<th>สถานะการตรวจรับ</th>
 						<th width="100">การดำเนินการ</th>
@@ -68,7 +70,9 @@ $target = 'product_order.php?page=';
 							$status = ($data['is_approved'] == 0) ? '<span class="red">ยังไม่ได้ตรวจรับ</span>' : '<span class="green">ตรวจรับแล้ว</span>';
 							
 							echo '	<tr>
+										<td class="center">'.zero_fill(10, $data['id']).'</td>
 										<td class="center">'.change_date_format($data['date_create']).'</td>
+										<td class="center">'.change_date_format($data['date_work']).'</td>
 										<td class="center">'.$status.'</td>
 										<td class="center nowarp">
 											<a class="button" href="production_log_read.php?id='.$data['id'].'">ดู</a>
