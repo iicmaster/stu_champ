@@ -118,7 +118,6 @@ if(isset($_POST['submit']))
 		$sql = 'UPDATE material
 					 SET	
 					 	total					= total + '.$value.',
-						average_cost_per_unit	= '.$data['average_cost_per_unit'].',
 						date_update_transaction	= "'.date('Y-m-d H:i:s').'"		
 					 WHERE	
 					 	id = '.$_POST['id_material'][$key];
@@ -126,7 +125,7 @@ if(isset($_POST['submit']))
 		// RollBack transaction and show error message when query error
 		if(!$query = mysql_query($sql))
 		{
-			echo 'Update amount, average_cost_per_unit, date_last_update_transaction';
+			echo 'Update amount, average_cost_per_unit, date_update_transaction';
 			echo '<hr />';
 			echo mysql_error();
 			echo '<hr />';

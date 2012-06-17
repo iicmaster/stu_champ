@@ -128,7 +128,7 @@ h3 { margin: 30px 0px 15px 0px}
 			while($data = mysql_fetch_array($result))
 			{
 				$total_restock[$data['id_product']] = $data['quantity_order'];
-				$total_produced[$data['id_product']] = $data['quantity_order'];
+				$total_produced[$data['id_product']] += $data['quantity_order'];
 				
 				if($id_order == $data['id_order'])
 				{
@@ -151,10 +151,6 @@ h3 { margin: 30px 0px 15px 0px}
 			?>
 			</tbody>
 		</table>
-		
-		
-		
-		
 		<h3>วัตถุดิบที่ต้องใช้</h3>
 		<table>
 			<thead>
@@ -166,63 +162,60 @@ h3 { margin: 30px 0px 15px 0px}
 				</tr>
 			</thead>
 			<tbody>
-			    <!-- @formatter:off -->
-	            <?php					
-	            
-				// --------------------------------------------------
-				// Required material
-				// --------------------------------------------------
-				   
-				// Get material                  
-	            $sql = 'SELECT 
-	                        id_material as id,
-	                        name,
-	                        total,
-	                        unit
-	                    
-	                    FROM product_material
-	                    
-	                    LEFT JOIN material
-	                    ON product_material.id_material = material.id
-	                    
-	                    GROUP BY id_material';
-	                    
-	            $query = mysql_query($sql);
-	            
-	            while($material = mysql_fetch_array($query)):
-	                
-	                $required_qty = 0;
-	                $buy_qty = 0;
-	                
-					// Get required material per product
-	                $sql = 'SELECT id FROM product';
-	                $result = mysql_query($sql) or die(mysql_error());
-	                
-	                while($product = mysql_fetch_assoc($result))
-	                {
-	                    $sql = 'SELECT quantity as qty 
-	                            FROM product_material
-	                            WHERE
-	                                id_product = '.$product['id'].'
-	                                AND id_material = '.$material['id'];
-									
-	                    $result_pm = mysql_query($sql) or die(mysql_error);
-	                    $data = mysql_fetch_assoc($result_pm);
-	                    
-	                    $required_qty += $total_produced[$product['id']] * $data['qty'];
-	                }
-	                
-	                $buy_qty = $required_qty - $material['total'];
-	                $buy_qty = ($buy_qty > 0) ? $buy_qty : 0;
-	            ?>
+		    <!-- @formatter:off -->
+            <?php
+            $sql = 'SELECT 
+                        id_material as id,
+                        name,
+                        total,
+                        unit
+                    
+                    FROM product_material
+                    
+                    LEFT JOIN material
+                    ON product_material.id_material = material.id
+                    
+                    GROUP BY id_material';
+                    
+            $query = mysql_query($sql);
+            
+            while($material = mysql_fetch_array($query)): ?>
+                
+                <?php
+                $required_qty = 0;
+                $buy_qty = 0;
+                
+				// Get required material per product
+                $sql = 'SELECT id FROM product';
+                $result = mysql_query($sql) or die(mysql_error());
+                
+                while($product = mysql_fetch_assoc($result))
+                {
+                    $sql = 'SELECT quantity as qty 
+                            FROM product_material
+                            WHERE
+                                id_product = '.$product['id'].'
+                                AND id_material = '.$material['id'];
+								
+                    $result_pm = mysql_query($sql) or die(mysql_error);
+                    $data = mysql_fetch_assoc($result_pm);
+                    
+                    $required_qty += $total_produced[$product['id']] * $data['qty'];
+                }
+                
+                $buy_qty = $required_qty - $material['total'];
+                $buy_qty = ($buy_qty > 0) ? $buy_qty : 0;
+            	?>
+            	
 				<tr>
 					<td><?php echo $material['name'] ?></td>
 					<td align="right"><?php echo add_comma($required_qty) ?></td>
 	                <td align="right"><?php echo add_comma($buy_qty) ?></td>
 					<td><?php echo $material['unit'] ?></td>
 				</tr>
-				<?php endwhile ?>
-	            <!--@formatter:on-->
+				
+			<?php endwhile ?>
+            <!--@formatter:on-->
 			</tbody>
 		</table>
 	    <h3>รายชื่อผู้ทำการผลิต</h3>

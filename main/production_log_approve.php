@@ -15,10 +15,13 @@ $is_approved = ($production['is_approved'] == 1) ? '<span class="block center gr
 <title>ใบผลิต</title>
 <?php include("inc.css.php"); ?>
 <style type="text/css">
-input[type=text], textarea
+form table tr td input[type=text]
 {
-	width: 50%;
+	width: 180px;
+	min-width: 180px;
+	font-size: 12px;
 }
+input, table tr td select, textarea { font-size: 12px;}
 h3 { margin: 30px 0px 15px 0px}
 </style>
 </head>
@@ -29,7 +32,7 @@ h3 { margin: 30px 0px 15px 0px}
 		<a href="production_log_print.php?id=<?php echo $_GET['id'] ?>" class="float_r">พิมพ์ใบผลิต</a>
 		<h1>ใบผลิต</h1>
 		<hr>
-		<form method="post">
+		<form method="post" action="production_log_approve2.php">
 			<h3>รายละเอียด</h3>
 			<table>
 		        <thead>
@@ -54,9 +57,9 @@ h3 { margin: 30px 0px 15px 0px}
 		        <thead>
 					<tr>
 						<th scope="col">สินค้า</th>
-						<th scope="col">จำนวนที่ควรผลิตเพิ่ม</th>
-						<th scope="col">จำนวนที่ผลิตได้จริง</th>
-		                <th scope="col">หน่วย</th>
+						<th scope="col" width="25%">จำนวนที่ควรผลิตเพิ่ม</th>
+						<th scope="col" width="25%">จำนวนที่ผลิตได้จริง</th>
+		                <th scope="col" width="50">หน่วย</th>
 					</tr>
 		        </thead>
 				<tbody>
@@ -99,8 +102,8 @@ h3 { margin: 30px 0px 15px 0px}
 					<tr>
 						<th scope="col">รหัสใบสั่งซื้อ</th>
 						<th scope="col">สินค้า</th>
-						<th scope="col">จำนวนที่ควรผลิตเพิ่ม</th>
-						<th scope="col">จำนวนที่ผลิตได้จริง</th>
+						<th scope="col" width="25%">จำนวนที่ควรผลิตเพิ่ม</th>
+						<th scope="col" width="25%">จำนวนที่ผลิตได้จริง</th>
 		                <th scope="col">หน่วย</th>
 					</tr>
 		        </thead>
@@ -129,7 +132,7 @@ h3 { margin: 30px 0px 15px 0px}
 				while($data = mysql_fetch_array($result))
 				{
 					$total_restock[$data['id_product']] = $data['quantity_order'];
-					$total_produced[$data['id_product']] = $data['quantity_order'];
+					$total_produced[$data['id_product']] += $data['quantity_order'];
 					
 					if($id_order == $data['id_order'])
 					{
@@ -152,76 +155,6 @@ h3 { margin: 30px 0px 15px 0px}
 				?>
 				</tbody>
 			</table>
-			<h3>วัตถุดิบที่ต้องใช้</h3>
-			<table>
-				<thead>
-					<tr>
-						<th>วัตถุดิบ</th>
-						<th>จำนวนที่ต้องใช้</th>
-		                <th>จำนวนที่ต้องซื้อเพื่ม</th>
-						<th>หน่วย</th>
-					</tr>
-				</thead>
-				<tbody>
-				    <!-- @formatter:off -->
-		            <?php					
-		            
-					// --------------------------------------------------
-					// Required material
-					// --------------------------------------------------
-					   
-					// Get material                  
-		            $sql = 'SELECT 
-		                        id_material as id,
-		                        name,
-		                        total,
-		                        unit
-		                    
-		                    FROM product_material
-		                    
-		                    LEFT JOIN material
-		                    ON product_material.id_material = material.id
-		                    
-		                    GROUP BY id_material';
-		                    
-		            $query = mysql_query($sql);
-		            
-		            while($material = mysql_fetch_array($query)):
-		                
-		                $required_qty = 0;
-		                $buy_qty = 0;
-		                
-						// Get required material per product
-		                $sql = 'SELECT id FROM product';
-		                $result = mysql_query($sql) or die(mysql_error());
-		                
-		                while($product = mysql_fetch_assoc($result))
-		                {
-		                    $sql = 'SELECT quantity as qty 
-		                            FROM product_material
-		                            WHERE
-		                                id_product = '.$product['id'].'
-		                                AND id_material = '.$material['id'];
-										
-		                    $result_pm = mysql_query($sql) or die(mysql_error);
-		                    $data = mysql_fetch_assoc($result_pm);
-		                    
-		                    $required_qty += $total_produced[$product['id']] * $data['qty'];
-		                }
-		                
-		                $buy_qty = $required_qty - $material['total'];
-		                $buy_qty = ($buy_qty > 0) ? $buy_qty : 0;
-		            ?>
-					<tr>
-						<td><?php echo $material['name'] ?></td>
-						<td align="right"><?php echo add_comma($required_qty) ?></td>
-		                <td align="right"><?php echo add_comma($buy_qty) ?></td>
-						<td><?php echo $material['unit'] ?></td>
-					</tr>
-					<?php endwhile ?>
-		            <!--@formatter:on-->
-				</tbody>
-			</table>
 		    <h3>รายชื่อผู้ทำการผลิต</h3>
 		    <table>
 		        <thead>
@@ -242,13 +175,10 @@ h3 { margin: 30px 0px 15px 0px}
 		                    LEFT JOIN member
 		                    ON production_member.id_assigned_member = member.id
 		                    
-		                    WHERE 
-		                    	id_log = '.$_GET['id'];
+		                    WHERE id_log = '.$_GET['id'];
 							
 		            $result = mysql_query($sql) or die(mysql_error());
 		            $loop = 1;
-					
-					
 					
 		            while($member = mysql_fetch_assoc($result)):
 		            ?>
@@ -257,7 +187,7 @@ h3 { margin: 30px 0px 15px 0px}
 		                    <td><?php echo $member['name'] ?></td>
 		                    <td><?php echo $member['tel'] ?></td>
 	                        <td>
-	                            <select id="id_member_<?php echo $member['id'] ?>" name="id_member[]">
+	                            <select id="id_member_<?php echo $member['id'] ?>" name="id_member_approved[]">
 		                            <?php 
 					                $query = 'SELECT * FROM member';
 					                $result_member = mysql_query($query);
@@ -279,8 +209,11 @@ h3 { margin: 30px 0px 15px 0px}
 		        </tbody>
 		    </table>
 		    <h3>หมายเหตุ</h3>
-		    <textarea name="description" style="width:100%" readonly="readonly"><?php echo $production['description'] ?></textarea>
-		    <p class="center"><input type="submit" name="submit" value="ตรวจรับสินค้า" /></p>
+		    <textarea style="width:100%" readonly="readonly"><?php echo $production['description'] ?></textarea>
+		    <p class="center">                
+		    	<input type="hidden" name="id_production_log" value="<?php echo $production['id'] ?>" id="id_production_log"/>
+		    	<input type="submit" name="submit" value="ตรวจรับสินค้า" />
+		    </p>
 	    </form>
 		<hr style="margin-top:25px" />
 		<a href="material_order.php">กลับ</a> 

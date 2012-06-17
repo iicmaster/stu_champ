@@ -2,7 +2,9 @@
 require("../include/session.php");
 require('../include/connect.php');
 
-$sql = 'SELECT * FROM material WHERE id = '.$_GET['id'];
+$sql = 'SELECT *
+		FROM material 
+		WHERE id = '.$_GET['id'];
 $query = mysql_query($sql) or die(mysql_error());
 $data = mysql_fetch_array($query);
 
@@ -17,6 +19,7 @@ $sql = 'SELECT
 									WHERE 
 										quantity > 0 
 										AND stock_code = t1.stock_code
+										AND id_material = t1.id_material
 								), 2) AS "average_price_per_unit"			
 		FROM material_transaction AS t1
 		WHERE id_material = '.$_GET['id'].'
@@ -135,8 +138,7 @@ $average_cost_per_unit = round($total_stock_value/$total_stock_remain, 2);
 						$data['amount'] = '-';
 						$cost_per_unit = '-';
 					}
-					
-					
+
 					echo '<tr>
 							  <td class="center nowarp">'.change_date_time_format($data['date_create']).'</td>
 							  <td class="center nowarp">'.$data['stock_code'].'</td>

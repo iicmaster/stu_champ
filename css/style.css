@@ -16,7 +16,7 @@ body
 h1, h2, h3, h4, h5, h6, th, b, strong
 {
 	color: #333;
-	letter-spacing: 1px;
+	letter-spacing: 0.25px;
 	
 	/* CSS3 */ 
 	text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
@@ -76,6 +76,7 @@ a.button:hover
 	background-color: #EFEFEF;
 	color: #00F;
 }
+
 /*----------------------------------------------------------------------------------------------------*/
 /* Form */
 /*----------------------------------------------------------------------------------------------------*/
@@ -195,7 +196,6 @@ table th
 	z-index: 1000;
 }
 
-
 #menu ul li:hover ul
 { 
 	display: block;
@@ -218,7 +218,6 @@ table th
 	padding: 0px 0px 0px 12px;
 	text-decoration: none;
 }
-
 
 /*----------------------------------------------------------------------------------------------------*/
 /* Search Section */
