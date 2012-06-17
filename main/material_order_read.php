@@ -32,9 +32,6 @@ input[type=text], textarea
 		<a href="material_order_print.php?id=<?php echo $_GET['id'] ?>" class="float_r">พิมพ์ใบสั่งซื้อวัตถุดิบ</a>
 		<h1>ใบสั่งซื้อวัตถุดิบ</h1>
 		<hr>
-		<p class="float_r">วันที่: <?php echo change_date_format($data['date_create']); ?></p>
-		<label>รายการ</label>
-		<hr />
 		<table width="100%">
 			<thead>
 				<tr>
