@@ -148,7 +148,7 @@ h3 { margin: 30px 0px 15px 0px}
 							'.$column_id_order.'
 							<td>'.$data['name'].'</td>
 							<td class="right">'.add_comma($data['quantity_order']).'</td>
-							<td class="right"><input type="text" class="right" name="product_ordered_approved['.$data['id_product'].']" value="'.$data['quantity_order'].'"/></td>
+							<td class="right"><input type="text" class="right" name="product_ordered_approved['.$data['id_order'].']['.$data['id_product'].']" value="'.$data['quantity_order'].'"/></td>
 							<td>'.$data['unit'].'</td>
 						  </tr>';
 				}
@@ -187,7 +187,7 @@ h3 { margin: 30px 0px 15px 0px}
 		                    <td><?php echo $member['name'] ?></td>
 		                    <td><?php echo $member['tel'] ?></td>
 	                        <td>
-	                            <select id="id_member_<?php echo $member['id'] ?>" name="id_member_approved[]">
+	                            <select id="id_member_<?php echo $member['id'] ?>" name="id_member_approved[<?php echo $member['id'] ?>]">
 		                            <?php 
 					                $query = 'SELECT * FROM member';
 					                $result_member = mysql_query($query);
