@@ -230,11 +230,12 @@ if(isset($_POST['submit']))
 				
 				$sql = 'INSERT INTO material_transaction
 						SET
-							id_material = "'.$stock['id_material'].'",
-							id_supplier = "'.$stock['id_supplier'].'",
-							stock_code	= "'.$stock['stock_code'].'",
-							description = "นำไปผลิต",
-							quantity	= -'.$withdraw_qty;
+							id_material 		= "'.$stock['id_material'].'",
+							id_supplier 		= "'.$stock['id_supplier'].'",
+							id_production_log	= "'.$_POST['id_production_log'].'",
+							stock_code			= "'.$stock['stock_code'].'",
+							description 		= "นำไปผลิต",
+							quantity			= -'.$withdraw_qty;
 							
 				/*echo '<li>
 						['.$RQ.']-'.$stock['material_remain'].'-['.$stock['stock_code'].']-'.$withdraw_qty.'
