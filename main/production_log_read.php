@@ -262,6 +262,8 @@ h3 { margin: 30px 0px 15px 0px}
                         WHERE id_product = '.$product['id_product'];
 								
                 $result_pm = mysql_query($sql) or die(mysql_error);
+				
+				$total_cost = array();
                 
                 while($data_pm = mysql_fetch_assoc($result_pm))
                 {
@@ -290,6 +292,8 @@ h3 { margin: 30px 0px 15px 0px}
 					
 					$total_cost[$data_pm['id_material']] = $material_used * ($material_cost[$material['id']]/$result_cost_row);
                 }
+				
+				//print_array($total_cost);
 				
 				$average_cost_per_unit = round(array_sum($total_cost) / $product['total_receive'], 2);
 
