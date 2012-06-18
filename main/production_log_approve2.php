@@ -138,14 +138,14 @@ if(isset($_POST['submit']))
 	
 	foreach($_POST['product_restock_approved'] as $key => $value)
 	{
-       $total_produced[$key] += $value;
+       @$total_produced[$key] += $value;
 	}
 	
     foreach($_POST['product_ordered_approved'] as $id_order => $product)
     {
     	foreach($product as $id_product => $qty)
 		{
-       		$total_produced[$id_product] += $qty;
+       		@$total_produced[$id_product] += $qty;
 		}
 	}
 	
@@ -233,11 +233,12 @@ if(isset($_POST['submit']))
 							id_material = "'.$stock['id_material'].'",
 							id_supplier = "'.$stock['id_supplier'].'",
 							stock_code	= "'.$stock['stock_code'].'",
+							description = "นำไปผลิต",
 							quantity	= -'.$withdraw_qty;
 							
-				echo '<li>
+				/*echo '<li>
 						['.$RQ.']-'.$stock['material_remain'].'-['.$stock['stock_code'].']-'.$withdraw_qty.'
-					  </li>';
+					  </li>';*/
 							
 				// RollBack transaction and show error message when query error						
 				if(! $query = mysql_query($sql))
@@ -250,12 +251,17 @@ if(isset($_POST['submit']))
 					mysql_query("ROLLBACK");
 					exit();
 				}
-							
+				
+				// Update total
+				$sql =	'UPDATE material
+				 		 SET total = total - '.$withdraw_qty.'
+				 		 WHERE id = '.$stock['id_material'];
+						 
+				$query_material_total = mysql_query($sql) or die(mysql_error());
 			}
 	    }
 		
 		//echo '</ol>';
-				
 	}
 	
 	//exit();
