@@ -64,14 +64,17 @@ $(function()
 						
 						$sql = 'SELECT SUM(quantity) AS total 
 								FROM product_stock 
-								WHERE id_product = '.$data['id'];
+							
+								WHERE 
+									id_product = '.$data['id'].'
+								 	AND type = 0';
 								
 						$result = mysql_query($sql) or die(mysql_error());
-						
 						$product_stock_data = mysql_fetch_assoc($result);
+						
 						$product_stock_qty = $product_stock_data['total'];
 						
-                        $restock_qty = $data['stock_max'] - $data['total'];
+                        $restock_qty = $data['stock_max'] - $product_stock_data['total'];
 						$total_restock += $restock_qty;
                         $product_restock_list[$data['id']] = $restock_qty;
 						
