@@ -152,27 +152,14 @@ h3 { margin: 30px 0px 15px 0px}
 			<tbody>
 		    <!-- @formatter:off -->
             <?php
-            $sql = 'SELECT 
-                        id_material as id,
-                        name,
-                        total,
-                        unit
-                    
-                    FROM product_material
-                    
-                    LEFT JOIN material
-                    ON product_material.id_material = material.id
-                    
-                    GROUP BY id_material';
-                    
+            //print_array($total_produced);
+            
+            $sql = 'SELECT * FROM material';
             $query = mysql_query($sql);
             
             while($material = mysql_fetch_array($query)): ?>
                 
                 <?php
-                $required_qty = 0;
-                $buy_qty = 0;
-				
 				$sql = 'SELECT 
 							ABS(quantity) AS quantity,
 							(SELECT SUM(amount) FROM material_transaction WHERE stock_code = t1.stock_code AND id_material = t1.id_material) AS total_amount,
@@ -189,16 +176,17 @@ h3 { margin: 30px 0px 15px 0px}
 				
 				while($cost = mysql_fetch_assoc($result_cost))
 				{
-					$material_cost[$material['id']] += $cost['quantity'] * ($cost['total_amount'] / $cost['total_quantity']);
+					$material_cost[$material['id']] += $cost['quantity'] * round($cost['total_amount'] / $cost['total_quantity'], 2);
 				}
                 
 				// Get required material per product
                 $sql = 'SELECT id FROM product';
                 $result = mysql_query($sql) or die(mysql_error());
-                
+               	$required_qty = array();
+				
                 while($product = mysql_fetch_assoc($result))
                 {
-                    $sql = 'SELECT quantity as qty 
+                    $sql = 'SELECT *
                             FROM product_material
                             WHERE
                                 id_product = '.$product['id'].'
@@ -207,13 +195,16 @@ h3 { margin: 30px 0px 15px 0px}
                     $result_pm = mysql_query($sql) or die(mysql_error);
                     $data = mysql_fetch_assoc($result_pm);
                     
-                    $required_qty += $total_produced[$product['id']] * $data['qty'];
+                    @$required_qty[$product['id']] += $total_produced[$product['id']] * $data['quantity'];
                 }
+				
+				//print_array($required_qty);
+				//echo array_sum($required_qty);
 				?>
             	
 				<tr>
 					<td><?php echo $material['name'] ?></td>
-					<td align="right"><?php echo add_comma($required_qty) ?></td>
+					<td align="right"><?php echo add_comma(array_sum($required_qty)) ?></td>
 					<td><?php echo $material['unit'] ?></td>
 					<td align="right"><?php echo add_comma($material_cost[$material['id']]) ?></td>
 				</tr>
@@ -264,10 +255,13 @@ h3 { margin: 30px 0px 15px 0px}
                 $result_pm = mysql_query($sql) or die(mysql_error);
 				
 				$total_cost = array();
+				$total_material_used = array();
+				$total_material_cost = array();
                 
                 while($data_pm = mysql_fetch_assoc($result_pm))
                 {
 					$material_used = $data_pm['quantity'] * $product['total_receive'];
+					$total_material_used[$data_pm['id_material']] = $material_used;
 					
 					// Get material cost
 					$sql = 'SELECT 
@@ -289,13 +283,17 @@ h3 { margin: 30px 0px 15px 0px}
 					{
 						$material_cost[$material['id']] += ($cost['total_amount'] / $cost['total_quantity']);
 					}
+
+					$total_material_cost[$data_pm['id_material']] = $material_cost[$material['id']] / $result_cost_row;
 					
 					$total_cost[$data_pm['id_material']] = $material_used * ($material_cost[$material['id']]/$result_cost_row);
                 }
 				
+				//print_array($total_material_cost);
+				//print_array($total_material_used);
 				//print_array($total_cost);
 				
-				$average_cost_per_unit = round(array_sum($total_cost) / $product['total_receive'], 2);
+				$average_cost_per_unit = round(array_sum($total_cost) / $product['total_receive'], 10);
 
 				echo '<tr>
 						<td>'.$product['name'].'</td>
