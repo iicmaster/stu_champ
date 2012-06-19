@@ -292,7 +292,7 @@ function add_comma($number, $decimal = 0)
 	{
 		while(strlen ($_decimal) < 2) 
 		{
-			$_decimal = '0'.$_decimal;
+			$_decimal = $_decimal.'0';
 		}
 		
 		$_decimal = '.'.$_decimal;
