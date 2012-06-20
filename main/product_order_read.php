@@ -15,7 +15,7 @@ $data = mysql_fetch_array($query);
 <script type="text/javascript" src="../js/jquery-ui-1.8.11.min.js"></script>
 <script type="text/javascript">
 $(function(){
-	$('#date_receive').datepicker({ dateFormat: 'yy-mm-dd' });
+	//$('#date_receive').datepicker({ dateFormat: 'yy-mm-dd' });
 });
 </script>
 <?php include("inc.css.php"); ?>
@@ -34,13 +34,13 @@ form hr { margin-top: 20px; }
 		<div class="float_r">วันที่ <?php echo date('d / m / Y'); ?></div>
 		<form method="post" enctype="multipart/form-data">
 			<label for="orderer">ชื่อ</label>
-			<input id="orderer" name="orderer" type="text" value="<?php echo $data['orderer']; ?>" />
+			<input id="orderer" name="orderer" type="text" value="<?php echo $data['orderer']; ?>" readonly="readonly" />
 			<label for="tel">โทรศัพท์</label>
-			<input id="tel" name="tel" type="text" value="<?php echo $data['tel']; ?>" />
+			<input id="tel" name="tel" type="text" value="<?php echo $data['tel']; ?>" readonly="readonly" />
 			<label for="date_receive">วันที่มารับสินค้า</label>
-			<input id="date_receive" name="date_receive" class="datepicker" type="text" value="<?php echo $data['date_receive']; ?>" />
+			<input id="date_receive" name="date_receive" class="datepicker" type="text" value="<?php echo $data['date_receive']; ?>" readonly="readonly" />
 			<label for="description">รายละเอียด</label>
-			<textarea name="description"><?php echo $data['description']; ?></textarea>
+			<textarea name="description" readonly="readonly"><?php echo $data['description']; ?></textarea>
 			<hr />
 			<table>
 				<tr>
@@ -73,9 +73,6 @@ form hr { margin-top: 20px; }
 				endwhile; 
 				?>
 			</table>
-			<p class="center">
-				<input id="submit" name="submit" type="submit" value="บันทึก" />
-			</p>
 		</form>
 		<hr style="margin-top:25px" />
 		<a href="product_order.php">กลับ</a>

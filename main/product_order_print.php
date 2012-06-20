@@ -2,14 +2,12 @@
 require("../include/session.php");
 require('../include/connect.php');
 
-$sql 	= 'SELECT *
-
-		   FROM product_order 
-		   
-		   WHERE id = "'.$_GET['id'].'"';
+$sql = 'SELECT *
+ 		FROM product_order 
+		WHERE id = "'.$_GET['id'].'"';
 				
-$query	= mysql_query($sql) or die(mysql_error());
-$data	= mysql_fetch_array($query);
+$query = mysql_query($sql) or die(mysql_error());
+$data = mysql_fetch_array($query);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -18,7 +16,9 @@ $data	= mysql_fetch_array($query);
 <title>ใบสั่งซื้อสินค้า</title>
 <?php include("inc.css.php"); ?>
 <style type="text/css">
-h5 { margin-bottom: 10px; }
+
+
+#paper h5, #paper th { margin-bottom: 10px; text-shadow: none; }
 
 #paper
 {
@@ -48,6 +48,8 @@ h5 { margin-bottom: 10px; }
 }
 
 #paper hr { border-style: solid; }
+
+#paper textarea { width: 100%}
 
 #signature
 {
