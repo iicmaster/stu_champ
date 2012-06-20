@@ -4,10 +4,116 @@ require('../include/connect.php');
 
 if(isset($_POST['submit']))
 {
-	print_array($_POST);
-	exit();
+	//print_array($_POST);
+	//exit();
+	$message = '';
 	
-	$sql = "";
+	// --------------------------------------------------------------------------------
+	// Start transaction
+	// --------------------------------------------------------------------------------
+	
+	mysql_query("BEGIN");	
+		
+	// --------------------------------------------------------------------------------
+	// Update product order status
+	// --------------------------------------------------------------------------------
+	
+	$sql = "UPDATE product_order
+			SET is_receive = 1
+			WHERE id = ".$_POST['id_order'];
+			
+	// RollBack transaction and show error message when query error						
+	if(! $query = mysql_query($sql))
+	{
+		echo 'Update product order status';
+		echo '<hr />';
+		echo mysql_error();
+		echo '<hr />';
+		echo $sql;
+		mysql_query("ROLLBACK");
+		exit();
+	}
+		
+	// --------------------------------------------------------------------------------
+	// Update received quaintity
+	// --------------------------------------------------------------------------------
+	
+    foreach($_POST['quantity_received'] as $id_product => $qty)
+    {
+        $sql = 'UPDATE product_order_item
+                SET quantity_received = "'.$qty.'"
+                WHERE 
+                	id_order = '.$_POST['id_order'].'
+                	AND id_product = '.$id_product;
+                    
+		// RollBack transaction and show error message when query error						
+		if(! $query = mysql_query($sql))
+		{
+			echo 'Update received quaintity';
+			echo '<hr />';
+			echo mysql_error();
+			echo '<hr />';
+			echo $sql;
+			mysql_query("ROLLBACK");
+			exit();
+		}
+    }
+	
+	// --------------------------------------------------------------------------------
+	// Withdraw product from stock (ordered)
+	// --------------------------------------------------------------------------------
+	
+    foreach($_POST['quantity_received'] as $id_product => $qty)
+    {
+	   $sql = 'INSERT INTO product_transaction
+			   SET
+				  id_product  		= "'.$id_product.'",
+				  type				= 1,
+				  description		= "ส่งมอบให้ลูกค้า รหัสอ้างอิงใบสั่งซื้อที่ '.zero_fill(10, $_POST['id_order']).'",
+				  quantity	    	= -'.$qty.',
+				  stock_code	    = CURDATE()';
+	                
+		// RollBack transaction and show error message when query error						
+		if(! $query = mysql_query($sql))
+		{
+			echo 'Insert stock (ordered)';
+			echo '<hr />';
+			echo mysql_error();
+			echo '<hr />';
+			echo $sql;
+			mysql_query("ROLLBACK");
+			exit();
+		}
+	}
+	
+	// --------------------------------------------------------------------------------
+	// Commit transaction
+	// --------------------------------------------------------------------------------
+	
+	mysql_query("COMMIT");
+	
+	// --------------------------------------------------------------------------------
+	// Open print
+	// --------------------------------------------------------------------------------
+	
+	$message .= '<script type="text/javascript">
+					 window.open("product_order_print.php?id='.$_POST['id_order'].'", "_blank");
+				 </script>';
+
+	// --------------------------------------------------------------------------------
+	// Report
+	// --------------------------------------------------------------------------------
+	
+	$css = '../css/style.css';
+	$url_target	= 'product_order.php';
+	$title = 'สถานะการทำงาน';
+	$message .= '<li class="green">บันทึกข้อมูลเสร็จสมบูรณ์</li>';
+	require_once("../iic_tools/views/iic_report.php");
+	exit();
+		
+	// --------------------------------------------------------------------------------
+	// End
+	// --------------------------------------------------------------------------------
 }
 
 $sql = 'SELECT * FROM product_order WHERE id = "'.$_GET['id'].'"';
@@ -141,7 +247,7 @@ form hr { margin-top: 20px; }
 					<td align="center"><?php echo $loop; ?></td>
 					<td><?php echo $data['name']; ?></td>
 					<td class="right"><?php echo $data['quantity'] ?></td>
-					<td class="right"><input type="text" name="quantity_receive[<?php echo $data['id']; ?>]" class="right" value="<?php echo $data['quantity'] ?>" /></td>
+					<td class="right"><input type="text" name="quantity_received[<?php echo $data['id']; ?>]" class="right" value="<?php echo $data['quantity'] ?>" /></td>
 					<td class="right"><span class="price"><?php echo $data['price_wholesale'] ?></span></td>
 					<td class="right"><span class="total"><?php echo add_comma($total[$data['id_product']]) ?></span></td>
 				</tr>
@@ -156,6 +262,7 @@ form hr { margin-top: 20px; }
 				</tr>
 			</table>
 			<p class="center">
+				<input type="hidden" name="id_order" value="<?php echo $_GET['id']; ?>" id="id_order"/>
 				<input id="submit" name="submit" type="submit" value="บันทึก" />
 			</p>
 		</form>

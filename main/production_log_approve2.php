@@ -275,7 +275,7 @@ if(isset($_POST['submit']))
     {
         if($val != '' && $val != 0)
         {
-            $sql = 'INSERT INTO product_stock
+            $sql = 'INSERT INTO product_transaction
                     SET
                         id_production_log	= "'.$_POST['id_production_log'].'",
                         id_product  		= "'.$key.'",
@@ -283,8 +283,7 @@ if(isset($_POST['submit']))
                         quantity	    	= "'.$val.'",
                         stock_code	    	= CURDATE(),
                 		date_create			= NOW(),
-                		date_exp			= DATE_ADD(NOW(), INTERVAL 30 DAY),
-                		date_transaction_update = NOW()';
+                		date_exp			= DATE_ADD(NOW(), INTERVAL 30 DAY)';
                         
 			// RollBack transaction and show error message when query error						
 			if(! $query = mysql_query($sql))
@@ -310,7 +309,7 @@ if(isset($_POST['submit']))
 		{
 	        if($val != '' && $val != 0)
 	        {
-	            $sql = 'INSERT INTO product_stock
+	            $sql = 'INSERT INTO product_transaction
 	                    SET
 	                        id_production_log	= "'.$_POST['id_production_log'].'",
 	                        id_product  		= "'.$id_product.'",
@@ -318,8 +317,7 @@ if(isset($_POST['submit']))
 	                        quantity	    	= "'.$qty.'",
 	                        stock_code	    	= CURDATE(),
 	                		date_create			= NOW(),
-	                		date_exp			= DATE_ADD(NOW(), INTERVAL 30 DAY),
-	                		date_transaction_update = NOW()';
+	                		date_exp			= DATE_ADD(NOW(), INTERVAL 30 DAY)';
 	                        
 				// RollBack transaction and show error message when query error						
 				if(! $query = mysql_query($sql))
