@@ -77,10 +77,15 @@ $target = 'product_order.php?page=';
 										<td>'.$data['orderer'].'</td>
 										<td class="center">'.$status.'</td>
 										<td class="center nowarp">
-											<a class="button" href="product_order_read.php?id='.$data['id'].'">ดู</a>
-											<a class="button" href="product_order_confirm_receive.php?id='.$data['id'].'">ยืนยันการรับสินค้า</a> 
-											<a class="button" href="product_order_delete.php?id='.$data['id'].'">ยกเลิก</a>
-										</td>
+											<a class="button" href="product_order_read.php?id='.$data['id'].'">ดู</a>';
+											
+							if(!$data['is_receive'])
+							{
+								echo '<a class="button" href="product_order_confirm_receive.php?id='.$data['id'].'">ยืนยันการรับสินค้า</a> 
+									  <a class="button" href="product_order_delete.php?id='.$data['id'].'">ยกเลิก</a>';
+							}				
+											
+							echo '		</td>
 									</tr>';
 						}
 					}
