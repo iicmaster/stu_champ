@@ -1,9 +1,9 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               5.1.57-community - MySQL Community Server (GPL)
--- Server OS:                    Win64
--- HeidiSQL version:             7.0.0.4156
--- Date/time:                    2012-06-21 03:18:13
+-- Server version:               5.5.16 - MySQL Community Server (GPL)
+-- Server OS:                    Win32
+-- HeidiSQL version:             7.0.0.4053
+-- Date/time:                    2012-06-27 22:34:11
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `material` (
   `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `date_update_transaction` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- Dumping data for table champ.material: ~6 rows (approximately)
 DELETE FROM `material`;
@@ -391,7 +391,7 @@ CREATE TABLE IF NOT EXISTS `product_order` (
 DELETE FROM `product_order`;
 /*!40000 ALTER TABLE `product_order` DISABLE KEYS */;
 INSERT INTO `product_order` (`id`, `orderer`, `tel`, `description`, `is_receive`, `is_produced`, `date_receive`, `date_create`, `date_update`) VALUES
-	(7, 'ตรงกระแส กระแสสั้น', '123456789', '', 0, 0, '2012-05-16', '2012-05-09', '2012-05-09 15:28:16'),
+	(7, 'ตรงกระแส กระแสสั้น', '123456789', '', 1, 0, '2012-05-16', '2012-05-09', '2012-06-26 23:39:37'),
 	(8, 'วรรณนิชา ', '0949776430', '', 1, 0, '2012-08-09', '2012-05-28', '2012-06-21 03:14:36');
 /*!40000 ALTER TABLE `product_order` ENABLE KEYS */;
 
@@ -413,9 +413,9 @@ CREATE TABLE IF NOT EXISTS `product_order_item` (
 DELETE FROM `product_order_item`;
 /*!40000 ALTER TABLE `product_order_item` DISABLE KEYS */;
 INSERT INTO `product_order_item` (`id_order`, `id_product`, `quantity`, `quantity_received`) VALUES
-	(7, 1, 200, 0),
-	(7, 2, 100, 0),
-	(7, 3, 50, 0),
+	(7, 1, 200, 200),
+	(7, 2, 100, 100),
+	(7, 3, 50, 50),
 	(8, 1, 120, 120),
 	(8, 2, 60, 60);
 /*!40000 ALTER TABLE `product_order_item` ENABLE KEYS */;
@@ -436,9 +436,9 @@ CREATE TABLE IF NOT EXISTS `product_transaction` (
   PRIMARY KEY (`id`),
   KEY `FK_product_stock_product` (`id_product`),
   CONSTRAINT `FK_product_stock_product` FOREIGN KEY (`id_product`) REFERENCES `product` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.product_transaction: ~10 rows (approximately)
+-- Dumping data for table champ.product_transaction: ~15 rows (approximately)
 DELETE FROM `product_transaction`;
 /*!40000 ALTER TABLE `product_transaction` DISABLE KEYS */;
 INSERT INTO `product_transaction` (`id`, `id_production_log`, `id_product`, `stock_code`, `type`, `description`, `quantity`, `date_exp`, `date_create`) VALUES
@@ -451,7 +451,12 @@ INSERT INTO `product_transaction` (`id`, `id_production_log`, `id_product`, `sto
 	(25, 22, 2, '2012-06-21', 1, NULL, 100, '2012-07-21 02:57:10', '2012-06-21 02:57:10'),
 	(26, 22, 3, '2012-06-21', 1, NULL, 50, '2012-07-21 02:57:10', '2012-06-21 02:57:10'),
 	(27, NULL, 1, '2012-06-21', 1, 'ส่งมอบให้ลูกค้า รหัสอ้างอิงใบสั่งซื้อที่ 0000000008', -120, NULL, '2012-06-21 03:17:59'),
-	(28, NULL, 2, '2012-06-21', 1, 'ส่งมอบให้ลูกค้า รหัสอ้างอิงใบสั่งซื้อที่ 0000000008', -60, NULL, '2012-06-21 03:18:02');
+	(28, NULL, 2, '2012-06-21', 1, 'ส่งมอบให้ลูกค้า รหัสอ้างอิงใบสั่งซื้อที่ 0000000008', -60, NULL, '2012-06-21 03:18:02'),
+	(29, NULL, 1, '2012-06-26', 1, 'ส่งมอบให้ลูกค้า รหัสอ้างอิงใบสั่งซื้อที่ 0000000008', -120, NULL, '2012-06-26 23:27:09'),
+	(30, NULL, 2, '2012-06-26', 1, 'ส่งมอบให้ลูกค้า รหัสอ้างอิงใบสั่งซื้อที่ 0000000008', -60, NULL, '2012-06-26 23:27:09'),
+	(31, NULL, 1, '2012-06-26', 1, 'ส่งมอบให้ลูกค้า รหัสอ้างอิงใบสั่งซื้อที่ 0000000007', -200, NULL, '2012-06-26 23:39:37'),
+	(32, NULL, 2, '2012-06-26', 1, 'ส่งมอบให้ลูกค้า รหัสอ้างอิงใบสั่งซื้อที่ 0000000007', -100, NULL, '2012-06-26 23:39:37'),
+	(33, NULL, 3, '2012-06-26', 1, 'ส่งมอบให้ลูกค้า รหัสอ้างอิงใบสั่งซื้อที่ 0000000007', -50, NULL, '2012-06-26 23:39:37');
 /*!40000 ALTER TABLE `product_transaction` ENABLE KEYS */;
 
 
