@@ -21,7 +21,7 @@
 				<li><a href="production.php">คำนวนการผลิตสินค้า</a></li>
 				<li><a href="production_log.php">บันทึกการผลิต</a></li>
 				<li><a href="product_order.php">การสั่งซื้อจากลูกค้า</a></li>
-				<li><a href="retail.php">การขายปลีก</a></li>
+				<li><a href="product_retail.php">การขายปลีก</a></li>
 			</ul>
 		</li>
 		<li>

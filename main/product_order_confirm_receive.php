@@ -76,7 +76,7 @@ if(isset($_POST['submit']))
 		// RollBack transaction and show error message when query error						
 		if(! $query = mysql_query($sql))
 		{
-			echo 'Insert stock (ordered)';
+			echo 'Withdraw product from stock (ordered)';
 			echo '<hr />';
 			echo mysql_error();
 			echo '<hr />';

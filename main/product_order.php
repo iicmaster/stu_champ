@@ -77,7 +77,7 @@ $target = 'product_order.php?page=';
 										<td>'.$data['orderer'].'</td>
 										<td class="center">'.$status.'</td>
 										<td class="center nowarp">
-											<a class="button" href="product_order_read.php?id='.$data['id'].'">ดู</a>';
+											<a class="button" href="product_order_read.php?id='.$data['id'].'">ดู</a> ';
 											
 							if(!$data['is_receive'])
 							{

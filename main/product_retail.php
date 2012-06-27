@@ -14,8 +14,8 @@ require_once("../include/connect.php");
 $_GET['page'] = (isset($_GET['page'])) ? $_GET['page'] : 1;
 
 // Get total rows
-$sql		= 'SELECT * FROM product_order';
-$query		= mysql_query($sql) or die(mysql_error()); 
+$sql = 'SELECT * FROM product_order WHERE type = 1';
+$query = mysql_query($sql) or die(mysql_error()); 
 $total_rows = mysql_num_rows($query);
 
 // Set date to display per page
@@ -42,7 +42,7 @@ $target = 'product_order.php?page=';
 <div id="container">
 	<?php include("inc.header.php"); ?>
 	<div id="content">
-		<a href="product_order_create.php" class="float_r">สร้ายรายการขาย</a>
+		<a href="product_retail_create.php" class="float_r">สร้ายรายการขาย</a>
 		<h1>ขายปลีกสินค้า</h1>
 		<hr />
 			<table width="100%" border="1" align="center" cellpadding="5" cellspacing="0">
@@ -50,8 +50,7 @@ $target = 'product_order.php?page=';
 					<tr>
 						<th width="30">รหัส</th>
 						<th width="80">วันที่ทำรายการ</th>
-						<th>ผู้สั่ง</th>
-						<th width="80">สถานะ</th>
+						<th>ชื่อลูกค้า</th>
 						<th width="100">การดำเนินการ</th>
 					</tr>
 				</thead>
@@ -59,6 +58,7 @@ $target = 'product_order.php?page=';
 					<?php 					
 					$sql = 'SELECT *
 							FROM product_order 
+							WHERE type = 1
 							ORDER BY product_order.id DESC
 							LIMIT '.$limit_start.', '.$rows_per_page;  
 							
@@ -68,22 +68,13 @@ $target = 'product_order.php?page=';
 					if($query_rows > 0)
 					{
 						while($data = mysql_fetch_array($query))
-						{
-							$status = ($data['is_receive'] == 0) ? '<span class="red">ยังไม่ได้รับสินค้า</span>' : '<span class="green">รับสินค้าแล้ว</span>';
-							
+						{							
 							echo '	<tr>
 										<td class="center">'.zero_fill(4, $data['id']).'</td>
 										<td class="center">'.change_date_format($data['date_create']).'</td>
 										<td>'.$data['orderer'].'</td>
-										<td class="center">'.$status.'</td>
 										<td class="center nowarp">
-											<a class="button" href="product_order_read.php?id='.$data['id'].'">ดู</a>';
-											
-							if(!$data['is_receive'])
-							{
-								echo '<a class="button" href="product_order_confirm_receive.php?id='.$data['id'].'">ยืนยันการรับสินค้า</a> 
-									  <a class="button" href="product_order_delete.php?id='.$data['id'].'">ยกเลิก</a>';
-							}				
+											<a class="button" href="product_retail_read.php?id='.$data['id'].'">ดู</a>';
 											
 							echo '		</td>
 									</tr>';
