@@ -107,7 +107,7 @@ if(isset($_POST['submit']))
 	// --------------------------------------------------------------------------------
 	
 	$message .= '<script type="text/javascript">
-					 window.open("product_retail_print.php?id='.$id_product.'");
+					 window.open("product_retail_print.php?id='.$id_order.'");
 				 </script>'; 
 		
 	// --------------------------------------------------------------------------------
@@ -117,7 +117,7 @@ if(isset($_POST['submit']))
 	$css = '../css/style.css';
 	$url_target = 'product_retail.php';
 	$title = 'สถานะการทำงาน';
-	$message = '<li class="green">บันทึกข้อมูลเสร็จสมบูรณ์</li>';
+	$message .= '<li class="green">บันทึกข้อมูลเสร็จสมบูรณ์</li>';
 	
 	require_once("../iic_tools/views/iic_report.php");
 	exit();
