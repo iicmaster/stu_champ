@@ -1,8 +1,12 @@
+<?php 
+require("../include/session.php");
+require('../include/connect.php');
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>ใบรายการ</title>
+<title>รายงานการขายปลีก</title>
 <?php include("inc.css.php"); ?>
 <style type="text/css" media="print">
 #paper
@@ -69,10 +73,15 @@
 			<td width="80" align="right">วันที่ : </td>
 		</tr>
 		<tr>
-			<td><h1 align="center">รายงานการขาย</h1></td>
+			<td><h1 align="center">รายงานการขายปลีก</h1></td>
 		</tr>
 		<tr>
-			<td align="center"><h5>ช่วงวันที่  ถึงวันที่ </h5></td>
+			<td align="center">
+				<h5>
+				ช่วงวันที่&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo change_date_format($_POST['start_date']) ?>&nbsp;&nbsp;&nbsp;&nbsp;
+				ถึงวันที่&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo change_date_format($_POST['end_date']) ?>
+				</h5>
+			</td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
@@ -81,33 +90,84 @@
 	<table width="100%" class="border">
 		<thead>
 			<tr>
-				<th width="80">รหัส</th>
+				<th width="20">รหัส</th>
 				<th width="100">วันที่ทำรายการ</th>
                 <th>ชื่อลูกค้า</th>
-                <th width="100">สละลอยแก้ว ขนาดเล็ก</th>
-                <th width="100">สละลอยแก้ว ขนาดกลาง</th>
-                <th width="100">สละลอยแก้ว ขนาดใหญ่</th>
-                <th width="100">จำนวนเงิน</th>
+                
+				<?php 
+				$query = 'SELECT name, unit FROM product';
+				$result = mysql_query($query) or die(mysql_error());
+				$total_product_type = mysql_num_rows($result);
+				while($product = mysql_fetch_assoc($result)):
+				?>
+				<th><?php echo $product['name'] ?></th>
+				<?php endwhile  ?>
+				
 			</tr>
 		</thead>
 		<tbody>
+		<?php
+		$sql = 'SELECT *
+		 		FROM product_order
+		 		WHERE
+		 			type = 1
+		 			AND date_create BETWEEN "'.$_POST['start_date'].'" AND "'.$_POST['end_date'].'"';
+						
+		$query = mysql_query($sql) or die(mysql_error());
+		$total_ordered = array();
+		?>
+		
+		<?php while($order = mysql_fetch_array($query)): ?>
+			
+			<?php 
+			// Get product order item
+            $sql_order_item = 'SELECT *
+                          	   FROM product_order_item
+                          	   WHERE id_order = '.$order['id'];
+                          
+            $query_order_item = mysql_query($sql_order_item) or die(mysql_error());
+			$order_item = array();
+			
+			// Get order item array
+            while($data_order_item = mysql_fetch_assoc($query_order_item))
+			{
+				$product_ordered_list[$order['id']][$data_order_item['id_product']] = $data_order_item['quantity'];
+				$order_item[$data_order_item['id_product']] = $data_order_item['quantity'];
+				@$total_ordered[$data_order_item['id_product']] += $data_order_item['quantity'];
+			}
+			?>
 			<tr>
-				<td align="center">001</td>
-				<td align="center"></td>
-                <td></td>
-                <td align="right"></td>
-                <td align="right"></td>
-                <td align="right"></td>
-                <td align="right"></td>
-			</tr>		
+				<td align="center"><?php echo zero_fill(4, $order['id']) ?></td>
+				<td align="center"><?php echo change_date_format($order['date_create']) ?></td>
+                <td><?php echo $order['orderer'] ?></td>
+                <?php 
+				$query_product = 'SELECT * FROM product';
+				$result = mysql_query($query_product) or die(mysql_error());
+				?>
+				
+				<?php while($product = mysql_fetch_assoc($result)): ?>
+                <td class="right">
+                	<?php 
+                	if(isset($order_item[$product['id']]))
+                	{
+                		echo add_comma($order_item[$product['id']]);
+					} 
+                	else 
+                	{
+                		echo 0;
+                	}
+                	?>
+                </td>
+                <?php endwhile ?>
+			</tr>	
+		<?php endwhile ?>	
 		</tbody>
         <tfoot>
 			<tr>
-				<td colspan="3" align="right">รวม</td>
-				<td align="right"></td>
-				<td align="right"></td>
-				<td align="right"></td>
-				<td align="right"></td>
+				<td colspan="3" align="center">รวม</td>
+				<?php foreach($total_ordered as $val): ?>
+				<td align="right"><?php echo add_comma($val) ?></td>
+				<?php endforeach ?>
 			</tr>
 		</tfoot>
 	</table>
