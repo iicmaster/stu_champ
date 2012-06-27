@@ -130,7 +130,9 @@ $(function()
 				// Get product order
 				$sql = 'SELECT * 
 						FROM product_order 
-						WHERE id NOT IN (SELECT id_order FROM production_product WHERE type = 1)
+						WHERE 
+							id NOT IN (SELECT id_order FROM production_product WHERE type = 1)
+							AND type = 0
 						ORDER BY id DESC';
 						
 				$result_order = mysql_query($sql) or die(mysql_error());

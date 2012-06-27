@@ -60,8 +60,12 @@ $target = 'product.php?page=';
 			</thead>
 			<tbody>
 				<?php 
-				$sql = 'SELECT * FROM product LIMIT '.$limit_start.', '.$rows_per_page;  
-				$query = mysql_query($sql); 
+				$sql = 'SELECT 
+							*,
+							(SELECT SUM(quantity) FROM product_transaction WHERE id_product = t1.id AND type != 1 ) AS "stock_remain"
+						FROM product AS t1
+						LIMIT '.$limit_start.', '.$rows_per_page;  
+				$query = mysql_query($sql) or die(mysql_error());  
 				$query_rows = mysql_num_rows($query);
 				
 				if($query_rows > 0)
@@ -73,7 +77,7 @@ $target = 'product.php?page=';
 									<td>'.$data['name'].'</td>
 									<td class="right">'.add_comma($data['price_retail']).'</td>
 									<td class="right">'.add_comma($data['price_wholesale']).'</td>
-									<td class="right">'.$data['total'].'</td>
+									<td class="right">'.$data['stock_remain'].'</td>
 									<td>'.$data['unit'].'</td>
 									<td class="center">'.change_date_time_format($data['date_update']).'</td>
 									<td class="center nowarp">
