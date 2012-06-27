@@ -40,14 +40,14 @@ h3 { margin: 30px 0px 15px 0px}
 						<th scope="col">เลขที่</th>
 						<th scope="col">วันที่ออกใบผลิต</th>
 						<th scope="col">วันที่ผลิต</th>
-		                <th scope="col">สถานะการตรวจรับ</th>
+		          
 					</tr>
 		        </thead>
 					<tr>
 						<td class="center"><?php echo zero_fill(10, $production['id']) ?></td>
-						<td class="center"><?php echo change_date_format($production['date_create']) ?></td>
+						<td clas s="center"><?php echo change_date_format($production['date_create']) ?></td>
 						<td class="center"><?php echo change_date_format($production['date_work']) ?></td>
-						<td class="center"><?php echo $is_approved ?></td>
+			
 					</tr>
 				<tbody>
 				</tbody>

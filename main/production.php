@@ -63,7 +63,7 @@ $(function()
     				while($data = mysql_fetch_array($query)):
 						
 						$sql = 'SELECT SUM(quantity) AS total 
-								FROM product_stock 
+								FROM product_transaction 
 							
 								WHERE 
 									id_product = '.$data['id'].'
@@ -94,7 +94,7 @@ $(function()
                     <tr>
                         <td class="center" colspan="2">รวมทั้งหมด</td>
                         <td class="right"><?php echo add_comma($total_restock) ?></td>
-                        <td>หน่วย</td>
+                        <td>ถ้วย</td>
                     </tr>
                 </tfoot>
 			</table>

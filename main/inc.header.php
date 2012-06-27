@@ -27,11 +27,11 @@
 		<li>
 			<a href="#">รายงาน</a>
 			<ul>
-				<li><a href="#">รายงานการใช้วัตถุดิบ</a></li>
-				<li><a href="#">รายงานการสั่งซื้อสินค้า</a></li>
-				<li><a href="#">รายงานการขายปลีก</a></li>
-				<li><a href="#">รายงานกำไร ขาดทุน</a></li>
-				<li><a href="#">รายงานเงินปันผลของสมาชิก</a></li>
+				<li><a href="report_material.php">รายงานการใช้วัตถุดิบ</a></li>
+				<li><a href="report_product_order.php">รายงานการสั่งซื้อสินค้า</a></li>
+				<li><a href="report_retail.php">รายงานการขายปลีก</a></li>
+				<li><a href="report_income.php">รายงานกำไร ขาดทุน</a></li>
+				<li><a href="report_dividend.php">รายงานเงินปันผลของสมาชิก</a></li>
 			</ul>
 		</li>
 		<li><a href="logout.php">ออกจากระบบ</a></li>

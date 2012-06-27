@@ -38,51 +38,71 @@ $(function() {
 			<ul>
 				<li><a href="#tabs-1">สินค้าคงเหลือ</a></li>
 				<li><a href="#tabs-2">วัตถุดิบคงเหลือ</a></li>
-				<li><a href="#tabs-3">รายการสั่งซื้อสินค้า</a></li>
-				<li><a href="#tabs-4">คิวงาน</a></li>
 			</ul>
 			<div id="tabs-1">
 				<h2>สินค้าคงเหลือ</h2>
 				<hr />
-				<table width="100%" class="table">
-					<thead>
-						<tr>
-							<th scope="col">รหัส</th>
-							<th scope="col">ชื่อสินค้า</th>
-							<th scope="col">จำนวนคงเหลือ</th>
-							<th scope="col">จำนวนที่แนะนำให้ผลิตเพิ่ม</th>
-							<th scope="col">หน่วย</th>
-							<th scope="col">การดำเนินการ</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php 
-						$sql = 'SELECT * FROM product';  
-						$query = mysql_query($sql); 
-						$query_rows = mysql_num_rows($query);
+				<table>
+                <thead>
+    				<tr>
+                    	<th scope="col">รหัส</th>
+    					<th scope="col">สินค้า</th>
+    					<th scope="col">จำนวนคงเหลือ</th>
+    					<th scope="col">จำนวนที่ควรผลิตเพิ่ม</th>
+                        <th scope="col">หน่วย</th>
+    				</tr>
+                </thead>
+                <tbody>
+    				<!-- @formatter:off -->
+    				<?php 
+    				$total_produced_qty = array();
+    				$total_produced_weight = array();
+					
+    				// --------------------------------------------------
+    				// Product restock
+    				// --------------------------------------------------
+    				
+    				$product_restock_list = array();
+					$total_restock = 0;
+                    
+    				$sql = 'SELECT * FROM product';
+    				$query = mysql_query($sql) or die(mysql_error());
+					
+    				while($data = mysql_fetch_array($query)):
 						
-						if($query_rows > 0)
-						{
-							while($data = mysql_fetch_array($query))
-							{
-								echo 	'<tr>
-											<td width="30" class="right">'.zero_fill(4, $data['id']).'</td>
-											<td>'.$data['name'].'</td>
-											<td class="right">'.$data['total'].'</td>
-											<td class="right">'.($data['stock_max'] - $data['total']).'</td>
-											<td>'.$data['unit'].'</td>
-											<td class="center nowarp">
-												<a class="button" href="product_update.php?id='.$data['id'].'">แก้ไข</a>
-												<a class="button" href="product_delete.php?id='.$data['id'].'">ลบ</a> 
-											</td>
-										</tr>';
-							}
-						}
-						else
-						{
-							echo '<tr><td colspan="4" class="center">ไม่มีข้อมูล</td></tr>';
-						}
-						?>
+						$sql = 'SELECT SUM(quantity) AS total 
+								FROM product_transaction 
+							
+								WHERE 
+									id_product = '.$data['id'].'
+								 	AND type = 0';
+								
+						$result = mysql_query($sql) or die(mysql_error());
+						$product_stock_data = mysql_fetch_assoc($result);
+						
+						$product_stock_qty = $product_stock_data['total'];
+						
+                        $restock_qty = $data['stock_max'] - $product_stock_data['total'];
+						$total_restock += $restock_qty;
+                        $product_restock_list[$data['id']] = $restock_qty;
+						
+						$total_produced_qty[$data['id']] = $restock_qty;
+						$total_produced_weight[$data['id']] = $restock_qty * $data['weight'];
+    				?>
+    				<tr>
+                    	<td align="center"><?php echo $data['id'] ?></td>
+    					<td><?php echo $data['name'] ?></td>
+    					<td class="right"><?php echo add_comma($product_stock_qty) ?></td>
+    					<td class="right"><?php echo add_comma($restock_qty) ?></td>
+    					<td><?php echo $data['unit'] ?></td>
+    				</tr>
+    				<?php endwhile ?>
+    				<!--@formatter:on-->
+				</tbody>
+			</table>
+			
+                        
+                        					
 					</tbody>
 				</table>
 			</div>
@@ -137,102 +157,6 @@ $(function() {
 					</table>
 					<input type="submit" name="create" value="ออกใบสั่งซื้อ" />
 				</form>
-			</div>
-			<div id="tabs-3">
-				<h2>รายการสั่งซื้อสินค้า</h2>
-				<hr />
-				<table width="100%" class="table">
-					<thead>
-						<tr>
-							<th scope="col">รหัส</th>
-							<th scope="col">ชื่อสินค้า</th>
-							<th scope="col">จำนวน</th>
-							<th scope="col">รวมเป็นเงิน</th>
-							<th scope="col">ชื่อลูกค้า</th>
-							<th scope="col">ชื่อผู้รับเรื่อง</th>
-							<th scope="col">การดำเนินการ</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div id="tabs-4">
-				<h2>คิวงาน</h2>
-				<hr />
-				<h3>ประจำวันที่: dd / mm / yyyy </h3>
-				<table width="100%" class="table">
-					<thead>
-						<tr>
-							<th scope="col">รหัส</th>
-							<th scope="col">ขื่อสมาชิก</th>
-							<th scope="col">เบอร์โทรศัพท์</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-					</tbody>
-				</table>
-				<h3>ประจำวันที่: dd / mm / yyyy </h3>
-				<table width="100%" class="table">
-					<thead>
-						<tr>
-							<th scope="col">รหัส</th>
-							<th scope="col">ขื่อสมาชิก</th>
-							<th scope="col">เบอร์โทรศัพท์</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-					</tbody>
-				</table>
-				<h3>ประจำวันที่: dd / mm / yyyy </h3>
-				<table width="100%" class="table">
-					<thead>
-						<tr>
-							<th scope="col">รหัส</th>
-							<th scope="col">ขื่อสมาชิก</th>
-							<th scope="col">เบอร์โทรศัพท์</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-					</tbody>
-				</table>
-				<h3>ประจำวันที่: dd / mm / yyyy </h3>
-				<table width="100%" class="table">
-					<thead>
-						<tr>
-							<th scope="col">รหัส</th>
-							<th scope="col">ขื่อสมาชิก</th>
-							<th scope="col">เบอร์โทรศัพท์</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-							<td>&nbsp;</td>
-					</tbody>
-				</table>
 			</div>
 		</div>
 	</div>

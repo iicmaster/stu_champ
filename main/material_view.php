@@ -81,7 +81,7 @@ $average_cost_per_unit = round($total_stock_value/$total_stock_remain, 2);
 		<table width="100%">
 			<tr>
 				<th rowspan="2" width="100">วันที่-เวลา</th>
-				<th rowspan="2" width="80">รหัสสต็อค</th>
+				<th rowspan="2" width="80">วันที่วัตถุดิบเข้า</th>
 				<th rowspan="2" width="150">ผู้จัดจำหน่าย</th>
 				<th rowspan="2">คำอธิบาย</th>
 				<th rowspan="2" width="50">ราคาซื้อ</th>
