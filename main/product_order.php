@@ -59,6 +59,7 @@ $target = 'product_order.php?page=';
 					<?php 					
 					$sql = 'SELECT *
 							FROM product_order 
+							WHERE type = 0
 							ORDER BY product_order.id DESC
 							LIMIT '.$limit_start.', '.$rows_per_page;  
 							

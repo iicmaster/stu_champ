@@ -1,8 +1,12 @@
+<?php 
+require("../include/session.php");
+require('../include/connect.php');
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>ใบรายการ</title>
+<title>รายงานการใช้วัตถุดิบ</title>
 <?php include("inc.css.php"); ?>
 <style type="text/css" media="print">
 #paper
@@ -72,7 +76,12 @@
 			<td><h1 align="center">รายงานการใช้วัตถุดิบ</h1></td>
 		</tr>
 		<tr>
-			<td align="center"><h5>ช่วงวันที่  ถึงวันที่ </h5></td>
+			<td align="center">
+				<h5>
+				ช่วงวันที่&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo change_date_format($_POST['start_date']) ?>&nbsp;&nbsp;&nbsp;&nbsp;
+				ถึงวันที่&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo change_date_format($_POST['end_date']) ?>
+				</h5>
+			</td>
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
@@ -87,36 +96,50 @@
 			</tr>
 		</thead>
 		<tbody>
+		<?php 
+		$sql = 'SELECT *
+		 		FROM material';
+						
+		$query = mysql_query($sql) or die(mysql_error());
+		?>
+		
+		<?php while($material = mysql_fetch_array($query)): ?>
+			<?php			
+			$sql = 'SELECT 
+						id_product,
+						SUM(quantity) AS total
+					
+					FROM product_transaction
+					
+					WHERE
+						quantity > 0
+						AND date_create BETWEEN "'.$_POST['start_date'].'" AND "'.$_POST['end_date'].'"
+					
+					GROUP BY id_product';
+            $result = mysql_query($sql) or die(mysql_error());
+           	$total_used_material = array();
+			
+            while($product = mysql_fetch_assoc($result))
+            {
+                $sql = 'SELECT *
+                        FROM product_material
+                        WHERE
+                            id_product = '.$product['id_product'].'
+                            AND id_material = '.$material['id'];
+							
+                $result_pm = mysql_query($sql) or die(mysql_error);
+                $data = mysql_fetch_assoc($result_pm);
+				
+                $total_used_material[$product['id_product']] = $product['total'] * $data['quantity'];
+            }
+			
+			?>
 			<tr>
-				<td>สละ</td>
-				<td align="right"></td>
-                <td></td>
+				<td><?php echo $material['name'] ?></td>
+				<td align="right"><?php echo add_comma(array_sum($total_used_material)) ?></td>
+                <td><?php echo $material['unit'] ?></td>
 			</tr>
-			<tr>
-				<td>น้ำตาลทรายขาว</td>
-				<td align="right"></td>
-                <td></td>
-			</tr>
-			<tr>
-				<td>เกลือ</td>
-				<td align="right"></td>
-                <td></td>
-			</tr>
-			<tr>
-				<td>ถ้วยพลาสติก เล็ก</td>
-				<td align="right"></td>
-                <td></td>
-			</tr>
-			<tr>
-				<td>ถ้วยพลาสติก กลาง</td>
-				<td align="right"></td>
-                <td></td>
-			</tr>
-			<tr>
-				<td>ถ้วยพลาสติก ใหญ่</td>
-				<td align="right"></td>
-                <td></td>
-			</tr>
+		<?php endwhile ?>
 		</tbody>
 	</table>
 </div>
