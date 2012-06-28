@@ -75,7 +75,7 @@ $(function() {
 							
 								WHERE 
 									id_product = '.$data['id'].'
-								 	AND type = 0';
+								 	AND type != 1';
 								
 						$result = mysql_query($sql) or die(mysql_error());
 						$product_stock_data = mysql_fetch_assoc($result);
@@ -155,7 +155,7 @@ $(function() {
 							?>
 						</tbody>
 					</table>
-					<input type="submit" name="create" value="ออกใบสั่งซื้อ" />
+					<p class="center"><input type="submit" name="create" value="ออกใบสั่งซื้อ" /></p>
 				</form>
 			</div>
 		</div>
