@@ -192,6 +192,7 @@ if(isset($_POST['submit']))
 	        $required_qty += $total_produced[$product['id']] * $data['qty'];
 		}
 		
+		// Get stock remain list order by stock_code
 		$sql = 'SELECT 
 					*,
 					SUM(quantity) AS material_remain
@@ -207,7 +208,6 @@ if(isset($_POST['submit']))
 		
 		//echo '<ol>';
 		
-		// Loop by stock remain order by stock_code
 		while($required_qty > 0)
 		{
 			$stock = mysql_fetch_array($query_stock);

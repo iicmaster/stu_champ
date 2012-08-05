@@ -75,7 +75,7 @@ if(isset($_POST['submit']))
 	
     foreach($_POST['quantity'] as $id_product => $qty)
     {
-	   $sql = 'INSERT INTO product_transaction
+	   /*$sql = 'INSERT INTO product_transaction
 			   SET
 				  id_product  		= "'.$id_product.'",
 				  type				= 2,
@@ -93,8 +93,74 @@ if(isset($_POST['submit']))
 			echo $sql;
 			mysql_query("ROLLBACK");
 			exit();
-		}
+		}*/
+		
+		// Get stock remain list order by stock_code
+		$sql = 'SELECT 
+					*,
+					SUM(quantity) AS remain
+					
+				FROM product_transaction
+				
+				WHERE id_product = '.$id_product.'
+					
+				GROUP BY stock_code
+				ORDER BY stock_code';
+				
+		$query_stock = mysql_query($sql) or die(mysql_error());
+		
+		$required_qty = $qty;
+		
+		//echo '<ol>';
+		
+		while($required_qty > 0)
+		{
+			$stock = mysql_fetch_array($query_stock);
+			
+			// Withdraw product from oldest stock
+			if($stock['remain'] > 0)
+			{								
+				if($required_qty >= $stock['remain'])
+				{
+					$withdraw_qty = $stock['remain'];
+					$required_qty -= $stock['remain'];
+				}
+				else 
+				{
+					$withdraw_qty = $required_qty;
+					$required_qty = 0;
+				}
+				
+				$sql = 'INSERT INTO product_transaction
+						SET
+				  			id_product  = "'.$id_product.'",
+				  			type		= 2,
+				  			description	= "ขายปลีกให้ลูกค้า รหัสอ้างอิงใบเสร็จเลขที่ '.zero_fill(10, $id_order).'",
+							stock_code	= "'.$stock['stock_code'].'",
+							quantity	= -'.$withdraw_qty;
+							
+				/*echo '<li>
+						['.$RQ.']-'.$stock['remain'].'-['.$stock['stock_code'].']-'.$withdraw_qty.'
+					  </li>';*/
+							
+				// RollBack transaction and show error message when query error						
+				if(! $query = mysql_query($sql))
+				{
+					echo 'Withdraw product from oldest stock';
+					echo '<hr />';
+					echo mysql_error();
+					echo '<hr />';
+					echo $sql;
+					mysql_query("ROLLBACK");
+					exit();
+				}
+			}
+	    }
+		
+		//echo '</ol>';
 	}
+	
+		
 				
 	// --------------------------------------------------------------------------------
 	// Commit transaction
