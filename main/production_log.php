@@ -74,8 +74,7 @@ $target = 'product_order.php?page=';
 										<td class="center">'.change_date_format($data['date_create']).'</td>
 										<td class="center">'.change_date_format($data['date_work']).'</td>
 										<td class="center">'.$status.'</td>
-										<td class="center nowarp">
-											<a class="button" href="production_log_print.php?id='.$data['id'].'" target="_blank">ดูใบผลิต</a>';
+										<td class="center nowarp">';
 											
 							if($data['is_approved'])
 							{
@@ -83,7 +82,8 @@ $target = 'product_order.php?page=';
 							}		
 							else 
 							{
-								echo '<a class="button" href="production_log_approve.php?id='.$data['id'].'">ตรวจรับ</a>';
+								echo '<a class="button" href="production_log_print.php?id='.$data['id'].'" target="_blank">ดูใบผลิต</a>
+									  <a class="button" href="production_log_approve.php?id='.$data['id'].'">ตรวจรับ</a>';
 							}				
 											
 							echo '				
