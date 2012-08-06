@@ -75,27 +75,7 @@ if(isset($_POST['submit']))
 	
     foreach($_POST['quantity'] as $id_product => $qty)
     {
-	   /*$sql = 'INSERT INTO product_transaction
-			   SET
-				  id_product  		= "'.$id_product.'",
-				  type				= 2,
-				  description		= "ขายปลีกให้ลูกค้า รหัสอ้างอิงใบเสร็จเลขที่ '.zero_fill(10, $id_order).'",
-				  quantity	    	= -'.$qty.',
-				  stock_code	    = CURDATE()';
-	                
-		// RollBack transaction and show error message when query error						
-		if(! $query = mysql_query($sql))
-		{
-			echo 'Withdraw product from stock';
-			echo '<hr />';
-			echo mysql_error();
-			echo '<hr />';
-			echo $sql;
-			mysql_query("ROLLBACK");
-			exit();
-		}*/
-		
-		// Get stock remain list order by stock_code
+	   	// Get stock remain list order by stock_code
 		$sql = 'SELECT 
 					*,
 					SUM(quantity) AS remain

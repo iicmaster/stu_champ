@@ -47,50 +47,64 @@ $target = 'product.php?page=';
 		<table border="1" align="center" cellpadding="5" cellspacing="0">
 			<thead>
 				<tr>
-					<th width="30">รหัส</th>
-					<th>ชื่อ</th>
-					<th>ราคาขายปลีก</th>
-					<th>ราคาขายส่ง</th>
-					<th>คงเหลือ</th>
-					<th>หน่วย</th>
-					<th>ปรับปรุงล่าสุด</th>
+					<th>รหัสสต็อค</th>
+					<?php 
+					$query = 'SELECT name, unit FROM product';
+					$result = mysql_query($query) or die(mysql_error());
+					$total_product_type = mysql_num_rows($result);
+					while($product = mysql_fetch_assoc($result)):
+					?>
+					<th><?php echo $product['name'] ?> (<?php echo $product['unit'] ?>)</th>
+					<?php endwhile  ?>
 					<th width="80">แก้ไข</th>
 				</tr>
 			</thead>
 			<tbody>
-				<?php 
-				$sql = 'SELECT 
-							*,
-							(SELECT SUM(quantity) FROM product_transaction WHERE id_product = t1.id AND type != 1 ) AS "stock_remain"
-						FROM product AS t1
-						LIMIT '.$limit_start.', '.$rows_per_page;  
-				$query = mysql_query($sql) or die(mysql_error());  
-				$query_rows = mysql_num_rows($query);
-				
-				if($query_rows > 0)
-				{
-					while($data = mysql_fetch_array($query))
-					{
-						echo 	'<tr>
-									<td width="30" class="right">'.zero_fill(4, $data['id']).'</td>
-									<td>'.$data['name'].'</td>
-									<td class="right">'.add_comma($data['price_retail']).'</td>
-									<td class="right">'.add_comma($data['price_wholesale']).'</td>
-									<td class="right">'.$data['stock_remain'].'</td>
-									<td>'.$data['unit'].'</td>
-									<td class="center">'.change_date_time_format($data['date_update']).'</td>
-									<td class="center nowarp">
-										<a class="button" href="product_update.php?id='.$data['id'].'">แก้ไข</a>
-										<a class="button" href="product_delete.php?id='.$data['id'].'">ลบ</a> 
-									</td>
-								</tr>';
-					}
-				}
-				else
-				{
-					echo '<tr><td colspan="4" class="center">ไม่มีข้อมูล</td></tr>';
-				}
-				?>
+			<?php 
+			$sql = 'SELECT stock_code
+					FROM product_transaction
+					GROUP BY stock_code
+					ORDER BY stock_code
+					LIMIT '.$limit_start.', '.$rows_per_page;  
+					
+			$query = mysql_query($sql) or die(mysql_error());  
+			$query_rows = mysql_num_rows($query);
+			?>
+			<?php if($query_rows > 0): ?>
+				<?php while($data = mysql_fetch_array($query)): ?>
+				<tr>
+					<td class="center"><?php echo $data['stock_code'] ?></td>
+					
+					
+					<?php 
+					$sql = 'SELECT 
+								*, 
+								(
+									SELECT SUM(quantity) 
+									FROM product_transaction 
+									WHERE id_product = t1.id_product
+								) AS remain
+							FROM product_transaction as t1
+							WHERE
+								stock_code = "'.$data['stock_code'].'"
+							GROUP BY id_product';
+								
+					$result = mysql_query($sql) or die(mysql_error());
+					$total_product_type = mysql_num_rows($result);
+					while($product = mysql_fetch_assoc($result)):
+					?>
+					<td class="right"><?php echo add_comma($product['remain']) ?></td>
+					<?php endwhile  ?>
+					
+					<td class="center nowarp">
+						<a class="button" href="product_stock_read.php?id=<?php echo $data['id'] ?>">ดู</a>
+						<a class="button" href="product_stock_delete.php?id=<?php echo $data['id'] ?>">กำจัด</a> 
+					</td>
+				</tr>
+				<?php endwhile ?>
+			<?php else: ?>
+				<tr><td colspan="4" class="center">ไม่มีข้อมูล</td></tr>
+			<?php endif ?>
 			</tbody>
 		</table>
 		<hr />
