@@ -125,6 +125,7 @@ $(function()
 				// --------------------------------------------------
 				
 				$product_ordered_list = array();
+				$total_ordered_weight = array();
 				$total_ordered_product = 0;
                 
 				// Get product order
@@ -171,8 +172,12 @@ $(function()
 							<?php 
 							if(isset($order_item[$product['id']]))
 							{
-								$total_produced_weight[$data['id']] = $order_item[$product['id']] * $product['weight']; 
+								@$total_ordered_weight[$order['id']][$product['id']] += $order_item[$product['id']] * $product['weight']; 
 								$total_produced_qty[$product['id']] += $order_item[$product['id']];
+							}
+							else 
+							{
+								$total_ordered_weight[$order['id']][$product['id']] = 0;
 							}
 							?>
                         <td class="right">
@@ -212,13 +217,14 @@ $(function()
 			</table>
 		</div>
 			<p class="center">
-			    <?php foreach($total_produced_qty as $key => $value): ?>
-					<input type="hidden" name="total_produced_weight[<?php echo $key ?>]" value="<?php echo $total_produced_weight[$key] ?>" />
-                    <input type="hidden" name="product_restock_list[<?php echo $key ?>]" value="<?php echo $product_restock_list[$key] ?>" />
+			    <?php foreach($total_produced_qty as $id_product => $value): ?>
+					<input type="hidden" name="total_restock_weight[<?php echo $id_product ?>]" value="<?php echo $total_produced_weight[$id_product] ?>" />
+                    <input type="hidden" name="product_restock_list[<?php echo $id_product ?>]" value="<?php echo $product_restock_list[$id_product] ?>" />
                 <?php endforeach ?>
                 
 			    <?php foreach($product_ordered_list as $id_order => $order): ?>
 			    	<?php foreach($order as $id_product => $product): ?>
+					<input type="hidden" name="total_ordered_weight[<?php echo $id_order ?>][<?php echo $id_product ?>]" value="<?php echo $total_ordered_weight[$id_order][$id_product] ?>" />
                     <input type="hidden" name="product_ordered_list[<?php echo $id_order ?>][<?php echo $id_product ?>]" value="<?php echo $product ?>" />
                 	<?php endforeach ?>
                 <?php endforeach ?>

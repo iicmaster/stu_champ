@@ -7,6 +7,7 @@ require('../include/connect.php');
 
 $total_ordered = array();
 $product_ordered = array();
+$total_ordered_weight = 0;
 
 if(isset($_POST['id_order']))
 {
@@ -18,7 +19,18 @@ if(isset($_POST['id_order']))
 			$total_ordered[$id_product] += $ordered_qty;
 			$product_ordered[$id_order][$id_product] = $ordered_qty;
 		}
+		
+		foreach($_POST['total_ordered_weight'][$id_order] as $weight)
+		{
+			$total_ordered_weight += $weight;
+		}
 	}
+	
+	$total_produced_weight = array_sum($_POST['total_restock_weight']) + $total_ordered_weight;
+}
+else 
+{
+	$total_produced_weight = array_sum($_POST['total_restock_weight']);
 }
 
 $total_produced = array();
@@ -150,7 +162,7 @@ $(function()
     				// --------------------------------------------------
     				// Worker
     				// --------------------------------------------------
-	                $total_worker = round(array_sum($_POST['total_produced_weight']) / 15000);
+	                $total_worker = round($total_produced_weight / 15000);
 	                
 	                $query = 'SELECT * FROM member';
 	                $result_member = mysql_query($query);
