@@ -168,7 +168,14 @@ $(function()
 	                $result_member = mysql_query($query);
 	                
 	                // Create member list
-	                $query = 'SELECT * FROM member LIMIT '.$total_worker;
+	                $query = 'SELECT 
+										*,
+										(SELECT COUNT(*) FROM production_member where id_worked_member = t1.id) AS work_count
+							FROM member as t1
+								
+							ORDER BY work_count ASC 
+							
+							LIMIT '.$total_worker;
 	                $result = mysql_query($query);
 	                
 	                $loop = 1;
