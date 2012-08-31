@@ -75,6 +75,7 @@ $(function()
 						$product_stock_qty = $product_stock_data['total'];
 						
                         $restock_qty = $data['stock_max'] - $product_stock_data['total'];
+						$restock_qty = ($restock_qty > 0) ? $restock_qty : 0;
 						$total_restock += $restock_qty;
                         $product_restock_list[$data['id']] = $restock_qty;
 						
