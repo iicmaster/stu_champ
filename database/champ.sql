@@ -1,14 +1,15 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               5.1.57-community - MySQL Community Server (GPL)
+-- Server version:               5.1.63-community - MySQL Community Server (GPL)
 -- Server OS:                    Win64
--- HeidiSQL version:             7.0.0.4156
--- Date/time:                    2012-06-28 02:43:32
+-- HeidiSQL version:             7.0.0.4174
+-- Date/time:                    2012-09-02 05:19:21
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
-/*!40014 SET FOREIGN_KEY_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 -- Dumping database structure for champ
 DROP DATABASE IF EXISTS `champ`;
@@ -36,12 +37,12 @@ CREATE TABLE IF NOT EXISTS `material` (
 DELETE FROM `material`;
 /*!40000 ALTER TABLE `material` DISABLE KEYS */;
 INSERT INTO `material` (`id`, `name`, `total`, `description`, `stock_min`, `stock_max`, `unit`, `date_create`, `date_update`, `date_update_transaction`) VALUES
-	(30, 'สละ', 190, 'สละพันธุ์ดีมาก', 700, 0, 'กิโลกรัม', '2011-04-10 00:43:09', '2011-04-10 00:43:09', '2012-06-19 01:41:20'),
-	(31, 'น้ำตาลทรายขาว', 39, 'อย่างดี', 100, 0, 'กิโลกรัม', '2011-04-10 01:09:29', '2011-04-10 01:09:29', '2012-06-19 01:41:20'),
-	(32, 'เกลือ', 28866, 'คุณภาพสูง', 30000, 0, 'กรัม', '2011-04-10 01:14:18', '2011-04-10 01:14:18', '2012-06-19 01:41:20'),
-	(33, 'ถ้วยพลาสติก เล็ก', 280, '', 1000, 0, 'ถ้วย', '2011-04-10 05:43:03', '2011-04-10 05:43:03', '2012-06-19 01:41:20'),
-	(34, 'ถ้วยพลาสติก กลาง', 640, '', 1000, 0, 'ถ้วย', '2011-04-10 05:43:20', '2011-04-10 05:43:20', '2012-06-19 01:41:20'),
-	(35, 'ถ้วยพลาสติก ใหญ่', 850, '', 1000, 0, 'ถ้วย', '2011-04-10 05:43:44', '2011-04-10 05:43:44', '2012-06-19 01:41:20');
+	(30, 'สละ', 200, 'สละพันธุ์ดีมาก', 700, 0, 'กิโลกรัม', '2011-04-10 00:43:09', '2011-04-10 00:43:09', '2012-09-01 05:45:47'),
+	(31, 'น้ำตาลทรายขาว', 40, 'อย่างดี', 100, 0, 'กิโลกรัม', '2011-04-10 01:09:29', '2011-04-10 01:09:29', '2012-09-01 05:45:47'),
+	(32, 'เกลือ', 28890, 'คุณภาพสูง', 30000, 0, 'กรัม', '2011-04-10 01:14:18', '2011-04-10 01:14:18', '2012-09-01 05:45:47'),
+	(33, 'ถ้วยพลาสติก เล็ก', 200, '', 1000, 0, 'ถ้วย', '2011-04-10 05:43:03', '2011-04-10 05:43:03', '2012-09-01 05:45:47'),
+	(34, 'ถ้วยพลาสติก กลาง', 700, '', 1000, 0, 'ถ้วย', '2011-04-10 05:43:20', '2011-04-10 05:43:20', '2012-09-01 05:45:47'),
+	(35, 'ถ้วยพลาสติก ใหญ่', 850, '', 1000, 0, 'ถ้วย', '2011-04-10 05:43:44', '2011-04-10 05:43:44', '2012-09-01 05:45:47');
 /*!40000 ALTER TABLE `material` ENABLE KEYS */;
 
 
@@ -53,15 +54,13 @@ CREATE TABLE IF NOT EXISTS `material_order` (
   `date_create` date NOT NULL,
   `is_approve` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0 = ยังไม่ได้ตรวจรับ, 1 = ตรวจรับแล้ว',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.material_order: ~3 rows (approximately)
+-- Dumping data for table champ.material_order: ~1 rows (approximately)
 DELETE FROM `material_order`;
 /*!40000 ALTER TABLE `material_order` DISABLE KEYS */;
 INSERT INTO `material_order` (`id`, `description`, `date_create`, `is_approve`) VALUES
-	(91, NULL, '2012-06-19', 1),
-	(92, NULL, '2012-06-19', 1),
-	(93, NULL, '2012-06-19', 1);
+	(94, NULL, '2012-09-01', 1);
 /*!40000 ALTER TABLE `material_order` ENABLE KEYS */;
 
 
@@ -82,28 +81,16 @@ CREATE TABLE IF NOT EXISTS `material_order_item` (
   CONSTRAINT `FK_material_order_item_supplier` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.material_order_item: ~18 rows (approximately)
+-- Dumping data for table champ.material_order_item: ~6 rows (approximately)
 DELETE FROM `material_order_item`;
 /*!40000 ALTER TABLE `material_order_item` DISABLE KEYS */;
 INSERT INTO `material_order_item` (`id_material_order`, `id_material`, `id_supplier`, `quantity_order`, `quantity_receive`, `total_price`) VALUES
-	(91, 30, 1, 200, 200, NULL),
-	(91, 31, 2, 30, 30, NULL),
-	(91, 32, 4, 10000, 10000, NULL),
-	(91, 33, 2, 300, 300, NULL),
-	(91, 34, 2, 150, 150, NULL),
-	(91, 35, 2, 100, 100, NULL),
-	(92, 30, 1, 200, 200, NULL),
-	(92, 31, 2, 40, 40, NULL),
-	(92, 32, 2, 10000, 10000, NULL),
-	(92, 33, 2, 300, 300, NULL),
-	(92, 34, 2, 400, 400, NULL),
-	(92, 35, 2, 500, 500, NULL),
-	(93, 30, 1, 300, 300, NULL),
-	(93, 31, 2, 30, 30, NULL),
-	(93, 32, 2, 10000, 10000, NULL),
-	(93, 33, 2, 400, 400, NULL),
-	(93, 34, 2, 450, 450, NULL),
-	(93, 35, 2, 400, 400, NULL);
+	(94, 30, 1, 700, 700, NULL),
+	(94, 31, 2, 100, 100, NULL),
+	(94, 32, 2, 30000, 30000, NULL),
+	(94, 33, 2, 1000, 1000, NULL),
+	(94, 34, 2, 1000, 1000, NULL),
+	(94, 35, 2, 1000, 1000, NULL);
 /*!40000 ALTER TABLE `material_order_item` ENABLE KEYS */;
 
 
@@ -151,41 +138,28 @@ CREATE TABLE IF NOT EXISTS `material_transaction` (
   CONSTRAINT `FK_material_transaction_supplier` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.material_transaction: ~31 rows (approximately)
+-- Dumping data for table champ.material_transaction: ~18 rows (approximately)
 DELETE FROM `material_transaction`;
 /*!40000 ALTER TABLE `material_transaction` DISABLE KEYS */;
 INSERT INTO `material_transaction` (`id_material`, `id_supplier`, `id_production_log`, `stock_code`, `description`, `amount`, `quantity`, `date_create`) VALUES
-	(30, 1, NULL, '2012-06-19', NULL, 6000.00, 200.00, '2012-06-19 01:39:06'),
-	(31, 2, NULL, '2012-06-19', NULL, 600.00, 30.00, '2012-06-19 01:39:06'),
-	(32, 4, NULL, '2012-06-19', NULL, 100.00, 10000.00, '2012-06-19 01:39:06'),
-	(33, 2, NULL, '2012-06-19', NULL, 300.00, 300.00, '2012-06-19 01:39:06'),
-	(34, 2, NULL, '2012-06-19', NULL, 300.00, 150.00, '2012-06-19 01:39:06'),
-	(35, 2, NULL, '2012-06-19', NULL, 300.00, 100.00, '2012-06-19 01:39:06'),
-	(30, 1, NULL, '2012-06-21', NULL, 6000.00, 200.00, '2012-06-19 01:40:29'),
-	(31, 2, NULL, '2012-06-21', NULL, 800.00, 40.00, '2012-06-19 01:40:29'),
-	(32, 2, NULL, '2012-06-21', NULL, 100.00, 10000.00, '2012-06-19 01:40:29'),
-	(33, 2, NULL, '2012-06-21', NULL, 300.00, 300.00, '2012-06-19 01:40:29'),
-	(34, 2, NULL, '2012-06-21', NULL, 800.00, 400.00, '2012-06-19 01:40:29'),
-	(35, 2, NULL, '2012-06-21', NULL, 1500.00, 500.00, '2012-06-19 01:40:29'),
-	(30, 1, NULL, '2012-06-22', NULL, 9000.00, 300.00, '2012-06-19 01:41:20'),
-	(31, 2, NULL, '2012-06-22', NULL, 600.00, 30.00, '2012-06-19 01:41:20'),
-	(32, 2, NULL, '2012-06-22', NULL, 100.00, 10000.00, '2012-06-19 01:41:20'),
-	(33, 2, NULL, '2012-06-22', NULL, 400.00, 400.00, '2012-06-19 01:41:20'),
-	(34, 2, NULL, '2012-06-22', NULL, 900.00, 450.00, '2012-06-19 01:41:20'),
-	(35, 2, NULL, '2012-06-22', NULL, 1200.00, 400.00, '2012-06-19 01:41:20'),
-	(30, 1, 22, '2012-06-19', 'นำไปผลิต', 0.00, -200.00, '2012-06-21 02:57:10'),
-	(30, 1, 22, '2012-06-21', 'นำไปผลิต', 0.00, -200.00, '2012-06-21 02:57:10'),
-	(30, 1, 22, '2012-06-22', 'นำไปผลิต', 0.00, -110.00, '2012-06-21 02:57:10'),
-	(31, 2, 22, '2012-06-19', 'นำไปผลิต', 0.00, -30.00, '2012-06-21 02:57:10'),
-	(31, 2, 22, '2012-06-21', 'นำไปผลิต', 0.00, -31.20, '2012-06-21 02:57:10'),
-	(32, 4, 22, '2012-06-19', 'นำไปผลิต', 0.00, -1134.00, '2012-06-21 02:57:10'),
-	(33, 2, 22, '2012-06-19', 'นำไปผลิต', 0.00, -300.00, '2012-06-21 02:57:10'),
-	(33, 2, 22, '2012-06-21', 'นำไปผลิต', 0.00, -300.00, '2012-06-21 02:57:10'),
-	(33, 2, 22, '2012-06-22', 'นำไปผลิต', 0.00, -120.00, '2012-06-21 02:57:10'),
-	(34, 2, 22, '2012-06-19', 'นำไปผลิต', 0.00, -150.00, '2012-06-21 02:57:10'),
-	(34, 2, 22, '2012-06-21', 'นำไปผลิต', 0.00, -210.00, '2012-06-21 02:57:10'),
-	(35, 2, 22, '2012-06-19', 'นำไปผลิต', 0.00, -100.00, '2012-06-21 02:57:10'),
-	(35, 2, 22, '2012-06-21', 'นำไปผลิต', 0.00, -50.00, '2012-06-21 02:57:10');
+	(30, 1, NULL, '2012-09-01', NULL, 21000.00, 700.00, '2012-09-01 05:45:47'),
+	(31, 2, NULL, '2012-09-01', NULL, 2000.00, 100.00, '2012-09-01 05:45:47'),
+	(32, 2, NULL, '2012-09-01', NULL, 300.00, 30000.00, '2012-09-01 05:45:47'),
+	(33, 2, NULL, '2012-09-01', NULL, 1000.00, 1000.00, '2012-09-01 05:45:47'),
+	(34, 2, NULL, '2012-09-01', NULL, 2000.00, 1000.00, '2012-09-01 05:45:47'),
+	(35, 2, NULL, '2012-09-01', NULL, 3000.00, 1000.00, '2012-09-01 05:45:47'),
+	(30, 1, 23, '2012-09-01', 'นำไปผลิต', 0.00, -325.00, '2012-09-01 05:48:39'),
+	(31, 2, 23, '2012-09-01', 'นำไปผลิต', 0.00, -39.00, '2012-09-01 05:48:39'),
+	(32, 2, 23, '2012-09-01', 'นำไปผลิต', 0.00, -720.00, '2012-09-01 05:48:39'),
+	(33, 2, 23, '2012-09-01', 'นำไปผลิต', 0.00, -500.00, '2012-09-01 05:48:39'),
+	(34, 2, 23, '2012-09-01', 'นำไปผลิต', 0.00, -200.00, '2012-09-01 05:48:39'),
+	(35, 2, 23, '2012-09-01', 'นำไปผลิต', 0.00, -100.00, '2012-09-01 05:48:39'),
+	(30, 1, 24, '2012-09-01', 'นำไปผลิต', 0.00, -175.00, '2012-09-01 06:05:53'),
+	(31, 2, 24, '2012-09-01', 'นำไปผลิต', 0.00, -21.00, '2012-09-01 06:05:53'),
+	(32, 2, 24, '2012-09-01', 'นำไปผลิต', 0.00, -390.00, '2012-09-01 06:05:53'),
+	(33, 2, 24, '2012-09-01', 'นำไปผลิต', 0.00, -300.00, '2012-09-01 06:05:53'),
+	(34, 2, 24, '2012-09-01', 'นำไปผลิต', 0.00, -100.00, '2012-09-01 06:05:53'),
+	(35, 2, 24, '2012-09-01', 'นำไปผลิต', 0.00, -50.00, '2012-09-01 06:05:53');
 /*!40000 ALTER TABLE `material_transaction` ENABLE KEYS */;
 
 
@@ -272,13 +246,18 @@ CREATE TABLE IF NOT EXISTS `production_log` (
   `date_work` date NOT NULL,
   `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.production_log: ~1 rows (approximately)
+-- Dumping data for table champ.production_log: ~5 rows (approximately)
 DELETE FROM `production_log`;
 /*!40000 ALTER TABLE `production_log` DISABLE KEYS */;
 INSERT INTO `production_log` (`id`, `is_approved`, `description`, `date_create`, `date_exp`, `date_work`, `date_update`) VALUES
-	(22, 1, '', '2012-06-17', '2012-07-17', '2012-06-21', '2012-06-17 01:31:12');
+	(23, 1, '', '2012-09-01', '2012-10-01', '2012-09-01', '2012-09-01 05:47:50'),
+	(24, 1, '', '2012-09-01', '2012-10-01', '2012-09-01', '2012-09-01 06:05:42'),
+	(25, 0, '', '2012-09-01', '2012-10-01', '2012-09-01', '2012-09-01 23:46:20'),
+	(26, 0, '', '2012-09-01', '2012-10-01', '2012-09-01', '2012-09-01 23:52:19'),
+	(27, 0, '', '2012-09-01', '2012-10-01', '2012-09-01', '2012-09-01 23:53:36'),
+	(28, 0, '', '2012-09-02', '2012-10-02', '2012-09-02', '2012-09-02 04:31:19');
 /*!40000 ALTER TABLE `production_log` ENABLE KEYS */;
 
 
@@ -294,20 +273,70 @@ CREATE TABLE IF NOT EXISTS `production_member` (
   CONSTRAINT `production_member_ibfk_1` FOREIGN KEY (`id_assigned_member`) REFERENCES `member` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.production_member: ~10 rows (approximately)
+-- Dumping data for table champ.production_member: ~49 rows (approximately)
 DELETE FROM `production_member`;
 /*!40000 ALTER TABLE `production_member` DISABLE KEYS */;
 INSERT INTO `production_member` (`id_log`, `id_assigned_member`, `id_worked_member`) VALUES
-	(22, 1, 1),
-	(22, 3, 3),
-	(22, 5, 5),
-	(22, 6, 6),
-	(22, 7, 7),
-	(22, 8, 8),
-	(22, 9, 9),
-	(22, 10, 10),
-	(22, 11, 11),
-	(22, 12, 12);
+	(23, 1, 1),
+	(23, 3, 3),
+	(23, 5, 5),
+	(23, 6, 6),
+	(23, 7, 7),
+	(23, 8, 8),
+	(23, 9, 9),
+	(23, 10, 10),
+	(23, 11, 11),
+	(23, 12, 12),
+	(23, 13, 13),
+	(23, 14, 14),
+	(24, 1, 1),
+	(24, 3, 3),
+	(24, 5, 5),
+	(24, 6, 6),
+	(24, 7, 7),
+	(24, 8, 8),
+	(24, 9, 9),
+	(25, 15, NULL),
+	(25, 1, NULL),
+	(25, 17, NULL),
+	(25, 18, NULL),
+	(25, 19, NULL),
+	(25, 20, NULL),
+	(25, 10, NULL),
+	(25, 11, NULL),
+	(25, 12, NULL),
+	(25, 13, NULL),
+	(26, 15, NULL),
+	(26, 1, NULL),
+	(26, 17, NULL),
+	(26, 18, NULL),
+	(26, 19, NULL),
+	(26, 20, NULL),
+	(26, 10, NULL),
+	(26, 11, NULL),
+	(26, 12, NULL),
+	(26, 13, NULL),
+	(27, 15, NULL),
+	(27, 16, NULL),
+	(27, 17, NULL),
+	(27, 18, NULL),
+	(27, 19, NULL),
+	(27, 20, NULL),
+	(27, 10, NULL),
+	(27, 11, NULL),
+	(27, 12, NULL),
+	(27, 13, NULL),
+	(28, 15, NULL),
+	(28, 16, NULL),
+	(28, 17, NULL),
+	(28, 18, NULL),
+	(28, 19, NULL),
+	(28, 20, NULL),
+	(28, 10, NULL),
+	(28, 11, NULL),
+	(28, 12, NULL),
+	(28, 13, NULL),
+	(28, 14, NULL);
 /*!40000 ALTER TABLE `production_member` ENABLE KEYS */;
 
 
@@ -326,18 +355,29 @@ CREATE TABLE IF NOT EXISTS `production_product` (
   CONSTRAINT `production_product_ibfk_2` FOREIGN KEY (`id_product`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.production_product: ~8 rows (approximately)
+-- Dumping data for table champ.production_product: ~16 rows (approximately)
 DELETE FROM `production_product`;
 /*!40000 ALTER TABLE `production_product` DISABLE KEYS */;
 INSERT INTO `production_product` (`id_log`, `id_product`, `type`, `id_order`, `quantity_order`, `quantity_receive`) VALUES
-	(22, 1, 0, NULL, 400, 400),
-	(22, 2, 0, NULL, 200, 200),
-	(22, 3, 0, NULL, 100, 100),
-	(22, 1, 1, 8, 120, 120),
-	(22, 2, 1, 8, 60, 60),
-	(22, 1, 1, 7, 200, 200),
-	(22, 2, 1, 7, 100, 100),
-	(22, 3, 1, 7, 50, 50);
+	(23, 1, 0, NULL, 400, 400),
+	(23, 2, 0, NULL, 200, 200),
+	(23, 3, 0, NULL, 100, 100),
+	(23, 1, 1, 11, 100, 100),
+	(24, 1, 0, NULL, 300, 300),
+	(24, 2, 0, NULL, 100, 100),
+	(24, 3, 0, NULL, 50, 50),
+	(25, 1, 0, NULL, 300, NULL),
+	(25, 2, 0, NULL, 200, NULL),
+	(25, 3, 0, NULL, 100, NULL),
+	(26, 1, 0, NULL, 300, NULL),
+	(26, 2, 0, NULL, 200, NULL),
+	(26, 3, 0, NULL, 100, NULL),
+	(27, 1, 0, NULL, 300, NULL),
+	(27, 2, 0, NULL, 200, NULL),
+	(27, 3, 0, NULL, 100, NULL),
+	(28, 1, 0, NULL, 400, NULL),
+	(28, 2, 0, NULL, 200, NULL),
+	(28, 3, 0, NULL, 100, NULL);
 /*!40000 ALTER TABLE `production_product` ENABLE KEYS */;
 
 
@@ -386,16 +426,16 @@ CREATE TABLE IF NOT EXISTS `product_order` (
   `date_create` date NOT NULL,
   `date_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.product_order: ~3 rows (approximately)
+-- Dumping data for table champ.product_order: ~4 rows (approximately)
 DELETE FROM `product_order`;
 /*!40000 ALTER TABLE `product_order` DISABLE KEYS */;
 INSERT INTO `product_order` (`id`, `type`, `orderer`, `tel`, `description`, `is_receive`, `is_produced`, `date_receive`, `date_create`, `date_update`) VALUES
-	(7, 0, 'ตรงกระแส กระแสสั้น', '123456789', '', 0, 0, '2012-05-16', '2012-05-09', '2012-05-09 15:28:16'),
-	(8, 0, 'วรรณนิชา ', '0949776430', '', 1, 0, '2012-08-09', '2012-05-28', '2012-06-21 03:14:36'),
-	(9, 1, 'อาจารย์แม่งเรื่องมาก', NULL, NULL, 0, 0, NULL, '2012-06-28', '2012-06-28 02:19:05'),
-	(10, 1, 'อาจารย์แม่งเรื่องมากสัด', NULL, NULL, 0, 0, NULL, '2012-06-28', '2012-06-28 02:23:43');
+	(11, 0, 'champ', '0000000000', '', 1, 0, '2012-09-28', '2012-09-01', '2012-09-01 05:50:39'),
+	(12, 1, 'pue', NULL, NULL, 0, 0, NULL, '2012-09-01', '2012-09-01 05:51:30'),
+	(13, 1, 'champ', NULL, NULL, 0, 0, NULL, '2012-09-01', '2012-09-01 05:54:57'),
+	(14, 1, 'gee', NULL, NULL, 0, 0, NULL, '2012-09-01', '2012-09-01 06:06:56');
 /*!40000 ALTER TABLE `product_order` ENABLE KEYS */;
 
 
@@ -412,19 +452,18 @@ CREATE TABLE IF NOT EXISTS `product_order_item` (
   CONSTRAINT `FK_product_order_item_product_order` FOREIGN KEY (`id_order`) REFERENCES `product_order` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.product_order_item: ~6 rows (approximately)
+-- Dumping data for table champ.product_order_item: ~8 rows (approximately)
 DELETE FROM `product_order_item`;
 /*!40000 ALTER TABLE `product_order_item` DISABLE KEYS */;
 INSERT INTO `product_order_item` (`id_order`, `id_product`, `quantity`, `quantity_received`) VALUES
-	(7, 1, 200, 0),
-	(7, 2, 100, 0),
-	(7, 3, 50, 0),
-	(8, 1, 120, 120),
-	(8, 2, 60, 60),
-	(9, 1, 100, 0),
-	(10, 1, 3, 0),
-	(10, 2, 2, 0),
-	(10, 3, 1, 0);
+	(11, 1, 100, 100),
+	(12, 1, 200, 0),
+	(12, 2, 100, 0),
+	(12, 3, 50, 0),
+	(13, 1, 100, 0),
+	(14, 1, 300, 0),
+	(14, 2, 200, 0),
+	(14, 3, 100, 0);
 /*!40000 ALTER TABLE `product_order_item` ENABLE KEYS */;
 
 
@@ -435,34 +474,36 @@ CREATE TABLE IF NOT EXISTS `product_transaction` (
   `id_production_log` int(10) unsigned DEFAULT NULL,
   `id_product` int(10) unsigned NOT NULL,
   `stock_code` char(10) COLLATE utf8_unicode_ci NOT NULL,
-  `type` tinyint(1) unsigned DEFAULT '0' COMMENT '0 = สต็อกปกติ, 1 = สั่งผลิตจากลูกค้า, 2 = ขายปลึก',
+  `type` tinyint(1) unsigned DEFAULT '0' COMMENT '0 = สต็อกปกติ, 1 = สั่งผลิตจากลูกค้า, 2 = ขายปลืก, 3 = กำจัด',
   `description` text COLLATE utf8_unicode_ci,
   `quantity` int(10) NOT NULL,
-  `date_exp` datetime DEFAULT NULL,
+  `date_exp` date DEFAULT NULL,
   `date_create` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `FK_product_stock_product` (`id_product`),
   CONSTRAINT `FK_product_stock_product` FOREIGN KEY (`id_product`) REFERENCES `product` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table champ.product_transaction: ~11 rows (approximately)
+-- Dumping data for table champ.product_transaction: ~15 rows (approximately)
 DELETE FROM `product_transaction`;
 /*!40000 ALTER TABLE `product_transaction` DISABLE KEYS */;
 INSERT INTO `product_transaction` (`id`, `id_production_log`, `id_product`, `stock_code`, `type`, `description`, `quantity`, `date_exp`, `date_create`) VALUES
-	(19, 22, 1, '2012-06-21', 0, NULL, 400, '2012-07-21 02:57:10', '2012-06-21 02:57:10'),
-	(20, 22, 2, '2012-06-21', 0, NULL, 200, '2012-07-21 02:57:10', '2012-06-21 02:57:10'),
-	(21, 22, 3, '2012-06-21', 0, NULL, 100, '2012-07-21 02:57:10', '2012-06-21 02:57:10'),
-	(22, 22, 1, '2012-06-21', 1, NULL, 120, '2012-07-21 02:57:10', '2012-06-21 02:57:10'),
-	(23, 22, 2, '2012-06-21', 1, NULL, 60, '2012-07-21 02:57:10', '2012-06-21 02:57:10'),
-	(24, 22, 1, '2012-06-21', 1, NULL, 200, '2012-07-21 02:57:10', '2012-06-21 02:57:10'),
-	(25, 22, 2, '2012-06-21', 1, NULL, 100, '2012-07-21 02:57:10', '2012-06-21 02:57:10'),
-	(26, 22, 3, '2012-06-21', 1, NULL, 50, '2012-07-21 02:57:10', '2012-06-21 02:57:10'),
-	(27, NULL, 1, '2012-06-21', 1, 'ส่งมอบให้ลูกค้า รหัสอ้างอิงใบสั่งซื้อที่ 0000000008', -120, NULL, '2012-06-21 03:17:59'),
-	(28, NULL, 2, '2012-06-21', 1, 'ส่งมอบให้ลูกค้า รหัสอ้างอิงใบสั่งซื้อที่ 0000000008', -60, NULL, '2012-06-21 03:18:02'),
-	(29, NULL, 1, '2012-06-28', 2, 'ขายปลีกให้ลูกค้า รหัสอ้างอิงใบเสร็จเลขที่ 0000000009', -100, NULL, '2012-06-28 02:18:31'),
-	(32, NULL, 1, '2012-06-28', 2, 'ขายปลีกให้ลูกค้า รหัสอ้างอิงใบเสร็จเลขที่ 0000000010', -3, NULL, '2012-06-28 02:23:43'),
-	(33, NULL, 2, '2012-06-28', 2, 'ขายปลีกให้ลูกค้า รหัสอ้างอิงใบเสร็จเลขที่ 0000000010', -2, NULL, '2012-06-28 02:23:43'),
-	(34, NULL, 3, '2012-06-28', 2, 'ขายปลีกให้ลูกค้า รหัสอ้างอิงใบเสร็จเลขที่ 0000000010', -1, NULL, '2012-06-28 02:23:43');
+	(38, 23, 1, '2012-09-01', 0, NULL, 400, '2012-10-01', '2012-09-02 03:02:40'),
+	(39, 23, 2, '2012-09-01', 0, NULL, 200, '2012-10-01', '2012-09-02 03:02:40'),
+	(40, 23, 3, '2012-09-01', 0, NULL, 100, '2012-10-01', '2012-09-02 03:02:40'),
+	(41, 23, 1, '2012-09-01', 1, NULL, 100, '2012-10-01', '2012-09-02 03:02:40'),
+	(42, NULL, 1, '2012-09-01', 1, 'ส่งมอบให้ลูกค้า รหัสอ้างอิงใบสั่งซื้อที่ 0000000011', -100, '2012-10-01', '2012-09-02 03:02:40'),
+	(43, NULL, 1, '2012-09-01', 2, 'ขายปลีกให้ลูกค้า รหัสอ้างอิงใบเสร็จเลขที่ 0000000012', -200, '2012-10-01', '2012-09-02 03:02:40'),
+	(44, NULL, 2, '2012-09-01', 2, 'ขายปลีกให้ลูกค้า รหัสอ้างอิงใบเสร็จเลขที่ 0000000012', -100, '2012-10-01', '2012-09-02 03:02:40'),
+	(45, NULL, 3, '2012-09-01', 2, 'ขายปลีกให้ลูกค้า รหัสอ้างอิงใบเสร็จเลขที่ 0000000012', -50, '2012-10-01', '2012-09-02 03:02:40'),
+	(46, NULL, 1, '2012-09-01', 2, 'ขายปลีกให้ลูกค้า รหัสอ้างอิงใบเสร็จเลขที่ 0000000013', -100, '2012-10-01', '2012-09-02 03:02:40'),
+	(47, 24, 1, '2012-09-01', 0, NULL, 300, '2012-10-01', '2012-09-02 03:02:40'),
+	(48, 24, 2, '2012-09-01', 0, NULL, 100, '2012-10-01', '2012-09-02 03:02:40'),
+	(49, 24, 3, '2012-09-01', 0, NULL, 50, '2012-10-01', '2012-09-02 03:02:40'),
+	(50, NULL, 1, '2012-09-01', 2, 'ขายปลีกให้ลูกค้า รหัสอ้างอิงใบเสร็จเลขที่ 0000000014', -300, '2012-10-01', '2012-09-02 03:02:40'),
+	(51, NULL, 2, '2012-09-01', 2, 'ขายปลีกให้ลูกค้า รหัสอ้างอิงใบเสร็จเลขที่ 0000000014', -200, '2012-10-01', '2012-09-02 03:02:40'),
+	(52, NULL, 3, '2012-09-01', 2, 'ขายปลีกให้ลูกค้า รหัสอ้างอิงใบเสร็จเลขที่ 0000000014', -100, '2012-10-01', '2012-09-02 03:02:40'),
+	(65, NULL, 1, '2012-09-01', 3, 'กำจัดทิ้ง', -100, NULL, '2012-09-02 04:30:30');
 /*!40000 ALTER TABLE `product_transaction` ENABLE KEYS */;
 
 
@@ -490,5 +531,6 @@ INSERT INTO `supplier` (`id`, `name`, `address`, `tel`, `fax`, `contact`, `conta
 	(4, 'บางกะจะโชห่วย', 'บางกะจะ', '039-441569', '', 'เจ๊พร', '', '2011-04-11 03:45:01', '2011-05-04 09:52:17'),
 	(5, 'สวนสละลุงแดง', 'ท่าใหม่', '0812345678', '', 'น้าเขียว', '0845678901', '2012-04-19 03:57:27', '2012-04-19 03:57:27');
 /*!40000 ALTER TABLE `supplier` ENABLE KEYS */;
-/*!40014 SET FOREIGN_KEY_CHECKS=1 */;
+/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
+/*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
