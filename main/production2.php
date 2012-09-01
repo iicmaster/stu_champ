@@ -41,7 +41,6 @@ foreach($_POST['product_restock_list'] as $id_product => $qty)
 	$total_produced[$id_product] = $_POST['product_restock_list'][$id_product] + $total_ordered[$id_product];
 }
 
-
 //$total_produced_weight = $_POST['total_produced_weight'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -62,6 +61,26 @@ $(function()
 {
     $("#production_date").datepicker({
         dateFormat : 'yy-mm-dd'
+    });
+    
+    $('select[name^=id_member]').change(function()
+    {
+    	var id_member = $(this).val();
+    	var id_selectbox = $(this).attr('id');
+    	
+    	//alert('selected id = '+id_member)
+    	
+    	$('select[name^=id_member][id!='+id_selectbox+']').each(function()
+		{
+			//alert($(this).val() + ' = ' + id_member);
+			
+			if($(this).val() == id_member)
+			{
+				alert('คุณเลือกชื่อผู้ทำการผลิตซ้ำ กรุณาเลือกใหม่อีกครั้ง');
+				$('#'+id_selectbox).val('').focus();
+			}
+		})
+    	
     });
 }); 
 </script>
@@ -185,6 +204,7 @@ $(function()
 	                        <td class="right"><?php echo $loop ?></td>
 	                        <td>
 	                            <select id="id_member_<?php echo $member['id'] ?>" name="id_member[]">
+	                            	<option value="">-</option>
 	                            <?php 
 	                            $selected = '';
 	                            while($option = mysql_fetch_assoc($result_member))
@@ -213,7 +233,6 @@ $(function()
                     <input type="hidden" name="product_ordered[<?php echo $id_order ?>][<?php echo $id_product ?>]" value="<?php echo $qty ?>" />
                 	<?php endforeach ?>
                 <?php endforeach ?>
-                
                 
 			    <?php foreach($_POST['product_restock_list'] as $key => $value): ?>
                     <input type="hidden" name="product_restock[<?php echo $key ?>]" value="<?php echo $value ?>" />
