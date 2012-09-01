@@ -118,7 +118,7 @@ function get_timestamp($date_time)
 		
 		list($_mktime['Y'], $_mktime['m'], $_mktime['d']) = explode("-", $_date);
 		
-		list($_mktime['H'], $_mktime['i'], $_mktime['s']) = split(':',$_time);
+		list($_mktime['H'], $_mktime['i'], $_mktime['s']) = explode(':',$_time);
 		
 		$_return = TRUE;
 	}
