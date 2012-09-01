@@ -48,6 +48,7 @@ $target = 'product.php?page=';
 			<thead>
 				<tr>
 					<th>รหัสสต็อค</th>
+					<th>วันหมดอายุ</th>
 					<?php 
 					$query = 'SELECT name, unit FROM product';
 					$result = mysql_query($query) or die(mysql_error());
@@ -61,7 +62,7 @@ $target = 'product.php?page=';
 			</thead>
 			<tbody>
 			<?php 
-			$sql = 'SELECT stock_code
+			$sql = 'SELECT *
 					FROM product_transaction
 					GROUP BY stock_code
 					ORDER BY stock_code
@@ -74,8 +75,7 @@ $target = 'product.php?page=';
 				<?php while($data = mysql_fetch_array($query)): ?>
 				<tr>
 					<td class="center"><?php echo $data['stock_code'] ?></td>
-					
-					
+					<td class="center"><?php echo change_date_format($data['date_exp']) ?></td>
 					<?php 
 					$sql = 'SELECT 
 								*, 
@@ -84,9 +84,12 @@ $target = 'product.php?page=';
 									FROM product_transaction 
 									WHERE id_product = t1.id_product
 								) AS remain
+								
 							FROM product_transaction as t1
+							
 							WHERE
 								stock_code = "'.$data['stock_code'].'"
+								
 							GROUP BY id_product';
 								
 					$result = mysql_query($sql) or die(mysql_error());
@@ -97,8 +100,8 @@ $target = 'product.php?page=';
 					<?php endwhile  ?>
 					
 					<td class="center nowarp">
-						<a class="button" href="product_stock_read.php?id=<?php echo $data['id'] ?>">ดู</a>
-						<a class="button" href="product_stock_delete.php?id=<?php echo $data['id'] ?>">กำจัด</a> 
+						<a class="button" href="product_stock_view.php?stock_code=<?php echo $data['stock_code'] ?>">ดู</a>
+						<a class="button" href="product_stock_delete.php?stock_code=<?php echo $data['stock_code'] ?>">กำจัด</a> 
 					</td>
 				</tr>
 				<?php endwhile ?>
