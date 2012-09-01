@@ -41,7 +41,9 @@ $data = mysql_fetch_array($query);
 						(
 							SELECT SUM(quantity) 
 							FROM product_transaction 
-							WHERE id_product = t1.id_product
+							WHERE 
+								id_product = t1.id_product
+								AND stock_code = t1.stock_code
 						) AS remain
 						
 					FROM product_transaction as t1

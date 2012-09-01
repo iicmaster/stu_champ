@@ -72,6 +72,8 @@ $target = 'product.php?page=';
 				{
 					while($data = mysql_fetch_array($query))
 					{
+						$data['stock_remain'] = ($data['stock_remain'] == '') ? 0 : $data['stock_remain'];
+						
 						echo 	'<tr>
 									<td width="30" class="right">'.zero_fill(4, $data['id']).'</td>
 									<td>'.$data['name'].'</td>

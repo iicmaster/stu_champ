@@ -67,7 +67,9 @@ $target = 'product.php?page=';
 						(
 							SELECT COUNT(*) 
 							FROM product_transaction 
-							WHERE type = 3 AND stock_code = t1.stock_code
+							WHERE 
+								type = 3 
+								AND stock_code = t1.stock_code
 						) AS is_delete
 					FROM product_transaction AS t1
 					GROUP BY stock_code
@@ -94,7 +96,9 @@ $target = 'product.php?page=';
 								(
 									SELECT SUM(quantity) 
 									FROM product_transaction 
-									WHERE id_product = t1.id_product
+									WHERE 
+										id_product = t1.id_product
+										AND stock_code = t1.stock_code
 								) AS remain
 								
 							FROM product_transaction as t1
@@ -105,11 +109,17 @@ $target = 'product.php?page=';
 							GROUP BY id_product';
 								
 					$result = mysql_query($sql) or die(mysql_error());
-					$total_product_type = mysql_num_rows($result);
+					$result_row = mysql_num_rows($result);
+					$col_diff = $total_product_type - $result_row;
 					while($product = mysql_fetch_assoc($result)):
 					?>
 					<td class="right"><?php echo add_comma($product['remain']) ?></td>
 					<?php endwhile  ?>
+					<?php if ($col_diff > 0): ?>
+						<?php for ($i = 1; $i <= $col_diff; $i++): ?>
+							<td class="right">0</td>
+						<?php endfor ?>
+					<?php endif ?>
 					
 					<td class="center nowarp">
 						<a class="button" href="product_stock_view.php?stock_code=<?php echo $data['stock_code'] ?>">ดู</a>
