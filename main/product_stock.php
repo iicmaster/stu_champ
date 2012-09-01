@@ -62,8 +62,14 @@ $target = 'product.php?page=';
 			</thead>
 			<tbody>
 			<?php 
-			$sql = 'SELECT *
-					FROM product_transaction
+			$sql = 'SELECT 
+						*, 
+						(
+							SELECT COUNT(*) 
+							FROM product_transaction 
+							WHERE type = 3 AND stock_code = t1.stock_code
+						) AS is_delete
+					FROM product_transaction AS t1
 					GROUP BY stock_code
 					ORDER BY stock_code
 					LIMIT '.$limit_start.', '.$rows_per_page;  
@@ -73,9 +79,15 @@ $target = 'product.php?page=';
 			?>
 			<?php if($query_rows > 0): ?>
 				<?php while($data = mysql_fetch_array($query)): ?>
+				<?php
+				$date_exp = change_date_format($data['date_exp']);
+				$date_exp = (get_timestamp($data['date_exp']) < get_timestamp(date('Y-m-d')))
+								? '<span class="bold red">'.change_date_format($data['date_exp']).'</span>'
+								: $date_exp;
+				?>
 				<tr>
 					<td class="center"><?php echo $data['stock_code'] ?></td>
-					<td class="center"><?php echo change_date_format($data['date_exp']) ?></td>
+					<td class="center"><?php echo $date_exp ?></td>
 					<?php 
 					$sql = 'SELECT 
 								*, 
@@ -101,12 +113,14 @@ $target = 'product.php?page=';
 					
 					<td class="center nowarp">
 						<a class="button" href="product_stock_view.php?stock_code=<?php echo $data['stock_code'] ?>">ดู</a>
+						<?php if ($data['is_delete'] == 0): ?>
 						<a class="button" href="product_stock_delete.php?stock_code=<?php echo $data['stock_code'] ?>">กำจัด</a> 
+						<?php endif ?>
 					</td>
 				</tr>
 				<?php endwhile ?>
 			<?php else: ?>
-				<tr><td colspan="4" class="center">ไม่มีข้อมูล</td></tr>
+				<tr><td colspan="6" class="center">ไม่มีข้อมูล</td></tr>
 			<?php endif ?>
 			</tbody>
 		</table>
