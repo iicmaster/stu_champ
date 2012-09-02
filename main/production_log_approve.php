@@ -129,6 +129,8 @@ h3 { margin: 30px 0px 15px 0px}
 				
 				$id_order = NULL;
 		
+			if($result_row > 0)
+			{
 				while($data = mysql_fetch_array($result))
 				{
 					$total_restock[$data['id_product']] = $data['quantity_order'];
@@ -152,6 +154,12 @@ h3 { margin: 30px 0px 15px 0px}
 							<td>'.$data['unit'].'</td>
 						  </tr>';
 				}
+				
+			}
+			else 
+			{
+				echo '<tr><td colspan="5" class="center">ไม่มีข้อมูล</td></tr>';
+			}
 				?>
 				</tbody>
 			</table>

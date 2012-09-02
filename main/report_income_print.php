@@ -42,39 +42,82 @@ while($order = mysql_fetch_assoc($query_order))
 
 $total_cost = 0;
 
-$sql = 'SELECT *
-		FROM production_log 
+$sql = 'SELECT
+			*, 
+			ABS(SUM(quantity)) AS total
+		FROM product_transaction
 		WHERE 
-			date_create BETWEEN "'.$_POST['start_date'].'" AND "'.$_POST['end_date'].'"';
+			date_create BETWEEN "'.$_POST['start_date'].'" AND "'.$_POST['end_date'].'"
+			AND (type = 2 OR type = 3)
+		GROUP BY id_product, stock_code';
+		
+//echo $sql;
 		
 $query_production_log = mysql_query($sql) or die(mysql_error());
 
-while($production_log = mysql_fetch_assoc($query_production_log))
+while($data = mysql_fetch_assoc($query_production_log))
 {
+	$product_cost = get_product_cost($data['stock_code']);
+	$total_cost += $product_cost[$data['id_product']] * $data['total'];
+}
+
+//echo $total_cost;
+
+// --------------------------------------------------------------------------------
+
+function get_product_cost($stock_code)
+{
+	// Get id_production_log
+	$sql = 'SELECT * FROM product_transaction WHERE stock_code = "'.$stock_code.'"';
+	$query = mysql_query($sql) or die(mysql_error());
+	$data = mysql_fetch_array($query);
+	$id_production_log = $data['id_production_log'];
+	
+	// Get material cost for this production
 	$sql = 'SELECT * FROM material';
-	$query = mysql_query($sql);
+	$query = mysql_query($sql) or die(mysql_error());
 	
 	while($material = mysql_fetch_array($query))
 	{
 	    $sql = 'SELECT 
 					ABS(quantity) AS quantity,
-					(SELECT SUM(amount) FROM material_transaction WHERE stock_code = t1.stock_code AND id_material = t1.id_material) AS total_amount,
-					(SELECT SUM(quantity) FROM material_transaction WHERE stock_code = t1.stock_code AND id_material = t1.id_material AND quantity > 0) AS total_quantity
+					(
+						SELECT SUM(amount) 
+						FROM material_transaction 
+						WHERE stock_code = t1.stock_code 
+						AND id_material = t1.id_material
+					) AS total_amount,
+					(
+						SELECT SUM(quantity) 
+						FROM material_transaction 
+						WHERE stock_code = t1.stock_code 
+						AND id_material = t1.id_material 
+						AND quantity > 0
+					) AS total_quantity
 				
 				FROM material_transaction AS t1
+				
 				WHERE 
 					id_material = '.$material['id'].'
-					AND id_production_log = '.$production_log['id'];
+					AND id_production_log = "'.$id_production_log.'"';
 					
 	    $result_cost = mysql_query($sql) or die(mysql_error);
+	    $result_cost_row = mysql_num_rows($result_cost);
 		
 		$material_cost[$material['id']] = 0;
 		
-		while($cost = mysql_fetch_assoc($result_cost))
+		if($result_cost_row > 0)
 		{
-			$material_cost[$material['id']] += $cost['quantity'] * round($cost['total_amount'] / $cost['total_quantity'], 2);
+			while($cost = mysql_fetch_assoc($result_cost))
+			{
+				//$material_cost[$material['id']] = round($cost['total_amount'] / $cost['total_quantity'], 2);{
+				$material_cost[$material['id']] += $cost['quantity'] * round($cost['total_amount'] / $cost['total_quantity'], 2);
+				@$total_used_material[$material['id']] += $cost['quantity'];
+			}
+			
+			$material_cost[$material['id']] = round($material_cost[$material['id']] / @$total_used_material[$material['id']], 2);
 		}
-	    
+		    
 		// Get required material per product
 	    $sql = 'SELECT id FROM product';
 	    $result = mysql_query($sql) or die(mysql_error());
@@ -91,13 +134,46 @@ while($production_log = mysql_fetch_assoc($query_production_log))
 	        $result_pm = mysql_query($sql) or die(mysql_error);
 	        $data = mysql_fetch_assoc($result_pm);
 	        
-	        @$required_qty[$product['id']] += $total_produced[$product['id']] * $data['quantity'];
+	        $material_require[$product['id']][$material['id']] = $data['quantity'];
 	    }
 	}
-
-	$total_cost += array_sum($material_cost);
-}
+		
+	//print_array($material_cost);
+	//print_array($material_require);
 	
+	// Get product cost/unit
+	$product_material_cost = array();
+	$product_cost = array();
+	
+	$sql = 'SELECT *
+			FROM product_transaction
+			WHERE 
+				id_production_log = "'.$id_production_log.'"
+			GROUP BY id_product';
+		
+	$query_production_transaction = mysql_query($sql) or die(mysql_error());
+	
+	while($production_transaction = mysql_fetch_assoc($query_production_transaction))
+	{
+		$id_product = $production_transaction['id_product'];
+		
+		foreach ($material_require[$id_product] as $id_material => $value) 
+		{
+			$product_material_cost[$id_product][$id_material] = $material_require[$id_product][$id_material] * $material_cost[$id_material];
+			@$product_cost[$id_product] += $material_require[$id_product][$id_material] * $material_cost[$id_material];
+		}
+	}
+	
+	//print_array($product_material_cost);
+	//print_array($product_cost);
+	//exit();
+	
+	return $product_cost;
+}	
+
+//print_array(get_product_cost('2012-09-02')); 
+//get_product_cost(31); 
+//exit();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -167,7 +243,7 @@ while($production_log = mysql_fetch_assoc($query_production_log))
 <div id="paper">
 	<table width="100%">
 		<tr>
-			<td width="80" align="right">วันที่ : </td>
+			<td width="80" align="right">วันที่ : <?php echo change_date_format(date('Y-m-d')) ?></td>
 		</tr>
 		<tr>
 			<td><h1 align="center">รายงานกำไร - ขาดทุน</h1></td>
@@ -198,7 +274,7 @@ while($production_log = mysql_fetch_assoc($query_production_log))
 			</tr>
 			<tr>
 				<td>กำไร</td>
-				<td align="right"></td>
+				<td align="right"><?php echo add_comma($grand_total - $total_cost) ?></td>
                 <td width="80" align="center">บาท</td>
 			</tr>
 		</tbody>

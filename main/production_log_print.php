@@ -255,7 +255,7 @@ include ("inc.css.php");
                     $result_pm = mysql_query($sql) or die(mysql_error);
                     $data = mysql_fetch_assoc($result_pm);
                     
-                    $required_qty += $total_produced[$product['id']] * $data['qty'];
+                    $required_qty += @$total_produced[$product['id']] * $data['qty'];
                 }
                 
                 $buy_qty = $required_qty - $material['total'];
