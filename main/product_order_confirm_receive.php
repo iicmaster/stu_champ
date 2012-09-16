@@ -60,6 +60,36 @@ if(isset($_POST['submit']))
     }
 	
 	// --------------------------------------------------------------------------------
+	// Get stock code
+	// --------------------------------------------------------------------------------
+	
+	$sql = 'SELECT stock_code
+			FROM product_transaction
+			
+			JOIN production_log
+			ON product_transaction.id_production_log = production_log.id
+			
+			JOIN production_product
+			ON production_log.id = production_product.id_log
+			
+			WHERE id_order = "'.$_POST['id_order'].'"';
+			
+	// RollBack transaction and show error message when query error						
+	if(! $query = mysql_query($sql))
+	{
+		echo 'Get stock code';
+		echo '<hr />';
+		echo mysql_error();
+		echo '<hr />';
+		echo $sql;
+		mysql_query("ROLLBACK");
+		exit();
+	}
+	
+	$data = mysql_fetch_assoc($query);
+	$stock_code = $data['stock_code'];
+	
+	// --------------------------------------------------------------------------------
 	// Withdraw product from stock (ordered)
 	// --------------------------------------------------------------------------------
 	
@@ -71,7 +101,7 @@ if(isset($_POST['submit']))
 				  type				= 1,
 				  description		= "ส่งมอบให้ลูกค้า รหัสอ้างอิงใบสั่งซื้อที่ '.zero_fill(10, $_POST['id_order']).'",
 				  quantity	    	= -'.$qty.',
-				  stock_code	    = CURDATE()';
+				  stock_code	    = "'.$stock_code.'"';
 	                
 		// RollBack transaction and show error message when query error						
 		if(! $query = mysql_query($sql))
