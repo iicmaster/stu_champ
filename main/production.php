@@ -131,6 +131,7 @@ $(function()
 				// --------------------------------------------------
 				
 				$product_ordered_list = array();
+				$product_ordered_list2 = array();
 				$total_ordered_weight = array();
 				$total_ordered_product = 0;
                 
@@ -159,6 +160,7 @@ $(function()
 	                    while($data_order_item = mysql_fetch_assoc($query_order_item))
 						{
 							$product_ordered_list[$order['id']][$data_order_item['id_product']] = $data_order_item['quantity'];
+							@$product_ordered_list2[$data_order_item['id_product']] += $data_order_item['quantity'];
 							$order_item[$data_order_item['id_product']] = $data_order_item['quantity'];
 						}
 						
@@ -207,7 +209,7 @@ $(function()
                     <tr>
                         <td class="center" colspan="3">รวมทั้งหมด</td>
     					<?php foreach ($product_restock_list as $key => $value): ?>
-						<td class="right"><?php echo $value + @$order_item[$key] ?></td>	
+						<td class="right"><?php echo $value + @$product_ordered_list2[$key] ?></td>	
 						<?php endforeach ?>
                         
                     </tr>
