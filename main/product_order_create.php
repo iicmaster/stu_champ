@@ -151,7 +151,7 @@ form td i.error { margin: 0px; float: left;}
 				<tr>
 					<td align="center"><?php echo $loop; ?></td>
 					<td><?php echo $data['name']; ?> (สั่งขั้นต่ำ <?php echo $data['order_min']; ?> <?php echo $data['unit']; ?>)</td>
-					<td width="200"><span></span><input type="text" name="quantity[<?php echo $data['id']; ?>]" class="right"  value="0" accept="0|<?php echo $data['order_min']; ?>" /> <?php echo $data['unit']; ?></td>
+					<td width="200"><span></span><input type="text" name="quantity[<?php echo $data['id']; ?>]" class="right"  value="" min="<?php echo $data['order_min']; ?>" /> <?php echo $data['unit']; ?></td>
 				</tr>
 				<?php 
 				$loop++;
