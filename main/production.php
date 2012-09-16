@@ -34,7 +34,7 @@ $(function()
 		<h1>คำนวนการผลิตสินค้า</h1>
 		<hr />
 		<div id="product_stock">
-			<h3>จำนวนสินค้าที่ควรผลิตเพิ่ม</h3>
+			<!--<h3>จำนวนสินค้าที่ควรผลิตเพิ่ม</h3>
 			<table>
                 <thead>
     				<tr>
@@ -45,7 +45,6 @@ $(function()
     				</tr>
                 </thead>
                 <tbody>
-    				<!-- @formatter:off -->
     				<?php 
     				$total_produced_qty = array();
     				$total_produced_weight = array();
@@ -89,7 +88,6 @@ $(function()
     					<td><?php echo $data['unit'] ?></td>
     				</tr>
     				<?php endwhile ?>
-    				<!--@formatter:on-->
 				</tbody>
                 <tfoot>
                     <tr>
@@ -98,14 +96,12 @@ $(function()
                         <td>ถ้วย</td>
                     </tr>
                 </tfoot>
-			</table>
+		</table>-->
 			<h3>จำนวนสินค้าที่มีการสั่งจากลูกค้า</h3>
 			<table>
                 <thead>
     				<tr>
-    					<th scope="col"></th>
-    					<th scope="col">เลขที่ใบสั่งซื้อ</th>
-    					<th scope="col">วันที่นัดรับ</th>
+    					<th scope="col" colspan="3">สินค้า</th>
     					<?php 
     					$query = 'SELECT name, unit FROM product';
     					$result = mysql_query($query) or die(mysql_error());
@@ -114,11 +110,20 @@ $(function()
 						?>
     					<th scope="col"><?php echo $product['name'] ?> (<?php echo $product['unit'] ?>)</th>
     					<?php endwhile  ?>
-    					<th scope="col">รวม</th>
-                        <th scope="col">หน่วย</th>
     				</tr>
                 </thead>
                 <tbody>
+                	<tr>
+                		<td	colspan="3">จำนวนที่ควรผลิตเพิ่ม</td>
+    					<?php foreach ($product_restock_list as $key => $value): ?>
+						<td class="right"><?php echo $value ?></td>	
+						<?php endforeach ?>
+                	</tr>
+                	<tr>
+                		<td	colspan="2">เลขที่ใบสั่งซื้อ</td>
+                		<td>วันที่นัดรับ</td>
+                		<td	colspan="3"></td>
+                	</tr>
 				<!-- @formatter:off -->
 				<?php 
 				// --------------------------------------------------
@@ -194,18 +199,17 @@ $(function()
                         	?>
                         </td>
                         <?php endwhile ?>
-                        
-                        <td class="right"><?php echo add_comma(array_sum($order_item)) ?></td>
-    					<td>หน่วย</td>
     				</tr>
 				<?php endwhile; ?>
 				<!--@formatter:on-->
 				</tbody>
                 <tfoot>
                     <tr>
-                        <td class="center" colspan="6">รวมทั้งหมด</td>
-                        <td class="right"><?php echo add_comma($total_ordered_product) ?></td>
-                        <td>หน่วย</td>
+                        <td class="center" colspan="3">รวมทั้งหมด</td>
+    					<?php foreach ($product_restock_list as $key => $value): ?>
+						<td class="right"><?php echo $value + @$order_item[$key] ?></td>	
+						<?php endforeach ?>
+                        
                     </tr>
                 </tfoot>
 				<?php
