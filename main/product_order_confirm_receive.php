@@ -145,6 +145,31 @@ if(isset($_POST['submit']))
 	// End
 	// --------------------------------------------------------------------------------
 }
+	
+$sql = 'SELECT stock_code
+		FROM product_transaction
+		
+		JOIN production_log
+		ON product_transaction.id_production_log = production_log.id
+		
+		JOIN production_product
+		ON production_log.id = production_product.id_log
+		
+		WHERE id_order = "'.$_GET['id'].'"';
+		
+// RollBack transaction and show error message when query error						
+if(! $query = mysql_query($sql))
+{
+	echo 'Get stock code';
+	echo '<hr />';
+	echo mysql_error();
+	echo '<hr />';
+	echo $sql;
+	mysql_query("ROLLBACK");
+	exit();
+}
+
+$is_produce = mysql_num_rows($query);
 
 $sql = 'SELECT * FROM product_order WHERE id = "'.$_GET['id'].'"';
 $query = mysql_query($sql) or die(mysql_error());
@@ -170,6 +195,18 @@ $(function(){
 		root.find('span.total').text(add_comma(total));
 		sum_grand_total();
 	});
+	
+	$('#submit').click(function()
+	{
+		var is_produce = <?php echo $is_produce ?>;
+		
+		if(is_produce == 0)
+		{
+			alert('ยังไม่ได้ทำการผลิต พ่องตาย!!!');
+			
+			return false;
+		}
+	})
 });
 
 function sum_grand_total()
