@@ -56,35 +56,6 @@ foreach($_POST['product_restock_list'] as $id_product => $qty)
 <script type="text/javascript" src="../js/jquery-1.5.1.min.js"></script>
 <!-- jQuery - UI -->
 <script type="text/javascript" src="../js/jquery-ui-1.8.11.min.js"></script>
-<script type="text/javascript">
-$(function()
-{
-    $("#production_date").datepicker({
-        dateFormat : 'yy-mm-dd'
-    });
-    
-    $('select[name^=id_member]').change(function()
-    {
-    	var id_member = $(this).val();
-    	var id_selectbox = $(this).attr('id');
-    	
-    	//alert('selected id = '+id_member)
-    	
-    	$('select[name^=id_member][id!='+id_selectbox+']').each(function()
-		{
-			//alert($(this).val() + ' = ' + id_member);
-			
-			if($(this).val() == id_member)
-			{
-				alert('คุณเลือกชื่อผู้ทำการผลิตซ้ำ กรุณาเลือกใหม่อีกครั้ง');
-				$('#'+id_selectbox).val('').focus();
-			}
-		})
-    	
-    });
-}); 
-</script>
-</script>
 </head>
 <body>
 <div id="container">
@@ -113,6 +84,8 @@ $(function()
     				// --------------------------------------------------
     				// Required material
     				// --------------------------------------------------
+    				
+					$total_buy_qty = 0;
     				   
     				// Get material                  
                     $sql = 'SELECT 
@@ -155,6 +128,7 @@ $(function()
                         
                         $buy_qty = $required_qty - $material['total'];
                         $buy_qty = ($buy_qty > 0) ? $buy_qty : 0;
+						$total_buy_qty += $buy_qty;
                     ?>
 					<tr>
 						<td><?php echo $material['name'] ?></td>
@@ -237,11 +211,59 @@ $(function()
 			    <?php foreach($_POST['product_restock_list'] as $key => $value): ?>
                     <input type="hidden" name="product_restock[<?php echo $key ?>]" value="<?php echo $value ?>" />
                 <?php endforeach ?>
-				<input type="submit" name="submit" value="บันทึกการผลิต" />
+				<input type="submit" name="submit" id="submit" value="บันทึกการผลิต" />
 			</p>
 		</form>
 	</div>
 	<?php include ("inc.footer.php") ?>
 </div>
+<script type="text/javascript">
+$(function()
+{
+    $("#production_date").datepicker({
+        dateFormat : 'yy-mm-dd'
+    });
+    
+    $('select[name^=id_member]').change(function()
+    {
+    	var id_member = $(this).val();
+    	var id_selectbox = $(this).attr('id');
+    	
+    	//alert('selected id = '+id_member)
+    	
+    	$('select[name^=id_member][id!='+id_selectbox+']').each(function()
+		{
+			//alert($(this).val() + ' = ' + id_member);
+			
+			if($(this).val() == id_member)
+			{
+				alert('คุณเลือกชื่อผู้ทำการผลิตซ้ำ กรุณาเลือกใหม่อีกครั้ง');
+				$('#'+id_selectbox).val('').focus();
+			}
+		})
+    	
+    });
+    
+    $('#submit').click(function()
+    {
+    	var total_weight = <?php echo $total_produced_weight ?>;
+    	var total_buy = <?php echo $total_buy_qty ?>;
+    	
+    	if(total_buy > 0)
+    	{
+    		alert('จำนวนวัตุดิบไม่เพียงพอต่อการผลิต พ่องตาย!!!');
+    		
+    		return false;
+    	}
+    	
+    	if(total_weight < 60000)
+    	{
+    		alert('จำนวนขั้นต่ำในการผลิตต่ำกว่าที่กำหนดไว้ พ่องตาย!!!');
+    		
+    		return false;
+    	}
+    })
+}); 
+</script>
 </body>
 </html>
