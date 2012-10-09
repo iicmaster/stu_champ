@@ -70,9 +70,6 @@ require('../include/connect.php');
 <div id="paper">
 	<table width="100%">
 		<tr>
-			<td width="80" align="right">วันที่ : </td>
-		</tr>
-		<tr>
 			<td><h1 align="center">รายงานการสั่งซื้อสินค้า</h1></td>
 		</tr>
 		<tr>

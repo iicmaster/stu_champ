@@ -50,10 +50,11 @@ $target = 'product.php?page=';
 				<tr>
 					<th width="30">รหัส</th>
 					<th>ชื่อ</th>
-					<th>สินค้าคลัง</th>
-					<th>สินค้าส่งมอบ</th>
-					<th>รวม</th>
+					<th>น้ำหนัก(กร้ม)</th>
 					<th>หน่วย</th>
+					<th>สต็อกสูงสุด(ถ้วย)</th>
+					<th>ราคาขายส่ง(บาท)</th>
+					<th>ราคาขายปลีก(บาท)</th>
 					<th width="80">แก้ไข</th>
 				</tr>
 			</thead>
@@ -67,7 +68,7 @@ $target = 'product.php?page=';
 						LIMIT '.$limit_start.', '.$rows_per_page;  
 				$query = mysql_query($sql) or die(mysql_error());  
 				$query_rows = mysql_num_rows($query);
-
+				
 				if($query_rows > 0)
 				{
 					while($data = mysql_fetch_array($query))
@@ -77,10 +78,12 @@ $target = 'product.php?page=';
 						echo 	'<tr>
 									<td width="30" class="right">'.zero_fill(4, $data['id']).'</td>
 									<td>'.$data['name'].'</td>
-									<td class="right">'.$data['stock_remain'].'</td>
-									<td class="right">'.$data['stock_re'].'</td>
-									<td class="right"></td>
-									<td>'.$data['unit'].'</td>									<td class="center nowarp">
+									<td class="right">'.$data['weight'].'</td>
+									<td class="left">'.$data['unit'].'</td>
+									<td class="right">'.$data['stock_max'].'</td>
+									<td class="right">'.$data['price_wholesale'].'</td>
+									<td class="right">'.$data['price_retail'].'</td>
+									<td class="center nowarp">
 										<a class="button" href="product_update.php?id='.$data['id'].'">แก้ไข</a>
 										<a class="button" href="product_delete.php?id='.$data['id'].'">ลบ</a> 
 									</td>

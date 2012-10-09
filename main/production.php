@@ -29,8 +29,23 @@ $(function()
 <div id="container">
 	<?php include ("inc.header.php") ?>
 	<div id="content">
+	
+		<?php
+		$sql = 'SELECT * 
+				FROM production_log 
+				ORDER BY id DESC 
+				LIMIT 1' ;
+    	$query = mysql_query($sql) or die(mysql_error());
+    	$data = mysql_fetch_array($query);
+		if($data['is_approved'] == 0)
+		{
+			echo '<h1>กรุณาตรวจรับการผลิตครั้งที่แล้วก่อน</h1> >>> <a href="production_log.php" class="button">ตรวจรับ</a> <<< ';
+			exit();
+		}
+		?>
+		
         <form method="post" action="production2.php">
-        <p class="float_r" style="margin-bottom: 0">ประจำวันที่ : <input type="text" id="production_date" name="production_date" value="<?php echo date('Y-m-d') ?>" size="8" class="center" style="max-width:195px;min-width: 195px;width:195px;" /></p>
+        <p class="float_r" style="margin-bottom: 0">ประจำวันที่ : <input type="text"  name="production_date" value="<?php echo date('Y-m-d') ?>" size="8" class="center" style="max-width:195px;min-width: 195px;width:195px;" readonly="readonly"/></p>
 		<h1>คำนวนการผลิตสินค้า</h1>
 		<hr />
 		<div id="product_stock">
@@ -97,7 +112,7 @@ $(function()
                     </tr>
                 </tfoot>
 		</table>-->
-			<h3>จำนวนสินค้าที่มีการสั่งจากลูกค้า</h3>
+		
 			<table>
                 <thead>
     				<tr>
@@ -114,7 +129,7 @@ $(function()
                 </thead>
                 <tbody>
                 	<tr>
-                		<td	colspan="3">จำนวนที่ควรผลิตเพิ่ม</td>
+                		<td	colspan="3">จำนวนที่ต้องผลิต</td>
     					<?php foreach ($product_restock_list as $key => $value): ?>
 						<td class="right"><?php echo $value ?></td>	
 						<?php endforeach ?>
@@ -141,7 +156,7 @@ $(function()
 						WHERE 
 							id NOT IN (SELECT id_order FROM production_product WHERE type = 1)
 							AND type = 0
-						ORDER BY id DESC';
+						ORDER BY id ';
 						
 				$result_order = mysql_query($sql) or die(mysql_error());
 				$result_order_row = mysql_num_rows($result_order);

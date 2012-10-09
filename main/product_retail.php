@@ -50,7 +50,7 @@ $target = 'product_order.php?page=';
 					<tr>
 						<th width="30">รหัส</th>
 						<th width="80">วันที่ทำรายการ</th>
-						<th>ชื่อลูกค้า</th>
+						<th width="80">ชื่อลูกค้า</th>
 						<th width="100">การดำเนินการ</th>
 					</tr>
 				</thead>
@@ -72,7 +72,7 @@ $target = 'product_order.php?page=';
 							echo '	<tr>
 										<td class="center">'.zero_fill(4, $data['id']).'</td>
 										<td class="center">'.change_date_format($data['date_create']).'</td>
-										<td>'.$data['orderer'].'</td>
+										<td class="left">'.($data['orderer']).'</td>
 										<td class="center nowarp">
 											<a class="button" href="product_retail_read.php?id='.$data['id'].'">ดู</a>';
 											

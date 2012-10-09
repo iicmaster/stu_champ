@@ -82,7 +82,6 @@ include ("inc.css.php");
 		<br />จังหวัดจันทบุรี  22000
 	</h6>
 	<p class="float_r" >ใบสั่งผลิตเลขที่: <?php echo zero_fill(4, $_GET['id']); ?> 
-	</br>วันที่สั่งผลิต: <?php echo change_date_format($production['date_create']) ?>
 	</br>วันที่ทำการผลิต: <?php echo change_date_format($production['date_work']) ?>
 	</p><br/>
 	<h3>จำนวนสินค้าที่ควรผลิตเพิ่ม</h3>

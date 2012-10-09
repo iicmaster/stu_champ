@@ -73,7 +73,7 @@ $data = mysql_fetch_array($query);
 		<br />จังหวัดจันทบุรี  22000
 	</h6>
 	<p class="float_r" >ใบเสร็จเลขที่: <?php echo zero_fill(4, $_GET['id']); ?> </br> วันที่: <?php echo change_date_format($data['date_create']); ?> </p>
-	<h6>ชื่อลูกค้า: <span class="normal"><?php echo $data['orderer']; ?></span></h6>
+	<h6>ลูกค้า : <?php echo $data['orderer'] ?></h6>
 	<h5>รายการ</h5>
 	<hr />
 	<table width="100%">

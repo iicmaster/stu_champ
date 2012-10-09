@@ -158,9 +158,9 @@ $DPU = round($profit / $total_work_qty, 3);
 <body>
 <div id="paper">
 	<table width="100%">
-		<tr>
-			<td width="80" align="right">วันที่ : <?php echo change_date_format(date('Y-m-d')) ?></td>
-		</tr>
+		<!--<tr>
+			<td width="80" align="right">วันที่ : /*<?php echo change_date_format(date('Y-m-d')) ?>*/</td>
+		</tr>-->
 		<tr>
 			<td><h1 align="center">รายงานเงินปันผลของสมาชิก</h1></td>
 		</tr>

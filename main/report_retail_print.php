@@ -69,9 +69,7 @@ require('../include/connect.php');
 <body>
 <div id="paper">
 	<table width="100%">
-		<tr>
-			<td width="80" align="right">วันที่ : </td>
-		</tr>
+		
 		<tr>
 			<td><h1 align="center">รายงานการขายปลีก</h1></td>
 		</tr>
@@ -92,7 +90,7 @@ require('../include/connect.php');
 			<tr>
 				<th width="20">รหัส</th>
 				<th width="100">วันที่ทำรายการ</th>
-                <th>ชื่อลูกค้า</th>
+      
                 
 				<?php 
 				$query = 'SELECT name, unit FROM product';
@@ -139,7 +137,7 @@ require('../include/connect.php');
 			<tr>
 				<td align="center"><?php echo zero_fill(4, $order['id']) ?></td>
 				<td align="center"><?php echo change_date_format($order['date_create']) ?></td>
-                <td><?php echo $order['orderer'] ?></td>
+      
                 <?php 
 				$query_product = 'SELECT * FROM product';
 				$result = mysql_query($query_product) or die(mysql_error());
@@ -164,7 +162,7 @@ require('../include/connect.php');
 		</tbody>
         <tfoot>
 			<tr>
-				<td colspan="3" align="center">รวม</td>
+				<td colspan="2" align="center">รวม</td>
 				<?php foreach($total_ordered as $val): ?>
 				<td align="right"><?php echo add_comma($val) ?></td>
 				<?php endforeach ?>

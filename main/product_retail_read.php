@@ -28,7 +28,7 @@ form hr { margin-top: 20px; }
 <div id="container">
 	<?php include("inc.header.php"); ?>
 	<div id="content">
-		<a href="product_retail_print.php?id=<?php echo $_GET['id']; ?>" class="float_r">พิมพ์ใบสั่งซื้อสินค้า</a>
+		<a href="product_retail_print.php?id=<?php echo $_GET['id']; ?>" class="float_r">พิมพ์ใบเสร็จรับเงิน</a>
 		<h1>ดูข้อมูลการขายปลีกสินค้า</h1>
 		<hr>
 		<div class="float_r">วันที่ <?php echo change_date_format($data['date_create']); ?></div>

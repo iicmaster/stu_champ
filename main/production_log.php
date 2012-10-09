@@ -48,8 +48,7 @@ $target = 'product_order.php?page=';
 				<thead>
 					<tr>
 						<th width="80">เลขที่ใบผลิต</th>
-						<th width="80">วันที่ออกใบผลิต</th>
-						<th width="80">วันที่ผลิต</th>
+						<th width="80">วันที่ทำการผลิต</th>
 						<th>สถานะการตรวจรับ</th>
 						<th width="100">การดำเนินการ</th>
 					</tr>
@@ -72,7 +71,6 @@ $target = 'product_order.php?page=';
 							
 							echo '	<tr>
 										<td class="center">'.zero_fill(10, $data['id']).'</td>
-										<td class="center">'.change_date_format($data['date_create']).'</td>
 										<td class="center">'.change_date_format($data['date_work']).'</td>
 										<td class="center">'.$status.'</td>
 										<td class="center nowarp">';

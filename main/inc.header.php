@@ -16,13 +16,22 @@
 				<li><a href="material_order_manual_create.php">สั่งซื้อวัตถุดิบ</a></li>
 				<li><a href="material_order.php">ใบสั่งซ์้อวัตถุดิบ</a></li>
 			</ul></li>
-		<li><a href="product.php">สินค้า</a>
+		<li><a href="product2.php">สินค้า</a>
 			<ul>
-				<li><a href="production.php">คำนวนการผลิตสินค้า</a></li>
-				<li><a href="production_log.php">บันทึกการผลิต</a></li>
-				<li><a href="product_order.php">การสั่งซื้อจากลูกค้า</a></li>
-				<li><a href="product_retail.php">การขายปลีก</a></li>
-				<li><a href="product_stock.php">คลังสินค้า</a></li>
+				<li><a href="product.php">สินค้าคงเหลือ</a></li>
+				<li><a href="product_stock.php">สินค้าแยกตามสต็อค</a></li>
+			</ul>
+		</li>
+        <li><a href="production.php">ผลิตสินค้า</a>
+			<ul>
+				<li><a href="production_log.php">รายการผลิตสินค้า</a></li>
+			</ul>
+		</li>
+		<li><a href="product_retail_create.php">ขาย</a>
+			<ul>
+				<li><a href="product_retail.php">รายการขาย</a></li>
+				<li><a href="product_order_create.php">ออกใบสั่งซื้อสินค้า</a></li>
+				<li><a href="product_order.php">รายการใบสั่งซื้อสินค้า</a></li>
 			</ul>
 		</li>
 		<li>

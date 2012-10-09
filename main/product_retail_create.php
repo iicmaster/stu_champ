@@ -283,7 +283,7 @@ form td i.error { margin: 0px; float: left;}
 		<div class="float_r">วันที่ <?php echo date('d / m / Y'); ?></div>
 		<form method="post" enctype="application/x-www-form-urlencoded">
 			<label for="orderer">ชื่อลูกค้า <i>*</i></label>
-			<input id="orderer" name="orderer" type="text" class="required" />
+			<input id="orderer" name="orderer" type="text" value="บุคคลทั่วไป" class="required" />
 			<hr />
 			<table>
 				<thead>

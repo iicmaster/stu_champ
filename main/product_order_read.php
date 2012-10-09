@@ -39,8 +39,6 @@ form hr { margin-top: 20px; }
 			<input id="tel" name="tel" type="text" value="<?php echo $data['tel']; ?>" readonly="readonly" />
 			<label for="date_receive">วันที่มารับสินค้า</label>
 			<input id="date_receive" name="date_receive" class="datepicker" type="text" value="<?php echo $data['date_receive']; ?>" readonly="readonly" />
-			<label for="description">รายละเอียด</label>
-			<textarea name="description" readonly="readonly"><?php echo $data['description']; ?></textarea>
 			<hr />
 			<table>
 				<tr>

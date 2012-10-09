@@ -19,7 +19,8 @@ if(isset($_POST['submit']))
 	// --------------------------------------------------------------------------------
 	
 	$sql = "UPDATE product_order
-			SET is_receive = 1
+			SET 	date_receive = '".$_POST['date_receive']."',
+					is_receive = 1
 			WHERE id = ".$_POST['id_order'];
 			
 	// RollBack transaction and show error message when query error						
@@ -202,7 +203,7 @@ $(function(){
 		
 		if(is_produce == 0)
 		{
-			alert('ยังไม่ได้ทำการผลิต พ่องตาย!!!');
+			alert('สินค้ารายการนี้ยังไม่ได้ทำการผลิต !!!');
 			
 			return false;
 		}
@@ -283,17 +284,15 @@ form hr { margin-top: 20px; }
 			<input id="tel" name="tel" type="text" value="<?php echo $data['tel']; ?>" />
 			<label for="date_receive">วันที่มารับสินค้า</label>
 			<input id="date_receive" name="date_receive" class="datepicker" type="text" value="<?php echo $data['date_receive']; ?>" />
-			<label for="description">รายละเอียด</label>
-			<textarea name="description"><?php echo $data['description']; ?></textarea>
 			<hr />
 			<table>
 				<tr>
 					<th width="25">ลำดับ</th>
 					<th>สินค้า</th>
-					<th>จำนวนที่สั่งซื้อ</th>
-					<th>จำนวนส่งมอบ</th>
-					<th>ราคาต่อหน่วย</th>
-					<th>รวม</th>
+					<th>จำนวนที่สั่งซื้อ(ถ้วย)</th>
+					<th>จำนวนส่งมอบ(ถ้วย)</th>
+					<th>ราคาต่อหน่วย(บาท)</th>
+					<th>รวม(บาท)</th>
 				</tr>
 				<?php 
 				$sql = 'SELECT *
@@ -316,7 +315,7 @@ form hr { margin-top: 20px; }
 					<td class="right"><?php echo $data['quantity'] ?></td>
 					<td class="right"><input type="text" name="quantity_received[<?php echo $data['id']; ?>]" class="right" value="<?php echo $data['quantity'] ?>" /></td>
 					<td class="right"><span class="price"><?php echo $data['price_wholesale'] ?></span></td>
-					<td class="right"><span class="total"><?php echo add_comma($total[$data['id_product']]) ?></span></td>
+					<td class="right"><span class="total"><?php echo add_comma($total[$data['id_product']]) ?>.00</span></td>
 				</tr>
 				
 				<?php 
@@ -325,7 +324,7 @@ form hr { margin-top: 20px; }
 				?>
 				<tr>
 					<td colspan="5" class="center">รวม</td>
-					<td class="right"><span class="grand_total"><?php echo add_comma(array_sum($total)) ?></span></td>
+					<td class="right"><span class="grand_total"><?php echo add_comma(array_sum($total)) ?>.00</span></td>
 				</tr>
 			</table>
 			<p class="center">

@@ -37,15 +37,13 @@ h3 { margin: 30px 0px 15px 0px}
 			<table>
 		        <thead>
 					<tr>
-						<th scope="col">เลขที่</th>
-						<th scope="col">วันที่ออกใบผลิต</th>
-						<th scope="col">วันที่ผลิต</th>
+						<th scope="col">ใบสั่งหลิตเลขที่</th>
+						<th scope="col">วันที่ทำการผลิต</th>
 		          
 					</tr>
 		        </thead>
 					<tr>
 						<td class="center"><?php echo zero_fill(10, $production['id']) ?></td>
-						<td class="center"><?php echo change_date_format($production['date_create']) ?></td>
 						<td class="center"><?php echo change_date_format($production['date_work']) ?></td>
 			
 					</tr>

@@ -62,11 +62,11 @@ foreach($_POST['product_restock_list'] as $id_product => $qty)
 	<?php include ("inc.header.php") ?>
 	<div id="content">
         <form method="post" action="production_log_create.php">
-        <p class="float_r" style="margin-bottom: 0">ประจำวันที่ : <input type="text" id="production_date" name="production_date" value="<?php echo $_POST['production_date'] ?>" size="8" class="center" style="max-width:195px;min-width: 195px;width:195px;" /></p>
+        <p class="float_r" style="margin-bottom: 0">ประจำวันที่ : <input type="text"  name="production_date" value="<?php echo $_POST['production_date'] ?>" size="8" class="center" style="max-width:195px;min-width: 195px;width:195px;" readonly="readonly" /></p>
 		<h1>คำนวนการผลิตสินค้า</h1>
 		<hr />
 		<div id="product_stock">
-			<a href="material_order_manual_create.php" class="float_r">ออกใบสั่งซื้อวัตถุดิบ</a>
+			<a href="material_stock.php" class="float_r">ออกใบสั่งซื้อวัตถุดิบ</a>
 			<h3>วัตถุดิบที่ต้องใช้</h3>
 			<table>
 				<thead>
@@ -134,7 +134,19 @@ foreach($_POST['product_restock_list'] as $id_product => $qty)
 						<td><?php echo $material['name'] ?></td>
                         <td align="right"><?php echo add_comma($material['total']) ?></td>
 						<td align="right"><?php echo add_comma($required_qty) ?></td>
-                        <td align="right" class="bold red"><?php echo add_comma($buy_qty) ?></td>
+                        <td align="right">
+						<?php
+							if($buy_qty > 0)
+							{
+								 echo '<div class="red">'.add_comma($buy_qty).'</div>';
+							}
+							else if($buy_qty == 0)
+							{
+								 echo '<div>'.add_comma($buy_qty).'</div>';
+							}
+						 ?>
+						
+						</td>
 						<td><?php echo $material['unit'] ?></td>
 					</tr>
     				<?php endwhile ?>
@@ -178,7 +190,7 @@ foreach($_POST['product_restock_list'] as $id_product => $qty)
 	                        <td class="right"><?php echo $loop ?></td>
 	                        <td>
 	                            <select id="id_member_<?php echo $member['id'] ?>" name="id_member[]">
-	                            	<option value="">-</option>
+	                            	
 	                            <?php 
 	                            $selected = '';
 	                            while($option = mysql_fetch_assoc($result_member))
@@ -251,14 +263,14 @@ $(function()
     	
     	if(total_buy > 0)
     	{
-    		alert('จำนวนวัตุดิบไม่เพียงพอต่อการผลิต พ่องตาย!!!');
+    		alert('จำนวนวัตุดิบไม่เพียงพอต่อการผลิต !!!');
     		
     		return false;
     	}
     	
     	if(total_weight < 60000)
     	{
-    		alert('จำนวนขั้นต่ำในการผลิตต่ำกว่าที่กำหนดไว้ พ่องตาย!!!');
+    		alert('จำนวนสินค้าที่จะผลิตต่ำกว่าที่กำหนดไว้ !!!');
     		
     		return false;
     	}

@@ -21,7 +21,6 @@ if(isset($_POST['submit']))
 				orderer			= "'.$_POST['orderer'].'",
 				tel				= "'.$_POST['tel'].'",
 				date_receive	= "'.$_POST['date_receive'].'",
-				description 	= "'.$_POST['description'].'",
 				date_create		= NOW()';
 					
 	$query = mysql_query($sql) or die(mysql_error());
@@ -131,10 +130,8 @@ form td i.error { margin: 0px; float: left;}
 			<input id="orderer" name="orderer" type="text" class="required" />
 			<label for="tel">โทรศัพท์<i>*</i></label>
 			<input id="tel" name="tel" type="text" class="required integer" maxlength="10" />
-			<label for="date_receive">วันที่มารับสินค้า<i>*</i></label>
+			<label for="date_receive">วันที่นัดรับสินค้า<i>*</i></label>
 			<input id="date_receive" name="date_receive" class="datepicker required" type="text" readonly="readonly" />
-			<label for="description">รายละเอียด</label>
-			<textarea name="description"></textarea>
 			<hr />
 			<table>
 				<tr>

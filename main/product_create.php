@@ -47,9 +47,8 @@ if(isset($_POST['submit']))
 				weight			= "'.$_POST['weight'].'",
 				image			= "'.$file_uri.'",
 				stock_max 		= "'.$_POST['stock_max'].'",
-				manufacture_min	= "'.$_POST['manufacture_min'].'",
-				manufacture_max	= "'.$_POST['manufacture_max'].'",
-				labour_min		= "'.$_POST['labour_min'].'",
+
+
 				order_min		= "'.$_POST['order_min'].'",
 				unit_per_labour	= "'.$_POST['unit_per_labour'].'",
 				price_retail 	= "'.$_POST['price_retail'].'",
@@ -147,18 +146,14 @@ $(function(){
 					<textarea id="description" name="description"></textarea>
 					<label for="unit">หน่วย <i>*</i></label>
 					<input id="unit" name="unit" type="text" class="required" />
-					<label for="weight">หน่วย (กรัม) <i>*</i></label>
+					<label for="weight">น้ำหนัก/หน่วย (กรัม) <i>*</i></label>
 					<input id="weight" name="weight" type="text" class="required" />
 					<label for="stock_max">สต็อคสูงสุด <i>*</i></label>
 					<input id="stock_max" name="stock_max" type="text" class="required integer" />
-					<label for="manufacture_min">จำนวนขั้นต่ำในการผลิต <i>*</i></label>
-					<input id="manufacture_min" name="manufacture_min" type="text" class="required integer"/>
-					<label for="manufacture_max">จำนวนสูงสุดในการผลิต <i>*</i></label>
-					<input id="manufacture_max" name="manufacture_max" type="text" class="required integer" />
+
 					<label for="order_min">จำนวนขึ้นต่ำในการสั่งซื้อ <i>*</i></label>
 					<input id="order_min" name="order_min" type="text" class="required integer" />
-					<label for="labour_min">จำนวนแรงงานขั้นต่ำในการผลิต <i>*</i></label>
-					<input id="labour_min" name="labour_min" type="text" class="required integer" />
+
 					<label for="unit_per_labour">จำนวนสินค้าต่อการเพิ่มแรงงาน 1 คน <i>*</i></label>
 					<input id="unit_per_labour" name="unit_per_labour" type="text" class="required integer" />
 					<label for="price_retail">ราคาขายปลีก <i>*</i></label>
