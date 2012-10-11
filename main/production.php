@@ -111,7 +111,7 @@ $(function()
                         <td>ถ้วย</td>
                     </tr>
                 </tfoot>
-		</table>-->
+			</table>-->
 		
 			<table>
                 <thead>
@@ -139,7 +139,7 @@ $(function()
                 		<td>วันที่นัดรับ</td>
                 		<td	colspan="3"></td>
                 	</tr>
-				<!-- @formatter:off -->
+
 				<?php 
 				// --------------------------------------------------
 				// Product order
@@ -160,6 +160,7 @@ $(function()
 						
 				$result_order = mysql_query($sql) or die(mysql_error());
 				$result_order_row = mysql_num_rows($result_order);
+
 				if($result_order_row > 0)
 				{
 					while($order = mysql_fetch_assoc($result_order)):
@@ -176,7 +177,7 @@ $(function()
 						{
 							$product_ordered_list[$order['id']][$data_order_item['id_product']] = $data_order_item['quantity'];
 							@$product_ordered_list2[$data_order_item['id_product']] += $data_order_item['quantity'];
-							$order_item[$data_order_item['id_product']] = $data_order_item['quantity'];
+							$order_item[$order['id']][$data_order_item['id_product']] = $data_order_item['quantity'];
 						}
 						
 						$total_ordered_product += array_sum($order_item);
@@ -193,10 +194,10 @@ $(function()
 						
     					<?php while($product = mysql_fetch_assoc($result)): ?>
 							<?php 
-							if(isset($order_item[$product['id']]))
+							if(isset($order_item[$order['id']][$product['id']]))
 							{
-								@$total_ordered_weight[$order['id']][$product['id']] += $order_item[$product['id']] * $product['weight']; 
-								$total_produced_qty[$product['id']] += $order_item[$product['id']];
+								@$total_ordered_weight[$order['id']][$product['id']] += $order_item[$order['id']][$product['id']] * $product['weight']; 
+								$total_produced_qty[$product['id']] += $order_item[$order['id']][$product['id']];
 							}
 							else 
 							{
@@ -205,9 +206,9 @@ $(function()
 							?>
                         <td class="right">
                         	<?php 
-                        	if(isset($order_item[$product['id']]))
+                        	if(isset($order_item[$order['id']][$product['id']]))
                         	{
-                        		echo add_comma($order_item[$product['id']]);
+                        		echo add_comma($order_item[$order['id']][$product['id']]);
 							} 
                         	else 
                         	{
@@ -218,7 +219,6 @@ $(function()
                         <?php endwhile ?>
     				</tr>
 				<?php endwhile; ?>
-				<!--@formatter:on-->
 				</tbody>
                 <tfoot>
                     <tr>
@@ -226,7 +226,6 @@ $(function()
     					<?php foreach ($product_restock_list as $key => $value): ?>
 						<td class="right"><?php echo $value + @$product_ordered_list2[$key] ?></td>	
 						<?php endforeach ?>
-                        
                     </tr>
                 </tfoot>
 				<?php
