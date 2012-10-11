@@ -18,10 +18,57 @@ require('../include/connect.php');
 <script type="text/javascript">
 $(function()
 {
+	sum_product_qty();
+
     $("#production_date").datepicker({
         dateFormat : 'yy-mm-dd'
     });
+
+    $(':checkbox').click(function()
+    {
+    	sum_product_qty();
+    })
 }); 
+
+function sum_product_qty () 
+{
+	var id_list = [1, 2, 3];
+	var total = {
+					1: 0,
+					2: 0,
+					3: 0
+				};
+
+	// Sum selected item
+	$(':checked').each(function()
+	{
+		var root = $(this).parent().parent();
+
+		$.each(id_list, function(key, product_id)
+		{
+			order_product_qty = parseInt(root.find('.order_product_'+product_id+'_qty').text());
+			total[product_id] += order_product_qty;
+
+			//console.log('order_product_'+product_id+'_qty', order_product_qty)	
+			//console.log('total['+product_id+']', total[product_id])		
+		});
+	});	
+
+	// Sum total item
+	$.each(id_list, function(key, product_id)
+	{
+		product_qty = parseInt($('.product_'+product_id+'_qty').text());	
+		total[product_id] += product_qty;
+
+		// Display total
+		$('#product_'+product_id+'_total').html(total[product_id]);
+
+		//console.log('order_product_'+product_id+'_qty', order_product_qty)	
+		//console.log('total['+product_id+']', total[product_id])		
+	});
+
+	//console.log(total)
+}
 </script>
 </script>
 </head>
@@ -131,7 +178,7 @@ $(function()
                 	<tr>
                 		<td	colspan="3">จำนวนที่ต้องผลิต</td>
     					<?php foreach ($product_restock_list as $key => $value): ?>
-						<td class="right"><?php echo $value ?></td>	
+						<td class="right product_<?php echo $key ?>_qty"><?php echo $value ?></td>	
 						<?php endforeach ?>
                 	</tr>
                 	<tr>
@@ -160,11 +207,10 @@ $(function()
 						
 				$result_order = mysql_query($sql) or die(mysql_error());
 				$result_order_row = mysql_num_rows($result_order);
-
-				if($result_order_row > 0)
-				{
-					while($order = mysql_fetch_assoc($result_order)):
-	                    
+				?>
+				<?php if($result_order_row > 0): ?>
+					<?php while($order = mysql_fetch_assoc($result_order)): ?>
+	                    <?php
 						// Get product order item
 	                    $sql_order_item = 'SELECT *
 	                                  	   FROM product_order_item
@@ -181,7 +227,7 @@ $(function()
 						}
 						
 						$total_ordered_product += array_sum($order_item);
-                ?>
+                		?>
     				<tr>
     					<td align="center"><input type="checkbox" name="id_order[]" checked="checked" value="<?php echo $order['id'] ?>" /></td>
     					<td align="center"><a target="_blank" href="product_order_read.php?id=<?php echo $order['id'] ?>"><?php echo zero_fill(10, $order['id']) ?></a></td>
@@ -204,37 +250,27 @@ $(function()
 								$total_ordered_weight[$order['id']][$product['id']] = 0;
 							}
 							?>
-                        <td class="right">
+                        <td class="right order_product_<?php echo $product['id'] ?>_qty">
                         	<?php 
-                        	if(isset($order_item[$order['id']][$product['id']]))
-                        	{
-                        		echo add_comma($order_item[$order['id']][$product['id']]);
-							} 
-                        	else 
-                        	{
-                        		echo 0;
-                        	}
+                        	$item_quantity = (isset($order_item[$order['id']][$product['id']])) ? $order_item[$order['id']][$product['id']] : 0;
+                        	echo add_comma($item_quantity);
                         	?>
                         </td>
                         <?php endwhile ?>
     				</tr>
-				<?php endwhile; ?>
+				<?php endwhile ?>
 				</tbody>
                 <tfoot>
                     <tr>
                         <td class="center" colspan="3">รวมทั้งหมด</td>
     					<?php foreach ($product_restock_list as $key => $value): ?>
-						<td class="right"><?php echo $value + @$product_ordered_list2[$key] ?></td>	
+						<td class="right" id="product_<?php echo $key ?>_total"><?php echo $value + @$product_ordered_list2[$key] ?></td>	
 						<?php endforeach ?>
                     </tr>
                 </tfoot>
-				<?php
-				}
-				else
-				{
-					echo '<tr><td colspan="'.(5 + $total_product_type).'" align="center">ไม่พบข้อมูล</td></tr>';
-				}
-				?>
+				<?php else: ?>
+					<tr><td colspan="<?php echo (5 + $total_product_type) ?>" align="center">ไม่พบข้อมูล</td></tr>';
+				<?php endif ?>
 			</table>
 		</div>
 			<p class="center">
