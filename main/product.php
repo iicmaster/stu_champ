@@ -79,7 +79,7 @@ $target = 'product.php?page=';
 									<td>'.$data['name'].'</td>
 									<td class="right">'.$data['stock_remain'].'</td>
 									<td class="right">'.$data['stock_re'].'</td>
-									<td class="right"></td>
+									<td class="right">'.($data['stock_remain'] + $data['stock_re']).'</td>
 									<td>'.$data['unit'].'</td>									<td class="center nowarp">
 										<a class="button" href="product_update.php?id='.$data['id'].'">แก้ไข</a>
 										<a class="button" href="product_delete.php?id='.$data['id'].'">ลบ</a> 
