@@ -84,6 +84,7 @@ function sum_product_qty ()
 				LIMIT 1' ;
     	$query = mysql_query($sql) or die(mysql_error());
     	$data = mysql_fetch_array($query);
+
 		if($data['is_approved'] == 0)
 		{
 			echo '<h1>กรุณาตรวจรับการผลิตครั้งที่แล้วก่อน</h1> >>> <a href="production_log.php" class="button">ตรวจรับ</a> <<< ';
@@ -92,7 +93,16 @@ function sum_product_qty ()
 		?>
 		
         <form method="post" action="production2.php">
-        <p class="float_r" style="margin-bottom: 0">ประจำวันที่ : <input type="text"  name="production_date" value="<?php echo date('Y-m-d') ?>" size="8" class="center" style="max-width:195px;min-width: 195px;width:195px;" readonly="readonly"/></p>
+        <p class="float_r" style="margin-bottom: 0">ประจำวันที่ : 
+        	<input 
+        		type="text" 
+        		name="production_date" 
+        		value="<?php echo date('Y-m-d') ?>" 
+        		size="8" class="center" 
+        		style="max-width:195px;min-width: 195px;width:195px;" 
+        		readonly="readonly"
+        	/>
+        </p>
 		<h1>คำนวนการผลิตสินค้า</h1>
 		<hr />
 		<div id="product_stock">
@@ -171,7 +181,7 @@ function sum_product_qty ()
 						while($product = mysql_fetch_assoc($result)):
 						?>
     					<th scope="col"><?php echo $product['name'] ?> (<?php echo $product['unit'] ?>)</th>
-    					<?php endwhile  ?>
+    					<?php endwhile ?>
     				</tr>
                 </thead>
                 <tbody>
@@ -203,12 +213,13 @@ function sum_product_qty ()
 						WHERE 
 							id NOT IN (SELECT id_order FROM production_product WHERE type = 1)
 							AND type = 0
-						ORDER BY id ';
+						ORDER BY id';
 						
 				$result_order = mysql_query($sql) or die(mysql_error());
 				$result_order_row = mysql_num_rows($result_order);
 				?>
-				<?php if($result_order_row > 0): ?>
+
+				<?php if ($result_order_row > 0): ?>
 					<?php while($order = mysql_fetch_assoc($result_order)): ?>
 	                    <?php
 						// Get product order item
@@ -269,24 +280,24 @@ function sum_product_qty ()
                     </tr>
                 </tfoot>
 				<?php else: ?>
-					<tr><td colspan="<?php echo (5 + $total_product_type) ?>" align="center">ไม่พบข้อมูล</td></tr>';
+					<tr><td colspan="<?php echo (5 + $total_product_type) ?>" align="center">ไม่พบข้อมูล</td></tr>
 				<?php endif ?>
 			</table>
 		</div>
-			<p class="center">
-			    <?php foreach($total_produced_qty as $id_product => $value): ?>
-					<input type="hidden" name="total_restock_weight[<?php echo $id_product ?>]" value="<?php echo $total_produced_weight[$id_product] ?>" />
-                    <input type="hidden" name="product_restock_list[<?php echo $id_product ?>]" value="<?php echo $product_restock_list[$id_product] ?>" />
-                <?php endforeach ?>
-                
-			    <?php foreach($product_ordered_list as $id_order => $order): ?>
-			    	<?php foreach($order as $id_product => $product): ?>
-					<input type="hidden" name="total_ordered_weight[<?php echo $id_order ?>][<?php echo $id_product ?>]" value="<?php echo $total_ordered_weight[$id_order][$id_product] ?>" />
-                    <input type="hidden" name="product_ordered_list[<?php echo $id_order ?>][<?php echo $id_product ?>]" value="<?php echo $product ?>" />
-                	<?php endforeach ?>
-                <?php endforeach ?>
-				<input type="submit" name="submit" value="คำนวณการผลิต" />
-			</p>
+		<p class="center">
+		    <?php foreach($total_produced_qty as $id_product => $value): ?>
+				<input type="hidden" name="total_restock_weight[<?php echo $id_product ?>]" value="<?php echo $total_produced_weight[$id_product] ?>" />
+                <input type="hidden" name="product_restock_list[<?php echo $id_product ?>]" value="<?php echo $product_restock_list[$id_product] ?>" />
+            <?php endforeach ?>
+            
+		    <?php foreach($product_ordered_list as $id_order => $order): ?>
+		    	<?php foreach($order as $id_product => $product): ?>
+				<input type="hidden" name="total_ordered_weight[<?php echo $id_order ?>][<?php echo $id_product ?>]" value="<?php echo $total_ordered_weight[$id_order][$id_product] ?>" />
+                <input type="hidden" name="product_ordered_list[<?php echo $id_order ?>][<?php echo $id_product ?>]" value="<?php echo $product ?>" />
+            	<?php endforeach ?>
+            <?php endforeach ?>
+			<input type="submit" name="submit" value="คำนวณการผลิต" />
+		</p>
 		</form>
 	</div>
 	<?php include ("inc.footer.php") ?>
