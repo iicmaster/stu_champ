@@ -84,7 +84,7 @@ include ("inc.css.php");
 	<p class="float_r" >ใบสั่งผลิตเลขที่: <?php echo zero_fill(4, $_GET['id']); ?> 
 	</br>วันที่ทำการผลิต: <?php echo change_date_format($production['date_work']) ?>
 	</p><br/>
-	<h3>จำนวนสินค้าที่ควรผลิตเพิ่ม</h3>
+	<!-- <h3>จำนวนสินค้าที่ควรผลิตเพิ่ม</h3>
 	<table>
         <thead>
 			<tr>
@@ -125,13 +125,12 @@ include ("inc.css.php");
 		}
 		?>
 		</tbody>
-	</table>
-	<h3>จำนวนสินค้าที่มีการสั่งจากลูกค้า</h3>
+	</table> -->
+	<h3>จำนวนสินค้า พ่องตาย !!!</h3>
 	<table>
         <thead>
 			<tr>
-				<th scope="col">เลขที่ใบสั่งซื้อ</th>
-				<th scope="col">วันที่นัดรับ</th>
+				<th scope="col" colspan="2">สินค้า</th>
 				<?php 
 				$query = 'SELECT name, unit FROM product';
 				$result = mysql_query($query) or die(mysql_error());
@@ -140,11 +139,20 @@ include ("inc.css.php");
 				?>
 				<th scope="col"><?php echo $product['name'] ?> (<?php echo $product['unit'] ?>)</th>
 				<?php endwhile ?>
-				<th scope="col">รวม</th>
-                <th scope="col">หน่วย</th>
 			</tr>
         </thead>
 		<tbody>
+        	<tr>
+        		<td	colspan="2">จำนวนที่ต้องผลิต</td>
+				<?php foreach ($total_restock as $key => $value): ?>
+				<td class="right product_<?php echo $key ?>_qty"><?php echo $value ?></td>	
+				<?php endforeach ?>
+        	</tr>
+        	<tr>
+        		<td>เลขที่ใบสั่งซื้อ</td>
+        		<td>วันที่นัดรับ</td>
+        		<td	colspan="<?php echo $total_product_type ?>"></td>
+        	</tr>
 		<?php
 		$sql = 'SELECT * 
 				FROM product_order 
@@ -152,54 +160,67 @@ include ("inc.css.php");
 				ORDER BY id DESC';
 
 		$result_order = mysql_query($sql) or die(mysql_error());
+		$result_order_row = mysql_num_rows($result_order);
 		?>
-		<?php while($order = mysql_fetch_array($result_order)): ?>
-			<tr>
-				<td class="center"><?php echo zero_fill(10, $order['id']) ?></td>
-				<td class="center"><?php echo change_date_format($order['date_receive']) ?></td>
-				
-				<?php
-				$query = 'SELECT id, name, unit FROM product';
-				$result = mysql_query($query) or die(mysql_error());
-				?>
-				
-				<?php while($data = mysql_fetch_assoc($result)): ?>
+
+		<?php if ($result_order_row > 0): ?>
+			<?php while($order = mysql_fetch_array($result_order)): ?>
+				<tr>
+					<td class="center"><?php echo zero_fill(10, $order['id']) ?></td>
+					<td class="center"><?php echo change_date_format($order['date_receive']) ?></td>
 					
 					<?php
-					$sql = 'SELECT	
-								production_product.*,
-								product.name AS name,
-								product.unit AS unit,
-								product.weight AS weight
-									
-							FROM product 
-							
-							LEFT JOIN production_product
-							ON product.id = production_product.id_product
-							
-							WHERE 
-								production_product.type = 1
-								AND id_product = '.$data['id'].'
-								AND id_order = '.$order['id'].'
-								AND id_log = '.$_GET['id'];
-	
-					$result_product = mysql_query($sql) or die(mysql_error());
-					$product = mysql_fetch_assoc($result_product);
+					$query = 'SELECT id, name, unit FROM product';
+					$result = mysql_query($query) or die(mysql_error());
+					?>
 					
-					$ordered_list[$order['id']][$product['id_product']] = $product['quantity_order'];
-					@$total_ordered[$product['id_product']] += $product['quantity_order'];
-					@$total_produced[$product['id_product']] += $product['quantity_order'];
-					?>	
-					
-		            <td class="right"> <?php echo add_comma($product['quantity_order']) ?> </td>
-		            
-	            <?php endwhile ?>
-                    
-				<td class="right"><?php echo add_comma(array_sum($ordered_list[$order['id']])) ?></td>
-				<td>หน่วย</td>
-			</tr>
-        <?php endwhile ?>
+					<?php while($data = mysql_fetch_assoc($result)): ?>
+						
+						<?php
+						$sql = 'SELECT	
+									production_product.*,
+									product.name AS name,
+									product.unit AS unit,
+									product.weight AS weight
+										
+								FROM product 
+								
+								LEFT JOIN production_product
+								ON product.id = production_product.id_product
+								
+								WHERE 
+									production_product.type = 1
+									AND id_product = '.$data['id'].'
+									AND id_order = '.$order['id'].'
+									AND id_log = '.$_GET['id'];
+		
+						$result_product = mysql_query($sql) or die(mysql_error());
+						$product = mysql_fetch_assoc($result_product);
+						
+						$ordered_list[$order['id']][$product['id_product']] = $product['quantity_order'];
+						@$total_ordered[$product['id_product']] += $product['quantity_order'];
+						@$total_produced[$product['id_product']] += $product['quantity_order'];
+						?>	
+						
+			            <td class="right"> <?php echo add_comma($product['quantity_order']) ?> </td>
+			            
+		            <?php endwhile ?>
+				</tr>
+	        <?php endwhile ?>
+		<?php else: ?>
+			<tr><td colspan="<?php echo (4 + $total_product_type) ?>" align="center">ไม่พบข้อมูล</td></tr>
+		<?php endif ?>
 		</tbody>
+		<?php if ($result_order_row > 0): ?>
+        <tfoot>
+            <tr>
+                <td class="center" colspan="2">รวมทั้งหมด</td>
+				<?php foreach ($total_restock as $key => $value): ?>
+				<td class="right" id="product_<?php echo $key ?>_total"><?php echo $value + @$total_ordered[$key] ?></td>	
+				<?php endforeach ?>
+            </tr>
+        </tfoot>
+		<?php endif ?>
 	</table>
 	<h3>วัตถุดิบที่ต้องใช้</h3>
 	<table>
