@@ -10,7 +10,8 @@ require('../include/product_helper.php');
 $sql = 'SELECT *
 		FROM product_order 
 		WHERE 
-			date_create BETWEEN "'.$_POST['start_date'].'" AND "'.$_POST['end_date'].'"';
+			((type = 0 AND is_receive = 1) OR type = 1)
+			AND date_create BETWEEN "'.$_POST['start_date'].'" AND "'.$_POST['end_date'].'"';
 		
 $query_order = mysql_query($sql) or die(mysql_error());
 
