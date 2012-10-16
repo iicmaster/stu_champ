@@ -131,7 +131,12 @@ form td i.error { margin: 0px; float: left;}
 			<label for="tel">โทรศัพท์<i>*</i></label>
 			<input id="tel" name="tel" type="text" class="required integer" maxlength="10" />
 			<label for="date_receive">วันที่นัดรับสินค้า<i>*</i></label>
-			<input id="date_receive" name="date_receive" class="datepicker required" type="text" readonly="readonly" />
+			<select id="date_receive" name="date_receive">
+				<?php for ($loop = 7; $loop <= 28; $loop++): ?>
+				<?php $receive_date = date('Y-m-d', strtotime('+'.$loop.' days')) ?>
+				<option value="<?php echo $receive_date ?>"><?php echo change_date_format($receive_date) ?></option>
+				<?php endfor ?>
+			</select>
 			<hr />
 			<table>
 				<tr>
