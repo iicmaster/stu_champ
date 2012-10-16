@@ -126,7 +126,7 @@ include ("inc.css.php");
 		?>
 		</tbody>
 	</table> -->
-	<h3>จำนวนสินค้า พ่องตาย !!!</h3>
+	<h3>จำนวนสินค้า</h3>
 	<table>
         <thead>
 			<tr>
