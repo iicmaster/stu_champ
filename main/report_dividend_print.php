@@ -50,8 +50,8 @@ $sql = 'SELECT
 		FROM product_transaction
 		WHERE 
 			date_create BETWEEN "'.$_POST['start_date'].'" AND "'.$_POST['end_date'].'"
-			AND (type != 0)
-		GROUP BY id_product, stock_code';
+			AND quantity < 0
+			GROUP BY id';
 		
 //echo $sql;
 		
