@@ -90,8 +90,6 @@ require('../include/connect.php');
 			<tr>
 				<th width="20">รหัส</th>
 				<th width="100">วันที่ทำรายการ</th>
-      
-                
 				<?php 
 				$query = 'SELECT name, unit FROM product';
 				$result = mysql_query($query) or die(mysql_error());
@@ -105,6 +103,9 @@ require('../include/connect.php');
 		</thead>
 		<tbody>
 		<?php
+		// Create list of product id
+		$product_id_list = range(1, 3);
+
 		$sql = 'SELECT *
 		 		FROM product_order
 		 		WHERE
@@ -163,8 +164,8 @@ require('../include/connect.php');
         <tfoot>
 			<tr>
 				<td colspan="2" align="center">รวม</td>
-				<?php foreach($total_ordered as $val): ?>
-				<td align="right"><?php echo add_comma($val) ?></td>
+				<?php foreach($product_id_list as $val): ?>
+				<td align="right"><?php echo add_comma($total_ordered[$val]) ?></td>
 				<?php endforeach ?>
 			</tr>
 		</tfoot>

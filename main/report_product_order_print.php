@@ -131,6 +131,7 @@ require('../include/connect.php');
 			{
 				$product_ordered_list[$order['id']][$data_order_item['id_product']] = $data_order_item['quantity'];
 				$order_item[$data_order_item['id_product']] = $data_order_item['quantity'];
+
 				@$total_ordered[$data_order_item['id_product']] += $data_order_item['quantity'];
 			}
 
@@ -166,9 +167,9 @@ require('../include/connect.php');
         <tfoot>
 			<tr>
 				<td colspan="4" align="center">รวม</td>
-				<?php foreach($total_ordered as $val): ?>
-				<td align="right"><?php echo add_comma($val) ?></td>
-				<?php endforeach ?>
+				<?php for ($loop = 1; $loop <= $total_product_type; $loop++): ?>
+				<td align="right"><?php echo add_comma(@$total_ordered[$loop]) ?></td>
+				<?php endfor ?>
 			</tr>
 		</tfoot>
 	</table>
