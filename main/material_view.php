@@ -70,10 +70,10 @@ $average_cost_per_unit = round($total_stock_value/$total_stock_remain, 2);
 				<th>จำนวนคงเหลือ</th>
 				<td><?php echo add_comma($data['total']) ?> <?php echo $data['unit'] ?></td>
 			</tr>
-			<!--<tr>
+			<tr>
 				<th>ราคาเฉลี่ยต่อหน่วย</th>
 				<td><?php echo add_comma($average_cost_per_unit) ?> บาท/<?php echo $data['unit'] ?></td>
-			</tr>-->
+			</tr>
 		</table>
 		<a href="material_transaction_view.php?id=<?php echo $_GET['id'] ?>" class="float_r">ดูทั้งหมด</a>
 		<h2>รายการความเคลื่อนไหวของวัตถุดิบ</h2>

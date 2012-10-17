@@ -12,7 +12,9 @@ $sql = 'SELECT *
 		WHERE 
 			((type = 0 AND is_receive = 1) OR type = 1)
 			AND	date_create BETWEEN "'.$_POST['start_date'].'" AND "'.$_POST['end_date'].'"';
-		
+			
+//echo $sql;
+
 $query_order = mysql_query($sql) or die(mysql_error());
 
 $grand_total = 0;
@@ -50,8 +52,8 @@ $sql = 'SELECT
 		FROM product_transaction
 		WHERE 
 			date_create BETWEEN "'.$_POST['start_date'].'" AND "'.$_POST['end_date'].'"
-			AND (type != 0)
-		GROUP BY id_product, stock_code';
+	AND quantity < 0
+GROUP BY id';
 		
 //echo $sql;
 		

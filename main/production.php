@@ -92,6 +92,7 @@ function sum_product_qty ()
 		}
 		?>
 		
+		
         <form method="post" action="production2.php">
         <p class="float_r" style="margin-bottom: 0">ประจำวันที่ : 
         	<input 
