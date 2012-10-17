@@ -108,13 +108,14 @@ include ("inc.css.php");
 				WHERE 
 					production_product.type = 0
 					AND id_log = '.$_GET['id'];
+		echo $sql;
 
 		$result = mysql_query($sql) or die(mysql_error());
 		$result_row = mysql_num_rows($result);
 
 		while($data = mysql_fetch_array($result))
 		{
-			$total_restock[$data['id_product']] = $data['quantity_order'];
+			@$total_restock[$data['id_product']] += $data['quantity_order'];
 			$total_produced[$data['id_product']] = $data['quantity_order'];
 
 			echo '<tr>
@@ -144,9 +145,9 @@ include ("inc.css.php");
 		<tbody>
         	<tr>
         		<td	colspan="2">จำนวนที่ต้องผลิต</td>
-				<?php foreach ($total_restock as $key => $value): ?>
-				<td class="right product_<?php echo $key ?>_qty"><?php echo $value ?></td>	
-				<?php endforeach ?>
+				<?php for ($loop = 1; $loop <= $total_product_type; $loop++): ?>
+				<td class="right product_<?php echo $loop ?>_qty"><?php echo @$total_restock[$loop] ?></td>	
+				<?php endfor ?>
         	</tr>
         	<tr>
         		<td>เลขที่ใบสั่งซื้อ</td>
@@ -215,9 +216,9 @@ include ("inc.css.php");
         <tfoot>
             <tr>
                 <td class="center" colspan="2">รวมทั้งหมด</td>
-				<?php foreach ($total_restock as $key => $value): ?>
-				<td class="right" id="product_<?php echo $key ?>_total"><?php echo $value + @$total_ordered[$key] ?></td>	
-				<?php endforeach ?>
+				<?php for ($loop = 1; $loop <= $total_product_type; $loop++): ?>
+				<td class="right" id="product_<?php echo $loop ?>_total"><?php echo @$total_restock[$loop] + @$total_ordered[$loop] ?></td>	
+				<?php endfor ?>
             </tr>
         </tfoot>
 		<?php endif ?>

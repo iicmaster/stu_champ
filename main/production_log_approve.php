@@ -29,6 +29,14 @@ h3 { margin: 30px 0px 15px 0px}
 <div id="container">
 	<?php include("inc.header.php"); ?>
 	<div id="content">
+		<?php 
+		if ($production['date_work'] == date('Y-m-d'))
+		{
+			echo '<h5>กรุณาบันทึกการผลิตหลังวันผลิตอย่างน้อย 1 วัน</h5>';
+			exit();
+		}
+			
+		?>
 		<a href="production_log_print.php?id=<?php echo $_GET['id'] ?>" class="float_r">พิมพ์ใบผลิต</a>
 		<h1>ใบผลิต</h1>
 		<hr>
@@ -132,7 +140,7 @@ h3 { margin: 30px 0px 15px 0px}
 				while($data = mysql_fetch_array($result))
 				{
 					$total_restock[$data['id_product']] = $data['quantity_order'];
-					$total_produced[$data['id_product']] += $data['quantity_order'];
+					@$total_produced[$data['id_product']] += $data['quantity_order'];
 					
 					if($id_order == $data['id_order'])
 					{

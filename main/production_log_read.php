@@ -128,7 +128,7 @@ h3 { margin: 30px 0px 15px 0px}
 			while($data = mysql_fetch_array($result))
 			{
 				$total_ordered[$data['id_product']] = $data['total_receive'];
-				$total_produced[$data['id_product']] += $data['total_receive'];
+				@$total_produced[$data['id_product']] += $data['total_receive'];
 				
 				echo '<tr>
 						<td>'.$data['name'].'</td>
