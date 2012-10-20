@@ -58,6 +58,7 @@ $target = 'product_order.php?page=';
 					<?php 					
 					$sql = 'SELECT *
 							FROM production_log
+							ORDER BY id DESC
 							LIMIT '.$limit_start.', '.$rows_per_page;  
 							
 					$query = mysql_query($sql) or die(mysql_error());

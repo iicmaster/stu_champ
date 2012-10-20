@@ -66,13 +66,14 @@ $data = mysql_fetch_array($query);
 <body>
 <div id="paper">
 	<h1 class="center">ใบเสร็จรับเงิน</h1>
-	<p class="float_r">วันที่: <?php echo change_date_format($data['date_create']); ?></p>
-	<p id="address"> 
+	<h6 class="center"> 
 		กลุ่มแม่บ้านบางกะจะ
 		<br />
-		หมู่ 4 ตำบลบางกะจะ อำเภอเมือง จังหวัดจันทบุรี  22000
-	</p>
-	<h5>ชื่อลูกค้า: <span class="normal"><?php echo $data['orderer']; ?></span></h5>
+		หมู่ 4 ตำบลบางกะจะ อำเภอเมือง
+		<br />จังหวัดจันทบุรี  22000
+	</h6>
+	<p class="float_r" >ใบเสร็จเลขที่: <?php echo zero_fill(4, $_GET['id']); ?> </br> วันที่: <?php echo change_date_format($data['date_create']); ?> </p>
+	<h6>ชื่อลูกค้า: <span class="normal"><?php echo $data['orderer']; ?></span></h6>
 	<h5>รายการ</h5>
 	<hr />
 	<table width="100%">
@@ -80,8 +81,8 @@ $data = mysql_fetch_array($query);
 			<tr>
 				<th scope="col" width="30">ลำดับ</th>
 				<th scope="col">สินค้า</th>
-				<th scope="col" width="90">จำนวนที่สั่งซื้อ</th>
-				<th scope="col" width="120">ราคาต่อหน่วย</th>
+				<th scope="col" width="90">จำนวนที่สั่งซื้อ(ถ้วย)</th>
+				<th scope="col" width="120">ราคาต่อหน่วย(บาท)</th>
 				<th scope="col" width="120">รวม (บาท)</th>
 			</tr>
 		</thead>
@@ -111,7 +112,7 @@ $data = mysql_fetch_array($query);
 						<td>'.$data['name'].'</td>
 						<td class="right">'.$data['quantity'].'</td>
 						<td class="right">'.add_comma($price).'</td>
-						<td class="right">'.add_comma($total).'</td>
+						<td class="right">'.add_comma($total).'.00</td>
 					</tr>';
 			}
 			?>
@@ -119,10 +120,15 @@ $data = mysql_fetch_array($query);
 		<tfoot>
 			<tr>
 				<td colspan="4" class="center">รวมเป็นเงิน (บาท)</td>
-				<td width="250" class="right"><?php echo add_comma($grand_total); ?></td>
+				<td width="250" class="right"><?php echo add_comma($grand_total); ?>.00</td>
 			</tr>
 		</tfoot>
 	</table>
+		<div class="float_r">
+		..............................
+		<br />
+		(ผู้ดำเนินการ)
+		</div>
 </div>
 </body>
 </html>

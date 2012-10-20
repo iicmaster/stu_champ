@@ -73,7 +73,7 @@ $target = 'product.php?page=';
 						) AS is_delete
 					FROM product_transaction AS t1
 					GROUP BY stock_code
-					ORDER BY stock_code
+					ORDER BY stock_code DESC
 					LIMIT '.$limit_start.', '.$rows_per_page;  
 					
 			$query = mysql_query($sql) or die(mysql_error());  

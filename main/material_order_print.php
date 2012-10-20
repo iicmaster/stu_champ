@@ -68,14 +68,14 @@ h1, h2, h3, h4, h5, h6, th, b, strong
 <body>
 <div id="paper">
 	<h1 class="center">ใบสั่งซื้อวัตถุดิบ</h1>
-	<p class="float_r">วันที่: <?php echo change_date_format($data['date_create']); ?></p>
-	<p id="address"> 
+	<h6 class="center"> 
 		กลุ่มแม่บ้านบางกะจะ
 		<br />
 		หมู่ 4 ตำบลบางกะจะ อำเภอเมือง
-		<br />
-		จังหวัดจันทบุรี  22000
-	</p>
+		<br />จังหวัดจันทบุรี  22000
+	</h6>
+	<p class="float_r" >ใบสั่งซื้อเลขที่: <?php echo zero_fill(4, $_GET['id']); ?> <br/> วันที่: <?php echo change_date_format($data['date_create']); ?> </p>
+	<br/>
 	<h5>รายการ</h5>
 	<hr />
 	<table width="100%">
@@ -133,7 +133,7 @@ h1, h2, h3, h4, h5, h6, th, b, strong
 			?>
 		</tbody>
 	</table>
-	<div id="signature">
+	<div class="float_r">
 		..............................
 		<br />
 		(ผู้ดำเนินการ)

@@ -74,16 +74,17 @@ include ("inc.css.php");
 
 <body>
 <div id="paper">
-	<h1 class="center">ใบการผลิต</h1>
-	<p class="float_r">วันที่: <?php echo change_date_format($production['date_work']) ?></p>
-	<p id="address"> 
+	<h1 class="center">ใบสั่งผลิต</h1>
+	<h6 class="center"> 
 		กลุ่มแม่บ้านบางกะจะ
 		<br />
 		หมู่ 4 ตำบลบางกะจะ อำเภอเมือง
-		<br />
-		จังหวัดจันทบุรี  22000
-	</p>
-	<hr />
+		<br />จังหวัดจันทบุรี  22000
+	</h6>
+	<p class="float_r" >ใบสั่งผลิตเลขที่: <?php echo zero_fill(4, $_GET['id']); ?> 
+	</br>วันที่สั่งผลิต: <?php echo change_date_format($production['date_create']) ?>
+	</br>วันที่ทำการผลิต: <?php echo change_date_format($production['date_work']) ?>
+	</p><br/>
 	<h3>จำนวนสินค้าที่ควรผลิตเพิ่ม</h3>
 	<table>
         <thead>
@@ -207,7 +208,6 @@ include ("inc.css.php");
 			<tr>
 				<th>วัตถุดิบ</th>
 				<th>จำนวนที่ต้องใช้</th>
-                <th>จำนวนที่ต้องซื้อเพื่ม</th>
 				<th>หน่วย</th>
 			</tr>
 		</thead>
@@ -264,7 +264,6 @@ include ("inc.css.php");
 			<tr>
 				<td><?php echo $material['name'] ?></td>
 				<td align="right"><?php echo add_comma($required_qty) ?></td>
-                <td align="right"><?php echo add_comma($buy_qty) ?></td>
 				<td><?php echo $material['unit'] ?></td>
 			</tr>
 			<?php endwhile ?>

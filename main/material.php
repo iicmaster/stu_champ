@@ -66,7 +66,6 @@ $(function() {
 							<th scope="col">รหัส</th>
 							<th scope="col">ชื่อวัตถุดิบ</th>
 							<th scope="col">จำนวนคงเหลือ</th>
-							<th scope="col">วันที่ทำรายการล่าสุด</th>
 							<th scope="col">การดำเนินการ</th>
 						</tr>
 					</thead>
@@ -89,8 +88,7 @@ $(function() {
 								echo '	<tr>
 											<td class="center">'.zero_fill(4, $data['id']).'</td>
 											<td>'.$data['name'].'</td>
-											<td class="right">'.add_comma($data['total']).' '.$data['unit'].'</td>
-											<td class="center">'.$date_update_transaction.'</td>
+											<td class="right">'.add_comma($data['total']).' ('.$data['unit'].')</td>
 											<td class="center">
 												<a class="button" href="material_view.php?id='.$data['id'].'">ดู</a>
 												<a class="button" href="material_update.php?id='.$data['id'].'">แก้ไข</a>

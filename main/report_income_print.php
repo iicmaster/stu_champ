@@ -260,12 +260,23 @@ function get_product_cost($stock_code)
 			<td>&nbsp;</td>
 		</tr>
 	</table>
-	<table width="100%" class="border">
+	<table width="100%" bordercolor="#FFFFFF">
 		<tbody>
 			<tr>
-				<td>ขาย</td>
+				<th colspan="3" class="float_l">รายได้</th>
+			</tr>
+			<tr>
+				<td>รายได้จากการขายสินค้า</td>
 				<td align="right"><?php echo add_comma($grand_total) ?></td>
                 <td width="80" align="center">บาท</td>
+			</tr>
+			<tr>
+				<th>ยอดรวม</th>
+				<td align="right"><?php echo add_comma($grand_total) ?></td>
+                <td width="80" align="center">บาท</td>
+			</tr>
+			<tr>
+				<th colspan="3" class="float_l">หัก</th>
 			</tr>
 			<tr>
 				<td>ต้นทุน</td>
@@ -273,7 +284,12 @@ function get_product_cost($stock_code)
                 <td width="80" align="center">บาท</td>
 			</tr>
 			<tr>
-				<td>กำไร</td>
+				<th>ยอดรวม</th>
+				<td align="right"><?php echo add_comma($total_cost) ?></td>
+                <td width="80" align="center">บาท</td>
+			</tr>
+			<tr>
+				<th class="float_r">กำไรขั้นต้น</th>
 				<td align="right"><?php echo add_comma($grand_total - $total_cost) ?></td>
                 <td width="80" align="center">บาท</td>
 			</tr>

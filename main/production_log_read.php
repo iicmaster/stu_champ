@@ -146,7 +146,7 @@ h3 { margin: 30px 0px 15px 0px}
 					<th>วัตถุดิบ</th>
 					<th>จำนวนที่ใช้</th>
 					<th>หน่วย</th>
-					<th>ต้นทุนรวม</th>
+					<th>ต้นทุนรวม(บาท)</th>
 				</tr>
 			</thead>
 			<tbody>

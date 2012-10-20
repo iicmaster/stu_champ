@@ -160,7 +160,7 @@ $(function()
 						<td><?php echo $material['name'] ?></td>
                         <td align="right"><?php echo add_comma($material['total']) ?></td>
 						<td align="right"><?php echo add_comma($required_qty) ?></td>
-                        <td align="right"><?php echo add_comma($buy_qty) ?></td>
+                        <td align="right" class="bold red"><?php echo add_comma($buy_qty) ?></td>
 						<td><?php echo $material['unit'] ?></td>
 					</tr>
     				<?php endwhile ?>

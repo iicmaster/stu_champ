@@ -50,9 +50,8 @@ $target = 'product.php?page=';
 				<tr>
 					<th width="30">รหัส</th>
 					<th>ชื่อ</th>
-					<th>ราคาขายปลีก</th>
-					<th>ราคาขายส่ง</th>
-					<th>คงเหลือ</th>
+					<th>สินค้าคลัง</th>
+					<th>สินค้าส่งมอบ</th>
 					<th>หน่วย</th>
 					<th>ปรับปรุงล่าสุด</th>
 					<th width="80">แก้ไข</th>
@@ -63,6 +62,7 @@ $target = 'product.php?page=';
 				$sql = 'SELECT 
 							*,
 							(SELECT SUM(quantity) FROM product_transaction WHERE id_product = t1.id AND type != 1 ) AS "stock_remain"
+							,(SELECT SUM(quantity) FROM product_transaction WHERE id_product = t1.id AND type = 1 ) AS "stock_re"
 						FROM product AS t1
 						LIMIT '.$limit_start.', '.$rows_per_page;  
 				$query = mysql_query($sql) or die(mysql_error());  
@@ -77,9 +77,8 @@ $target = 'product.php?page=';
 						echo 	'<tr>
 									<td width="30" class="right">'.zero_fill(4, $data['id']).'</td>
 									<td>'.$data['name'].'</td>
-									<td class="right">'.add_comma($data['price_retail']).'</td>
-									<td class="right">'.add_comma($data['price_wholesale']).'</td>
 									<td class="right">'.$data['stock_remain'].'</td>
+									<td class="right">'.$data['stock_re'].'</td>
 									<td>'.$data['unit'].'</td>
 									<td class="center">'.change_date_time_format($data['date_update']).'</td>
 									<td class="center nowarp">

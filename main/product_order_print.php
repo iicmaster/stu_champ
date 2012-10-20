@@ -65,20 +65,17 @@ $data = mysql_fetch_array($query);
 
 <body>
 <div id="paper">
-	<h1 class="center">ใบสั่งซื้อสินค้า</h1>
-	<p class="float_r">วันที่: <?php echo change_date_format($data['date_create']); ?></p>
-	<p id="address"> 
+	<h1 class="center">ใบเสร็จรับเงิน</h1>
+	<h6 class="center"> 
 		กลุ่มแม่บ้านบางกะจะ
 		<br />
-		หมู่ 4 ตำบลบางกะจะ อำเภอเมือง จังหวัดจันทบุรี  22000
-	</p>
-	<h5>ชื่อลูกค้า: <span class="normal"><?php echo $data['orderer']; ?></span></h5>
-	<h5>เบอร์โทรศัพท์: <span class="normal"><?php echo $data['tel']; ?></span></h5>
-	<h5>วันที่นัดรับของ: <span class="normal"><?php echo change_date_format($data['date_receive']); ?></span></h5>
-	<h5>
-		<label for="description">รายละเอียด</label>
-	</h5>
-	<textarea id="description" name="description" rows="3" readonly="readonly"><?php echo $data['description'] ?></textarea>
+		หมู่ 4 ตำบลบางกะจะ อำเภอเมือง
+		<br />จังหวัดจันทบุรี  22000
+	</h6>
+	<p class="float_r" >ใบเสร็จเลขที่: <?php echo zero_fill(4, $_GET['id']); ?> </br> วันที่: <?php echo change_date_format($data['date_create']); ?> </p>
+	<h6>ชื่อลูกค้า: <span class="normal"><?php echo $data['orderer']; ?></span></h6>
+	<h6>เบอร์โทรศัพท์: <span class="normal"><?php echo $data['tel']; ?></span></h6>
+	<h6>วันที่นัดรับของ: <span class="normal"><?php echo change_date_format($data['date_receive']); ?></span></h6>
 	<h5>รายการ</h5>
 	<hr />
 	<table width="100%">
@@ -119,7 +116,7 @@ $data = mysql_fetch_array($query);
 						<td class="right">'.add_comma($data['price']).'</td>
 						<td class="right">'.$data['quantity'].'</td>
 						<td>'.$data['unit'].'</td>
-						<td class="right">'.add_comma($data['price'] * $data['quantity']).'</td>
+						<td class="right">'.add_comma($data['price'] * $data['quantity']).'.00</td>
 					</tr>';
 					
 				$grand_total += $data['price'] * $data['quantity'];
@@ -128,10 +125,15 @@ $data = mysql_fetch_array($query);
 		</tbody>
 		<tfoot>
 			<tr><td colspan="5" class="center">รวมเป็นเงิน (บาท)</td>
-				<td width="250" class="right"><?php echo add_comma($grand_total); ?></td>
+				<td width="250" class="right"><?php echo add_comma($grand_total); ?>.00</td>
 			</tr>
 		</tfoot>
 	</table>
+		<div class="float_r">
+		..............................
+		<br />
+		(ผู้ดำเนินการ)
+		</div>
 </div>
 </body>
 </html>
